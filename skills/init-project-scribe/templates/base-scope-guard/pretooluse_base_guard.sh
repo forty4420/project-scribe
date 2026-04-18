@@ -33,6 +33,29 @@ get_field() {
   fi
 }
 
+# Escape a string for safe embedding in a JSON string literal.
+json_escape() {
+  # Order matters: backslash first, then quote, then control chars.
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  s="${s//$'\n'/\\n}"
+  s="${s//$'\r'/\\r}"
+  s="${s//$'\t'/\\t}"
+  printf '%s' "$s"
+}
+
+# Emit a PreToolUse deny decision as JSON on stdout and exit 0.
+# Per Claude Code hook spec (late 2025+): JSON stdout with
+# hookSpecificOutput.permissionDecision="deny" is the canonical block signal,
+# and unlike exit 2 it is respected under permission_mode="bypassPermissions".
+emit_deny() {
+  local reason
+  reason="$(json_escape "$1")"
+  printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"%s"}}\n' "$reason"
+  exit 0
+}
+
 TOOL_NAME=$(get_field "tool_name")
 
 # Only gate Write and Edit. Read/Bash/etc pass through.
@@ -58,10 +81,14 @@ CWD=$(pwd)
 RELPATH="${FILE_PATH#"$CWD"/}"
 # Normalize Windows drive-letter cases (C:\Users\... vs /c/Users/...)
 RELPATH_ALT1="${FILE_PATH#//*/}"   # strip //c/...
+# Normalize Windows path: C:\a\b -> a/b (drop drive + convert slashes)
 RELPATH_ALT2="$(echo "$FILE_PATH" | sed -E 's|^[A-Za-z]:[/\\]||; s|\\|/|g')"
+# Strip CWD-without-drive prefix from ALT2 (handles C:\cwd\sub\file.rs case)
+CWD_NODRIVE="$(echo "$CWD" | sed -E 's|^/[A-Za-z]/||; s|^[A-Za-z]:[/\\]||; s|\\|/|g')"
+RELPATH_ALT3="${RELPATH_ALT2#"$CWD_NODRIVE"/}"
 
 # Pick whichever starts with one of the guarded prefixes
-for P in "$RELPATH" "$RELPATH_ALT1" "$RELPATH_ALT2"; do
+for P in "$RELPATH" "$RELPATH_ALT1" "$RELPATH_ALT2" "$RELPATH_ALT3"; do
   case "$P" in
     src-tauri/src/*|src/components/*)
       RELPATH="$P"
@@ -127,23 +154,29 @@ while IFS= read -r pattern; do
 done <<<"$BLOCKED_PATTERNS"
 
 if [[ -n "$BLOCKED_MATCH" ]]; then
-  cat >&2 <<EOF
-🚫 BASE_ALLOWLIST violation blocked.
+  MSG="🔒 Base file locked — write blocked.
 
 Target: $RELPATH
-Reason: Path matches "NOT allowed" pattern "$BLOCKED_MATCH" in $ALLOWLIST.
+Reason: Path matches \"NOT allowed\" pattern \"$BLOCKED_MATCH\" in $ALLOWLIST.
 
 This module violates VISION §7 Rule 1 (all features beyond base are plugins).
 It must migrate out of base before new files are added to it.
 
-To proceed anyway, you must:
+────────────────────────────────────────────────
+NORMAL PATH (migration): keep this file locked.
   1. Write a DECISIONS.md entry amending the classification.
-  2. Move the path from "NOT allowed" to "allowed" in $ALLOWLIST.
+  2. Move the path from \"NOT allowed\" to \"allowed\" in $ALLOWLIST.
   3. Re-try the write.
 
-See: docs/audits/2026-04-18-base-scope-audit.md for context.
-EOF
-  exit 2
+ESCAPE HATCH (edit anyway, rare): unlock temporarily.
+  Run: /unlock-base
+  Unlocks the 3 guarded dirs, offers to restart (settings need restart
+  to take effect). Then edit. Then run: /lock-base  to re-engage the guard.
+────────────────────────────────────────────────
+
+See: docs/audits/2026-04-18-base-scope-audit.md for context."
+  echo "$MSG" >&2
+  emit_deny "$MSG"
 fi
 
 # Not explicitly blocked. Check if it's in an "allowed" section.
@@ -188,8 +221,7 @@ fi
 
 # Not in allowlist, not in blocklist — this is a NEW path under a guarded prefix.
 # Require explicit review.
-cat >&2 <<EOF
-⚠️  NEW base path requires allowlist entry.
+MSG="⚠️  NEW base path requires allowlist entry — write blocked.
 
 Target: $RELPATH
 This path is under a guarded prefix (src-tauri/src/ or src/components/) but is
@@ -200,6 +232,6 @@ To proceed:
   2. If base: add the path to $ALLOWLIST with a VISION citation, log a decision.
   3. If plugin: create it under ~/.ownterm/<category>/<name>/ instead.
 
-This is a rule-drift guard. See CLAUDE.md "Rule-drift watch" section.
-EOF
-exit 2
+This is a rule-drift guard. See CLAUDE.md \"Rule-drift watch\" section."
+echo "$MSG" >&2
+emit_deny "$MSG"

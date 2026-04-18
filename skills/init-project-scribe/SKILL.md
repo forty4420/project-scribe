@@ -95,9 +95,17 @@ If user says **yes**:
    - `sessionstart_inject_rules.sh` (from `templates/base-scope-guard/`)
    - `precommit_base_guard.sh` (from `templates/base-scope-guard/`)
 4. `chmod +x` all three.
-5. Create or merge `.claude/settings.json` to wire SessionStart + PreToolUse hooks. If the file exists, merge the `hooks` key; do not clobber other settings. Shape:
+5. Create or merge `.claude/settings.json` to wire SessionStart + PreToolUse hooks AND permission-layer deny rules. If the file exists, merge the `hooks` key and `permissions` key; do not clobber other settings. Shape:
    ```json
    {
+     "permissions": {
+       "defaultMode": "acceptEdits",
+       "deny": [
+         "Write({GUARDED_DIR_1}/**)",
+         "Edit({GUARDED_DIR_1}/**)",
+         "NotebookEdit({GUARDED_DIR_1}/**)"
+       ]
+     },
      "hooks": {
        "SessionStart": [
          { "hooks": [{ "type": "command", "command": "bash .claude/hooks/sessionstart_inject_rules.sh" }] }
@@ -108,11 +116,19 @@ If user says **yes**:
      }
    }
    ```
+
+   **Why both layers:** the hook fires first and shows a custom block message pointing at `/unlock-base`. The permission-layer `deny` is a hard wall that cannot be bypassed by accidentally clicking "Allow always" on a permission prompt — because no prompt is ever offered; denies skip the prompt entirely.
+
+   **Populating `deny`:** parse `docs/BASE_ALLOWLIST.md` for entries under a `## ... NOT allowed` header and emit a `Write(<path>/**)`, `Edit(<path>/**)`, `NotebookEdit(<path>/**)` triple for each. If the user hasn't filled in the allowlist yet, emit an empty deny array and note: "Edit docs/BASE_ALLOWLIST.md to list NOT-allowed paths, then re-run init or add deny entries manually." The hook still fires regardless and catches new paths via the allowlist check.
+
+   **`defaultMode: acceptEdits`:** required for hooks to be authoritative. If the user's global settings default to `bypassPermissions`, that bypass is skipped inside this project — project settings override. Do not set `bypassPermissions` or `default` here; both defeat the guardrail.
 6. Install the pre-commit hook: `cp .claude/hooks/precommit_base_guard.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`. On Windows this copies; on Linux/macOS a symlink is also fine.
 7. Tell user:
    - Edit `docs/BASE_ALLOWLIST.md` to list actual base paths before the next commit.
-   - Hooks won't fire for the current session — restart Claude Code to pick up `.claude/settings.json` changes.
-   - Complementary skills installed: `base-audit` (run `/audit` before commits) and `auto-handoff` (write session handoffs at context breakpoints).
+   - Hooks and deny rules won't fire for the current session — restart Claude Code to pick up `.claude/settings.json` changes.
+   - Complementary skills installed: `base-audit` (run `/audit` before commits), `auto-handoff` (write session handoffs at context breakpoints), `unlock-base` (temporarily lift deny rules — run `/unlock-base` when you legitimately need to edit a locked dir), `lock-base` (restore deny rules after an unlock session — run `/lock-base` when done).
+   - **If the `cc-restart` plugin is installed, `/unlock-base` and `/lock-base` offer a one-command restart. Otherwise they print manual restart instructions.**
+   - **User global settings warning:** if `~/.claude/settings.json` has `Write(*)`, `Edit(*)`, or `NotebookEdit(*)` in its `permissions.allow`, those pre-approve writes BEFORE hooks and denies are consulted. Recommend the user remove those three entries from the global allow list. `Bash(*)`, `Read(*)`, etc. can stay.
 
 ## Commit
 
