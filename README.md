@@ -77,7 +77,8 @@ Skills and commands (all available in indexing mode):
 | `init-project-scribe` | One-shot bootstrap |
 | `reconcile-project-state` | Auto-fires at session start; updates STATE.md "Last shipped" from `git log` |
 | `update-project-state` | End-of-ship refresh — prompts for new Current focus / Next up / Deferred, rebuilds indexes |
-| `log-decision` | Append a 4-field entry to DECISIONS.md |
+| `decision-prompt` | **Proactive** — agent watches for rule-shaped moments (never/always/defer/veto) and offers one-line "log this? y/n" prompt. Shifts remembering-to-log from user to agent |
+| `log-decision` | Append a 4-field entry to DECISIONS.md (called by decision-prompt or user explicitly) |
 | `deferred-rollup` | Read-only query across all status memos |
 | `auto-handoff` (`/handoff`) | Write a session handoff memo at context breakpoints |
 | `/scribe` | Dashboard readout from STATE.md |

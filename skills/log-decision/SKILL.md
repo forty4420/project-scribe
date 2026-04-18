@@ -9,9 +9,11 @@ Append-only decision log. Never edit past entries.
 
 ## When to invoke
 
-- User explicit ask: "log this decision", "record that rule", "save as decision", "log it".
-- Auto-propose (but don't write until user confirms): when the user makes a statement that sounds like a durable rule, ask: "that sounds like a durable decision — log it?"
-  - Rule-shaped statements include: scope boundaries ("no X until Y"), technical constants ("always use A for B"), priorities ("Z is not shipping in v1"), trade-offs ("we accept <cost> because <reason>").
+- **User explicit ask:** "log this decision", "record that rule", "save as decision", "log it".
+- **Called from `decision-prompt` skill** with a pre-paraphrased rule after user answers "y" to a rule-shaped prompt. In that case, skip the auto-propose step below — the user already confirmed.
+- **Auto-propose** (standalone fallback if `decision-prompt` skill isn't active): when the user makes a statement that sounds like a durable rule, ask: "that sounds like a durable decision — log it?" Rule-shaped statements include: scope boundaries ("no X until Y"), technical constants ("always use A for B"), priorities ("Z is not shipping in v1"), trade-offs ("we accept <cost> because <reason>").
+
+> **Note:** `decision-prompt` is the preferred proactive path — it handles the "watch for rule-shaped moments + offer one-line prompt" job with tighter rules. This skill (log-decision) is the reactive writer. In a fully-wired scribe setup, decision-prompt catches the moment and calls log-decision to do the write.
 
 ## Pre-flight
 
