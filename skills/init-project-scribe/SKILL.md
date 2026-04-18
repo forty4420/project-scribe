@@ -1,11 +1,16 @@
 ---
 name: init-project-scribe
-description: Use when the user asks to set up, initialize, bootstrap, or add project-scribe tracking to the current project. Triggers include "init project scribe", "initialize project scribe", "set up project scribe", "add project tracking", "enable scribe for this repo". One-shot operation — creates CLAUDE.md, docs/STATE.md, docs/DECISIONS.md, docs/README.md, docs/status/README.md, docs/status/TEMPLATE.md.
+description: Use when the user asks to set up, initialize, bootstrap, or add project-scribe tracking to the current project. Triggers include "init project scribe", "initialize project scribe", "set up project scribe", "add project tracking", "enable scribe for this repo". One-shot operation — creates CLAUDE.md, docs/STATE.md, docs/DECISIONS.md, docs/README.md, docs/status/README.md, docs/status/TEMPLATE.md. Asks whether to also enable optional base-scope guardrails (for modular/plugin projects).
 ---
 
 # Initialize project-scribe for this project
 
-One-shot bootstrap. Create the six files this plugin needs to start tracking project context in the current working directory.
+One-shot bootstrap. Two modes:
+
+- **Indexing mode** (always installed) — creates the six files this plugin needs to track project context: `CLAUDE.md`, `docs/STATE.md`, `docs/DECISIONS.md`, `docs/README.md`, `docs/status/README.md`, `docs/status/TEMPLATE.md`.
+- **Guardrails mode** (opt-in) — adds `docs/BASE_ALLOWLIST.md`, three hook scripts, permission-deny rules, and a git pre-commit hook. Only for projects with formal "base vs plugin" architectural rules. See `docs/guardrails.md` in the scribe repo for details.
+
+Default is indexing-only. Ask the user before installing guardrails.
 
 ## When to invoke
 
@@ -78,13 +83,23 @@ All paths are relative to project root.
 
 6. **`docs/status/TEMPLATE.md`** — write from `templates/spec-status.md.tmpl` verbatim.
 
-## Optional — base-scope enforcement
+## Optional — base-scope guardrails
 
-After writing the six core files, ask the user **one more question**:
+After writing the six core files, ask the user **one more question**. Frame it as a decision, not a yes/no:
 
-> "This project has locked rules about what belongs in 'base' vs plugins (e.g. 'all features beyond base are plugins'). Want to enable base-scope enforcement? This adds a PreToolUse hook that blocks writes to forbidden paths, a pre-commit hook, a session-start rules injection, and a BASE_ALLOWLIST.md template. [y/N]"
+> "Does this project have a formal rule about what belongs in 'base' vs 'plugins' / 'extensions' / 'core vs app'? For example:
+>
+> - Plugin systems where core code must stay lean and features ship as plugins
+> - Frameworks where library code is separate from application code
+> - Any project with a 'don't put X in folder Y' rule that matters
+>
+> If YES, I can install base-scope guardrails: permission-layer deny rules, PreToolUse + pre-commit hooks, and a session-start health check. This catches both human and AI drift past architectural boundaries.
+>
+> If NO (or unsure), skip this. You can add guardrails later by creating `docs/BASE_ALLOWLIST.md` and re-running init.
+>
+> Install guardrails? [y/N, default N]"
 
-If user says **no** (or leaves blank): skip. Report normally.
+If user says **no** or leaves blank: skip. Report normally. Indexing mode is complete.
 
 If user says **yes**:
 
