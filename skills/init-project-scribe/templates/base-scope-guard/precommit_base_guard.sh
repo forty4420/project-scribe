@@ -18,12 +18,49 @@ ALLOWLIST="docs/BASE_ALLOWLIST.md"
 # Fail-open if allowlist missing.
 [[ -f "$ALLOWLIST" ]] || exit 0
 
-# Files added (A) or renamed-destination (R... with new name) in this commit,
-# under guarded prefixes.
+# Files added (A) in this commit, under broad guarded prefixes.
+# Broadened 2026-04-18 to close Scenario C (outside-prefix drift):
+# scan all new files under src-tauri/ or src/, not just src-tauri/src/ + src/components/.
 STAGED=$(git diff --cached --name-only --diff-filter=A -- \
-  "src-tauri/src/" "src/components/" 2>/dev/null || true)
+  "src-tauri/" "src/" 2>/dev/null || true)
 
 [[ -z "$STAGED" ]] && exit 0
+
+# Known-good top-level dirs under src-tauri/ and src/. New files inside these
+# pass through to the allowlist logic if under src-tauri/src/ or src/components/,
+# otherwise are auto-allowed as infrastructure.
+# Adding a NEW top-level dir here (e.g. src-tauri/daemons/, src/services/) is
+# what we want to catch.
+SRCTAURI_OK="src assets capabilities tests gen icons resources"
+SRC_OK="assets components hooks lib plugins providers remote roles"
+
+# Check if a path's top-level dir under src-tauri/ or src/ is known-good.
+# Returns 0 if top-level is known, 1 if path invents a new top-level dir.
+is_known_toplevel() {
+  local path="$1"
+  case "$path" in
+    src-tauri/*)
+      local sub="${path#src-tauri/}"
+      local top="${sub%%/*}"
+      # files directly under src-tauri/ (Cargo.toml, build.rs, tauri.conf.json) pass
+      [[ "$sub" == "$top" ]] && return 0
+      for ok in $SRCTAURI_OK; do
+        [[ "$top" == "$ok" ]] && return 0
+      done
+      return 1
+      ;;
+    src/*)
+      local sub="${path#src/}"
+      local top="${sub%%/*}"
+      [[ "$sub" == "$top" ]] && return 0
+      for ok in $SRC_OK; do
+        [[ "$top" == "$ok" ]] && return 0
+      done
+      return 1
+      ;;
+  esac
+  return 0
+}
 
 # Parse allowed + blocked patterns from allowlist
 ALLOWED_PATTERNS=$(awk '
@@ -71,6 +108,20 @@ REVIEWS=()
 
 while IFS= read -r path; do
   [[ -z "$path" ]] && continue
+
+  # First: catch NEW top-level dirs under src-tauri/ or src/ (Scenario C).
+  if ! is_known_toplevel "$path"; then
+    VIOLATIONS+=("$path (creates new top-level dir — not in known-good set)")
+    continue
+  fi
+
+  # Second: for paths under src-tauri/src/ or src/components/, apply allowlist.
+  # Paths under other known-good top-levels (assets/, hooks/, lib/, etc.) are
+  # infrastructure and pass without allowlist check.
+  case "$path" in
+    src-tauri/src/*|src/components/*) ;;
+    *) continue ;;
+  esac
 
   # Check blocked first
   HIT_BLOCKED=""

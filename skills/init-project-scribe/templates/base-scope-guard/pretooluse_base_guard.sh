@@ -87,17 +87,80 @@ RELPATH_ALT2="$(echo "$FILE_PATH" | sed -E 's|^[A-Za-z]:[/\\]||; s|\\|/|g')"
 CWD_NODRIVE="$(echo "$CWD" | sed -E 's|^/[A-Za-z]/||; s|^[A-Za-z]:[/\\]||; s|\\|/|g')"
 RELPATH_ALT3="${RELPATH_ALT2#"$CWD_NODRIVE"/}"
 
-# Pick whichever starts with one of the guarded prefixes
+# Pick whichever starts with a broad guarded prefix (src-tauri/ or src/).
+# Broadened 2026-04-18 to close Scenario C (outside-prefix drift).
 for P in "$RELPATH" "$RELPATH_ALT1" "$RELPATH_ALT2" "$RELPATH_ALT3"; do
   case "$P" in
-    src-tauri/src/*|src/components/*)
+    src-tauri/*|src/*)
       RELPATH="$P"
       break
       ;;
   esac
 done
 
-# Only inspect files under guarded prefixes
+# Only inspect files under broad guarded prefixes
+case "$RELPATH" in
+  src-tauri/*|src/*) ;;
+  *) exit 0 ;;
+esac
+
+# Known-good top-level dirs (infrastructure) — these pass without allowlist check.
+# New files in these dirs are normal development. Only invented top-levels
+# (e.g. src-tauri/daemons/, src/services/) get caught.
+SRCTAURI_OK="src assets capabilities tests gen icons resources"
+SRC_OK="assets components hooks lib plugins providers remote roles"
+
+is_known_toplevel() {
+  local path="$1"
+  case "$path" in
+    src-tauri/*)
+      local sub="${path#src-tauri/}"
+      local top="${sub%%/*}"
+      [[ "$sub" == "$top" ]] && return 0
+      for ok in $SRCTAURI_OK; do
+        [[ "$top" == "$ok" ]] && return 0
+      done
+      return 1
+      ;;
+    src/*)
+      local sub="${path#src/}"
+      local top="${sub%%/*}"
+      [[ "$sub" == "$top" ]] && return 0
+      for ok in $SRC_OK; do
+        [[ "$top" == "$ok" ]] && return 0
+      done
+      return 1
+      ;;
+  esac
+  return 0
+}
+
+# Catch NEW top-level dirs under src-tauri/ or src/ (Scenario C).
+if ! is_known_toplevel "$RELPATH"; then
+  TOP_MSG="🚫 New top-level dir under guarded prefix — write blocked.
+
+Target: $RELPATH
+Reason: Path creates a new top-level directory not in the known-good set.
+Known-good under src-tauri/: $SRCTAURI_OK
+Known-good under src/:        $SRC_OK
+
+If this is legitimately base infrastructure:
+  1. Log a DECISIONS.md entry justifying the new top-level dir.
+  2. Add it to \$SRCTAURI_OK or \$SRC_OK in both:
+     .claude/hooks/pretooluse_base_guard.sh
+     .claude/hooks/precommit_base_guard.sh
+  3. Re-try the write.
+
+If this is plugin territory (VISION §7 Rule 1):
+  Scaffold under ~/.ownterm/<category>/<name>/ instead.
+
+See: CLAUDE.md \"Rule-drift watch\" + docs/audits/2026-04-18-base-scope-audit.md"
+  echo "$TOP_MSG" >&2
+  emit_deny "$TOP_MSG"
+fi
+
+# Files outside src-tauri/src/ and src/components/ but under a known-good
+# top-level are infrastructure — pass without allowlist check.
 case "$RELPATH" in
   src-tauri/src/*|src/components/*) ;;
   *) exit 0 ;;

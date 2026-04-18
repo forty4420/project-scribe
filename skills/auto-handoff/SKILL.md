@@ -15,6 +15,31 @@ Trigger modes:
 
 ## Procedure
 
+### Step 0 — Base-scope drift pre-flight (scribe-enabled projects only)
+
+If the project has `docs/BASE_ALLOWLIST.md`, run the pre-commit hook against
+the working tree (staged + unstaged + untracked combined) before writing the
+handoff. This catches drift that's sitting uncommitted — a common failure mode
+where a bad file survives session switches without review.
+
+```bash
+# Simulate what pre-commit would see by staging everything, running the
+# hook read-only, then resetting the index.
+# Read-only alternative: scan `git status --porcelain` for new files under
+# src-tauri/ or src/ and check against the allowlist + known-good top-levels.
+bash .claude/hooks/precommit_base_guard.sh  # or scan logic inline
+```
+
+If drift is detected:
+- Add a section **"⚠️ Uncommitted base-scope drift"** to the top of the handoff
+  document listing the violations.
+- Surface it in the chat reply so the user sees it before ending session.
+- Do NOT refuse to write the handoff — drift might be intentional
+  (mid-migration). The handoff's job is to carry state forward; flagging is
+  enough.
+
+If no allowlist in project, skip this step silently.
+
 ### Step 1 — Gather state
 
 Collect in this order:
