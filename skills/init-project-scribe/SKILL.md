@@ -78,6 +78,42 @@ All paths are relative to project root.
 
 6. **`docs/status/TEMPLATE.md`** — write from `templates/spec-status.md.tmpl` verbatim.
 
+## Optional — base-scope enforcement
+
+After writing the six core files, ask the user **one more question**:
+
+> "This project has locked rules about what belongs in 'base' vs plugins (e.g. 'all features beyond base are plugins'). Want to enable base-scope enforcement? This adds a PreToolUse hook that blocks writes to forbidden paths, a pre-commit hook, a session-start rules injection, and a BASE_ALLOWLIST.md template. [y/N]"
+
+If user says **no** (or leaves blank): skip. Report normally.
+
+If user says **yes**:
+
+1. Create `docs/BASE_ALLOWLIST.md` from `templates/base-scope-guard/BASE_ALLOWLIST.md.template`. Replace `{PROJECT_NAME}` with the project name. Warn the user: "The template has placeholder entries. Edit docs/BASE_ALLOWLIST.md to list your project's actual base paths before committing."
+2. Create `.claude/hooks/` directory.
+3. Copy three hook scripts into `.claude/hooks/`:
+   - `pretooluse_base_guard.sh` (from `templates/base-scope-guard/`)
+   - `sessionstart_inject_rules.sh` (from `templates/base-scope-guard/`)
+   - `precommit_base_guard.sh` (from `templates/base-scope-guard/`)
+4. `chmod +x` all three.
+5. Create or merge `.claude/settings.json` to wire SessionStart + PreToolUse hooks. If the file exists, merge the `hooks` key; do not clobber other settings. Shape:
+   ```json
+   {
+     "hooks": {
+       "SessionStart": [
+         { "hooks": [{ "type": "command", "command": "bash .claude/hooks/sessionstart_inject_rules.sh" }] }
+       ],
+       "PreToolUse": [
+         { "matcher": "Write|Edit|NotebookEdit", "hooks": [{ "type": "command", "command": "bash .claude/hooks/pretooluse_base_guard.sh" }] }
+       ]
+     }
+   }
+   ```
+6. Install the pre-commit hook: `cp .claude/hooks/precommit_base_guard.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`. On Windows this copies; on Linux/macOS a symlink is also fine.
+7. Tell user:
+   - Edit `docs/BASE_ALLOWLIST.md` to list actual base paths before the next commit.
+   - Hooks won't fire for the current session — restart Claude Code to pick up `.claude/settings.json` changes.
+   - Complementary skills installed: `base-audit` (run `/audit` before commits) and `auto-handoff` (write session handoffs at context breakpoints).
+
 ## Commit
 
 Offer the user a single commit:

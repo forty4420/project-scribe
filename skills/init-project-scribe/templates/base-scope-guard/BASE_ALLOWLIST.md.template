@@ -1,0 +1,56 @@
+# Base Allowlist
+
+**Purpose:** Source of truth for what's legal to exist inside the `base` of {PROJECT_NAME}. Derived from the project's product VISION / constitution document.
+
+**Enforcement:**
+- PreToolUse hook reads this file and blocks `Write`/`Edit` calls to new paths not listed here.
+- Pre-commit hook reads this file and rejects staged files not on the list.
+- SessionStart hook prints the top of this file into new session context.
+- Every new entry requires a DECISIONS.md line item explaining why the path is base.
+
+**How to add a new entry:** do not hand-edit without logging a decision first. The flow is:
+1. Write a DECISIONS.md entry explaining the addition and citing the rule that justifies it.
+2. Add the path to the appropriate section below.
+3. Commit both together.
+
+---
+
+## Allowed paths
+
+> Customize these sections for your project. Replace the placeholder entries below with your project's actual allowed paths. Delete sections that don't apply.
+
+### Directories
+
+- `example_allowed_dir/` — why this is base (cite rule or spec)
+
+### Files
+
+- `example_allowed_file.rs` — why this is base
+
+---
+
+## NOT allowed paths
+
+> Paths that exist today but violate the project's rules. Pre-commit + PreToolUse hooks block new files here. Tracked for migration.
+
+- `example_violation_dir/` — cite the rule being violated + the migration plan
+
+---
+
+## Guarded prefixes (advanced)
+
+The hooks check paths under these prefixes. If your project's base lives in a different directory, edit `pretooluse_base_guard.sh` and `precommit_base_guard.sh` to match.
+
+- `src/` (default)
+- `src-tauri/src/` (Tauri projects)
+
+---
+
+## Maintenance
+
+**On merge of a migration PR:**
+- Remove the migrated paths from the "NOT allowed" sections.
+- Do not add moved paths here — they live elsewhere now.
+
+**On constitution amendment:**
+- If an amendment changes what's base, update this file in the same PR. Both changes must land together.
