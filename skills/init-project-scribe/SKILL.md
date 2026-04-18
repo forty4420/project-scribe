@@ -61,9 +61,14 @@ All paths are relative to project root.
 2. **`docs/STATE.md`** — write from `templates/STATE.md.tmpl` with:
    - `{{project_name}}`
    - `{{current_focus}}`
+   - `{{specs_dir}}` — the specs directory the user picked (e.g. `docs/specs` or `docs/superpowers/specs`)
+   - `{{plans_dir}}` — the plans directory the user picked
+   - `{{legacy_status_dirs}}` — comma-separated list of any legacy status memo paths discovered (e.g. `docs/superpowers/plans/.notes`), or `none`
    - `{{last_shipped_block}}` — the git log output, formatted as markdown bullets
    - `{{specs_table}}` — rows for each spec found, status column = `draft` if no matching status memo exists, `shipped` if one does
    - `{{plans_table}}` — rows for each plan found
+
+   The template includes a `<!-- scribe:config -->` HTML comment block at the top. Downstream skills (reconcile, update-project-state, deferred-rollup) parse this block to know where specs/plans/status memos live. Do NOT omit it.
 
 3. **`docs/DECISIONS.md`** — write from `templates/DECISIONS.md.tmpl` with the project name filled. No entries yet; the template shows the shape.
 

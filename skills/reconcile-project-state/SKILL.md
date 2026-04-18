@@ -19,17 +19,32 @@ Keep `docs/STATE.md` accurate without blocking the user.
 
 ## Read the current "Last shipped" block
 
-Parse `docs/STATE.md`. Find the `## Last shipped` heading (exact match, case-sensitive). Extract the 3-5 bullet lines under it. Each bullet should look like `- <7-char-SHA> — <message>`. Keep the list.
+Parse `docs/STATE.md`. Find the shipped-block heading with a **case-insensitive fuzzy match** against any of:
 
-If the heading can't be found → report: "STATE.md structure not recognized — run update-project-state to rebuild." STOP.
+- `## Last shipped`
+- `## Shipped`
+- `## Recently shipped`
+- `## Recent commits`
+
+Extract the 3-5 bullet lines under it. Each bullet should look like `- <7-char-SHA> — <message>`. Keep the list.
+
+If none of the variants match → emit a **loud warning** (not silent):
+
+```
+⚠️ STATE.md has no shipped-block heading the reconcile skill can recognize.
+Expected one of: "## Last shipped", "## Shipped", "## Recently shipped", "## Recent commits".
+Run update-project-state to rebuild, or rename the heading manually.
+```
+
+Then STOP. Do not modify the file.
 
 ## Compare to git log
 
-Run `git log --oneline -10` in the project root. Compare the top SHA in git to the top SHA in the STATE.md "Last shipped" block.
+Run `git log --oneline -10` in the project root. Extract the top 3 SHAs. Extract the top 3 SHAs from the STATE.md shipped block.
 
-**Match** (top SHAs equal) → silent no-op. Do not modify STATE.md. Do not emit any user-facing message.
+**Set match** (top-3 SHAs from git == top-3 SHAs in STATE.md, as a set — order-independent) → silent no-op. Handles `git commit --amend` and force-push where the top SHA shifted but the set of recent commits is equivalent. Do not modify STATE.md. Do not emit any user-facing message.
 
-**Mismatch** → rewrite the block.
+**Mismatch** (set differs) → rewrite the block.
 
 ## Rewrite behavior (mismatch case)
 

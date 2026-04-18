@@ -19,23 +19,28 @@ End-of-session or end-of-ship refresh for STATE.md.
 
 ## Prompt for updates
 
-For each section, show the current content and ask "update?":
+Two modes:
+
+**Batch mode** — if the user says "same", "no changes", "skip all", "keep all", or provides a single block with all three sections pre-filled, accept it in one turn and move straight to index rebuild. Skip the per-section prompting.
+
+**Interactive mode (default)** — for each section, show current content and ask "update?":
 
 1. **Current focus** (1 line) — "Current focus is: `<current>`. Keep, or update?"
 2. **Next up** (3 bullets) — show existing list, ask for updated list. User can say "same" or provide new bullets.
 3. **Blocked / deferred** — show existing, ask for adds/removes.
 
-Never force-overwrite. If the user says "skip", keep the existing section and move on.
+Never force-overwrite. If the user says "skip" on a specific section, keep the existing section and move on. A single "skip all" exits prompting entirely.
 
 ## Rebuild index tables
 
-1. Scan the specs directory (from the config the init skill wrote into STATE.md — look for the section that says which dir was used).
-2. For each spec file:
+1. **Read config.** Parse the `<!-- scribe:config -->` HTML comment block at the top of STATE.md. Extract `specs_dir`, `plans_dir`, `status_dir`, and `legacy_status_dirs` (comma-separated, may be `none`).
+   - If the config block is missing → fall back to defaults: check `docs/specs/` + `docs/superpowers/specs/`, prefer the one that exists. Same for plans. Warn the user: `STATE.md is missing the scribe:config block — add it manually or re-init. Using defaults for this run.`
+2. Scan the resolved specs directory. For each spec file:
    - Read the first two lines for a title.
-   - Check whether a matching status memo exists in `docs/status/` or any legacy location referenced by `docs/status/README.md`.
+   - Check whether a matching status memo exists in `status_dir` or any path in `legacy_status_dirs`.
    - Status column: `shipped` if memo exists, `active` if a plan references this spec, `draft` otherwise.
 3. Same for the plans directory — each plan lists its linked spec if one is referenced in its preamble.
-4. Replace the `## Specs index` and `## Plans index` tables in STATE.md.
+4. Replace the `## Specs index` and `## Plans index` tables in STATE.md. Leave the `<!-- scribe:config -->` block untouched.
 
 ## Check for missing status memos
 
@@ -52,11 +57,30 @@ If user says yes, copy the template, fill the header fields, open the file in th
 
 ## Commit offer
 
+Before offering, run `git status --porcelain` to check for unrelated modifications.
+
+Files this skill may touch: `docs/STATE.md` and (optionally) new files in `docs/status/` created from the template.
+
+**Clean tree (only scribe-owned files modified)** → offer:
+
 ```
 docs(scribe): update state after <what-shipped>
 ```
 
 Where `<what-shipped>` is derived from the commits added since the last STATE.md update. If nothing shipped, use "update state".
+
+Stage only the scribe-owned paths explicitly (`git add docs/STATE.md docs/status/<new-memo>.md` — never `git add .` / `git add -A`).
+
+**Dirty tree (other files modified or staged)** → warn first:
+
+```
+⚠️ Other changes present: <list of unrelated paths>.
+Scribe will commit ONLY: docs/STATE.md[, docs/status/<memo>.md].
+Unrelated changes stay in your working tree.
+Proceed? (yes/skip)
+```
+
+If user says yes, stage scribe paths by name + commit. Leave every other file untouched.
 
 ## Don't touch
 

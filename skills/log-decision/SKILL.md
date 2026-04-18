@@ -52,13 +52,27 @@ Date = today's date in ISO format.
 
 ## Commit offer
 
-Offer:
+Before offering, run `git status --porcelain` to check for unrelated modifications.
+
+**Clean tree (only DECISIONS.md modified)** → offer:
 
 ```
 docs(scribe): log decision — <title>
 ```
 
-User can decline; file stays modified.
+Stage only `docs/DECISIONS.md` explicitly (`git add docs/DECISIONS.md` — never `git add .` / `git add -A`).
+
+**Dirty tree (other files modified or staged)** → warn first:
+
+```
+⚠️ Other changes present: <list of unrelated paths>.
+Scribe will commit ONLY docs/DECISIONS.md. Unrelated changes stay in your working tree.
+Proceed? (yes/skip)
+```
+
+If user says yes, `git add docs/DECISIONS.md` + commit. Leave every other file untouched.
+
+User can decline at any point; DECISIONS.md stays modified on disk.
 
 ## Reversing a decision
 
