@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# SessionStart hook for project-scribe plugin.
+#
+# Checks cwd for docs/STATE.md. If present, injects a reminder instructing
+# Claude to run the reconcile-project-state skill before its first response.
+# If absent, exits silently. Zero-cost for projects that haven't opted in.
+
+set -euo pipefail
+
+PROJECT_ROOT="$(pwd)"
+STATE_FILE="${PROJECT_ROOT}/docs/STATE.md"
+
+if [ ! -f "$STATE_FILE" ]; then
+    # Not a scribe-enabled project. Silent no-op.
+    exit 0
+fi
+
+# Build the reminder. Claude will see this as a system-reminder in the
+# session context and act on it before responding to the user.
+reminder=$'<project-scribe>\nThis project is project-scribe enabled. Before your first response:\n\n1. Invoke the `reconcile-project-state` skill to check `docs/STATE.md` against `git log`.\n2. If drift is detected, the skill will update STATE.md\'s "Last shipped" block and announce the reconcile inline.\n3. If no drift, the skill silently confirms and you proceed normally.\n\nThe rest of the session-context conventions (decision logging, locked rules, etc.) are in the project\'s `CLAUDE.md`.\n</project-scribe>'
+
+# Escape for JSON embedding (same pattern superpowers uses).
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+reminder_escaped=$(escape_for_json "$reminder")
+
+# Emit JSON for both Claude Code and Cursor hook shapes.
+cat <<EOF
+{
+  "additional_context": "${reminder_escaped}",
+  "hookSpecificOutput": {
+    "hookEventName": "SessionStart",
+    "additionalContext": "${reminder_escaped}"
+  }
+}
+EOF
+
+exit 0
