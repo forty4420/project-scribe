@@ -1,0 +1,23 @@
+# {{project_name}} — docs map
+
+Five-minute orientation for new readers (human or AI).
+
+## Top of book
+
+- **`STATE.md`** — the dashboard. Current focus, last shipped, what's next, deferred items.
+- **`DECISIONS.md`** — append-only log of architectural and scope decisions.
+- **`README.md`** — this file. Map of what's in docs/.
+
+## Work artifacts
+
+- **`{{specs_dir_rel}}`** — design specs, one file per spec.
+- **`{{plans_dir_rel}}`** — implementation plans tied to specs.
+- **`status/`** — implementation status memos, one per shipped spec. See `status/README.md`.
+
+## Other
+
+{{other_docs_bullets}}
+
+## How this file stays current
+
+Update this map when new top-level files or directories land in `docs/`. The `update-project-state` skill does not auto-update this file — it's manually curated because folder structure is a deliberate choice.

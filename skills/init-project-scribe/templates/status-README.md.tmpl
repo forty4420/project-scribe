@@ -1,0 +1,22 @@
+# Implementation status memos
+
+Every shipped spec gets a matching `<spec-slug>.md` memo in this directory.
+
+## Shape
+
+Copy `TEMPLATE.md` when starting a new memo. Sections:
+
+- **Shipped** — bullet list of what the spec delivered
+- **Tests** — unit / integration / manual verification counts
+- **Deferred** — bullet list of items punted to future work; mark resolved items with `~~strikethrough~~` plus a link to the spec that resolved them
+- **Known issues discovered** — quirks / vendor bugs / gotchas surfaced during implementation
+
+## Why this pattern
+
+Running list of "what shipped, what's still open, what we learned." Prevents deferred items from getting lost across spec boundaries and gives future sessions a quick map of what's done.
+
+The `deferred-rollup` skill reads every file here and aggregates the Deferred sections into one view.
+
+## Current status memos
+
+{{status_memos_list}}

@@ -1,0 +1,36 @@
+# {{project_name}}
+
+{{project_summary}}
+
+## Read first (every new session)
+
+1. `docs/STATE.md` — current focus, last shipped, next up, deferred, specs/plans index
+2. `docs/DECISIONS.md` — top 5 entries, for recent rules of engagement
+3. Any project vision / charter doc (e.g. `docs/v3/VISION.md` on Own Term)
+
+## Current focus
+
+{{current_focus}}
+
+## Locked — don't re-argue
+
+{{locked_rules}}
+
+## Rule-drift watch
+
+If anything you or the user proposes contradicts the Locked list above, STOP and flag it before acting. Quote the specific rule. Ask whether to update the Locked list or back off the proposal. Never silently violate a locked rule.
+
+## Where work lives
+
+- Specs: `{{specs_dir}}`
+- Plans: `{{plans_dir}}`
+- Implementation status memos: `docs/status/` (one per shipped spec)
+- Decisions log: `docs/DECISIONS.md`
+- Project-scribe state dashboard: `docs/STATE.md`
+
+## How to update project state
+
+- Auto: session-start hook runs `reconcile-project-state` to sync "Last shipped" with `git log`.
+- After a spec ships: ask Claude to "update project state" — refreshes Next up, adds deferred items, rebuilds indexes.
+- Mid-session: ask Claude to "log a decision" when a durable rule gets stated.
+- Quick readout: `/scribe` — returns current focus + last shipped + next up.
