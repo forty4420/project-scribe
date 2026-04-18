@@ -1,0 +1,11 @@
+{
+  "name": "project-scribe",
+  "description": "Per-project index, decisions log, and dashboard that Claude maintains across sessions. Reconciles against git log at session start so context doesn't rot.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Michael Adams",
+    "email": "forty4420@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": ["project-memory", "session-context", "index", "decisions", "state-tracking"]
+}
