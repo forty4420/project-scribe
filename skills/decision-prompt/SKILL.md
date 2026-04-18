@@ -1,90 +1,127 @@
 ---
 name: decision-prompt
-description: Proactive skill — detects rule-shaped statements in conversation and offers to log them to DECISIONS.md before they're lost. Use when the user answers a judgment question with strong-language ruling (never/always/defer/override), explicitly vetoes an approach, or picks between options with stated reason. One yes/no prompt per decision moment. Don't re-debate. Don't batch. Complement to log-decision skill (which is reactive — user has to ask).
+description: Proactive skill — detects DURABLE rule-shaped statements in conversation and surfaces a non-blocking reminder to log them to DECISIONS.md. Filters out spec-internal decisions, ephemeral preferences, and implementation details. Uses sticky reminder pattern so the flag survives into the next turn if user doesn't respond immediately. Complement to log-decision skill (the reactive writer).
 ---
 
-# decision-prompt — catch rule-shaped moments automatically
+# decision-prompt — catch durable rules without interrupting flow
 
-**The problem this solves:** scribe has `docs/DECISIONS.md` and a `log-decision` skill, but users rarely remember to say "log a decision." Durable rulings die in chat. Three months later the same decision gets re-debated.
+**The problem this solves:** `docs/DECISIONS.md` only grows when users remember to say "log this." Durable rulings die in chat. Three months later the same decision gets re-debated.
 
-**The fix:** you (the agent) watch for rule-shaped moments in real time and offer to log them. One prompt, one keystroke, done. Cognitive load stays on you, not the user.
+**The fix:** agent watches for rule-shaped moments in real time, surfaces a non-blocking flag at the top of the response, and re-surfaces it in the next turn if the user didn't act. Max two reminders, then drop.
 
-## When to invoke (proactive triggers)
+## The durability filter — WHAT counts as a rule
 
-Watch the user's messages. Offer to log when you see:
+**DECISIONS.md is for things you'd want to know about in 6 months.** Not every choice. Only surface a flag when the statement passes ALL of these tests:
 
-1. **Strong modal verbs as a ruling:** "never X", "always Y", "must Z", "only W"
-2. **Explicit veto of your proposal:** "no, don't do that", "we're not going to X", "stop doing Y"
-3. **Option-pick with stated reason:** user picks A over B and gives a reason (the reason is the decision)
-4. **Deferral with scope:** "defer X until Y", "not in this session", "revisit after Z"
-5. **Constraint naming:** "no users yet so breaking changes are fine", "solo dev so skip the migration path"
-6. **Scope cut:** "drop that feature", "we're not building X", "X is someone else's problem"
+1. **Holds across future specs/features** — architectural commitment, not this-feature-only
+2. **Has a named trade-off or rejected alternative** — "X because Y (rejected Z because W)"
+3. **Could be re-debated later** without this record — someone in 6 months won't know why
 
-**Skip these (not rule-shaped):**
+**Durable — surface a flag:**
 
-- Chit-chat, exploratory thinking, brainstorming
-- Questions the user asks YOU without a stated position
-- Answers about implementation details that'll change in a week
-- Opinions about code style unless they're a hard rule
+- Architectural commitments: "all tools are MCP servers", "Rust + Tauri locked", "no cloud relay ever"
+- Rejected alternatives with reasons: "in-process plugins considered + rejected because process isolation matters"
+- Trade-offs with named cost/benefit: "IPC overhead accepted because human-speed calls"
+- Scope/user rules: "no users yet, break freely", "solo-dev pre-release"
+- Technical constants that'll outlive this spec: "UI always debounces at 150ms"
 
-## How to offer
+**Not durable — SKIP, don't surface:**
 
-The whole thing is ONE message. Not a conversation. Not an explanation.
+- Implementation details inside a spec ("MCP client uses `rmcp` crate") — spec handles this
+- Option-picks internal to the current design ("single generic `mcp_call` vs per-tool commands") — spec documents
+- Task-level picks ("we'll write file_mcp first") — ephemeral
+- Preferences about communication style, tone, formatting — memory territory, not DECISIONS
+- Code style opinions unless locked project-wide
+- Anything the user will revisit next session anyway
+
+**The "if in doubt → skip" principle.** Better to miss a flag than pollute DECISIONS.md with spec-internal noise. Missing rules can always be logged retroactively when someone says "wait, that's a rule — log it." Bad rules are harder to remove than missing rules are to add.
+
+**User override always wins.** If the user says "log it" / "save that rule" / "that's a rule" about something you didn't flag, log it without argument. Their judgment overrides this filter.
+
+## The sticky reminder pattern — WHEN to prompt
+
+Blocking prompts mid-brainstorm break flow. The user is answering a real question; a rule-log question on top makes them choose what to address. Instead:
+
+**Turn 1 (detect):** surface a non-blocking flag at the TOP of the response, then continue with the real work below.
 
 ```
-This sounds rule-shaped: "<one-line paraphrase of the decision>"
-Log to docs/DECISIONS.md? (y/n)
+**[?] Possible rule:** *"<one-line paraphrase>"* — say "log it" to save.
+
+<... rest of response: answer their question, ask next question, etc. ...>
 ```
 
-That's it. If user says **y**:
-- Invoke the `log-decision` skill with the paraphrased rule + the reason they gave
-- Don't re-ask for context — use what's already in conversation
+**Turn 2 (re-surface if no action):** if the user's next message didn't mention logging, re-surface at the top.
 
-If user says **n**:
-- Drop it. Move on. Don't re-prompt on the same decision.
+```
+**[?] Still pending:** log *"<paraphrase>"*? (y/n/skip)
 
-If user says something else (elaborates, changes mind, etc.):
-- Treat as "n". Don't push.
+<... rest of response ...>
+```
+
+**Turn 3 (drop):** if still no action, stop mentioning. If the user wanted it, they'd have said so.
+
+**Bounded — max 2 reminders, then permanent drop.** Never nag past that for the same rule.
+
+## How to respond to action
+
+**User says "log it" / "y" / "save that rule":**
+- Invoke `log-decision` skill with the paraphrased rule + the reason (extract from conversation)
+- Confirm inline: `Logged: <title>`
+- Don't block the real work — do this alongside whatever else they asked
+
+**User says "n" / "skip" / "no":**
+- Drop it permanently. Don't re-offer this rule in later turns.
+
+**User says something else (elaborates, changes mind, ignores):**
+- Ignore = re-surface next turn (one more time, per sticky pattern)
+- Elaborates the rule = update the paraphrase, re-surface with new wording
+- Changes mind = treat as "skip"
 
 ## Rules of engagement
 
-**One prompt per decision moment.** If the user declines, don't offer again for the same decision. If they make 3 decisions in one message, that's 3 prompts — but only once each.
+**Paraphrase tightly.** Target: under 20 words. Match user's phrasing when possible. Include the WHY when given.
 
-**Don't batch.** If 4 decisions happen across a 10-message stretch, offer them as they happen, not as a summary at the end. Batching loses the "right now" framing.
+**One flag per decision.** If user makes 3 durable rules in one message, 3 flags at top — stacked, each one-liner.
 
-**Paraphrase tightly.** Target: under 15 words. Match the user's phrasing when possible — if they said "no users yet so breaking changes OK," use those words.
+**Don't re-debate.** decision-prompt is not the place to argue whether the user is right. Log first, argue separately if at all.
 
-**Include the WHY when it was given.** "Defer Vitest — manual smoke is enough pre-release" is better than just "Defer Vitest."
+**Don't prompt for your own observations.** Only user rulings get considered. If you noticed something worth saving, that's memory territory.
 
-**Don't re-debate.** If the user makes a decision you think is wrong, the decision-prompt is not the place to argue. Log first, argue separately if at all.
-
-**Don't prompt for your own observations.** Only user rulings get logged. If you noticed something and want to save it, that's memory territory, not DECISIONS.md.
+**Non-blocking means non-blocking.** Never put the flag in a position that forces the user to address it before the real work. Top of response, tagged with `[?]`, done. Real work below.
 
 ## Examples
 
-**Good — log this:**
+**Durable — surface a flag:**
 
-> User: "No users yet, so breaking changes are fine. Skip migration paths."
+> User: "Tauri only. No Electron ever."
 >
-> You: "This sounds rule-shaped: *'No users yet — breaking changes OK, no migration paths.'* Log to docs/DECISIONS.md? (y/n)"
-
-**Good — log this:**
-
-> User: "Don't propose Electron again. We're Tauri-only."
+> You:
+> ```
+> **[?] Possible rule:** *"Rust + Tauri locked; never propose Electron or alternatives."* Say "log it" to save.
 >
-> You: "This sounds rule-shaped: *'Rust + Tauri stack is locked — don't propose Electron or alternatives.'* Log? (y/n)"
+> Got it. Continuing with the Tauri-based approach. Next question...
+> ```
 
-**Skip — not rule-shaped:**
+**Not durable — skip:**
 
-> User: "Hmm, maybe we should check if that's still the case."
+> User: "Use the `rmcp` crate for the MCP client."
 >
-> You: (don't offer — exploratory, no ruling)
+> You: (don't flag — implementation detail, belongs in spec, not DECISIONS.md)
 
-**Skip — ephemeral:**
+**Not durable — skip:**
 
-> User: "Fix the typo on line 42 of chat.rs."
+> User: "Let's go with option A for now."
 >
-> You: (don't offer — task, not rule)
+> You: (don't flag — option-pick internal to current design, no stated reason, no architectural commitment)
+
+**Sticky re-surface:**
+
+> Turn 1 — User: "No users yet so breaking changes OK."
+> You (turn 1): surface flag at top, continue work.
+> Turn 2 — User responds to your question but ignores the flag.
+> You (turn 2): re-surface flag with `[?] Still pending`, continue work.
+> Turn 3 — User still doesn't address.
+> You (turn 3): drop it silently. No more mentions.
 
 ## What this skill does NOT do
 
@@ -92,21 +129,15 @@ If user says something else (elaborates, changes mind, etc.):
 - Does not modify any other file
 - Does not re-read DECISIONS.md to check for duplicates (log-decision handles dedup)
 - Does not scan past messages for missed decisions — forward-only
+- Does not nag past the 2-reminder limit
 
 ## Interaction with log-decision
 
 - **decision-prompt** is proactive — you invoke it by watching conversation
 - **log-decision** is reactive — user or decision-prompt invokes it to do the actual write
 
-When decision-prompt gets a "y", it calls log-decision with the paraphrased rule and the reason. log-decision handles the file write + dedup + formatting.
-
-## When NOT to prompt
-
-- User is in the middle of a longer thought — wait until they pause
-- Decision is about to be undone in the same message ("let's do X... actually no, Y")
-- You're already mid-task on something else — finish, then offer
-- Session has been pure implementation for 20+ turns with no judgment calls — you're in execution mode, not decision mode
+When decision-prompt gets a log confirmation, it calls log-decision with the paraphrased rule and the reason. log-decision handles the file write + dedup + formatting.
 
 ## Memory over time
 
-If the user consistently says "no, don't log that" to a particular pattern, stop offering on that pattern. Save a feedback memory noting the pattern they don't want logged. If they accept consistently on another pattern, you're calibrated right.
+Calibrate against the project. If the user consistently says "skip" to a particular pattern, stop flagging on that pattern. Save a feedback memory noting the skip pattern. If they accept consistently on another pattern, the filter is calibrated right.
