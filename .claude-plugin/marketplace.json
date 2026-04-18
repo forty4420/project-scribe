@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "project-scribe",
+  "description": "Per-project index, decisions log, and state dashboard that Claude maintains across sessions. Reconciles against git log at session start so context doesn't rot.",
+  "owner": {
+    "name": "Michael Adams",
+    "url": "https://github.com/forty4420"
+  },
+  "plugins": [
+    {
+      "name": "project-scribe",
+      "description": "Per-project STATE.md + DECISIONS.md + status memos. /scribe dashboard readout. Auto-reconciles against git log at session start.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
