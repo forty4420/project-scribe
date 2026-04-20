@@ -1,7 +1,7 @@
 {
   "name": "project-scribe",
   "description": "Per-project index, decisions log, and dashboard that Claude maintains across sessions. Reconciles against git log at session start so context doesn't rot.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": {
     "name": "Michael Adams",
     "email": "forty4420@gmail.com"
