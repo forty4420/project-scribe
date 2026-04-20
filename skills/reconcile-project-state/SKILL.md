@@ -61,9 +61,49 @@ Reconciled STATE.md — added N commits since last scribe update.
 
 Where N is the count of new SHAs.
 
+## Extended fact-check (passive warnings only)
+
+After the shipped-block sync, run these checks. Emit warnings — **never auto-fix.** User decides what to do.
+
+Skip entirely if STATE.md > 500 lines (may not be scribe-format). Cap total warnings at 10; prefer summarizing (e.g. "6 stale refs in Next up") over listing every item.
+
+### Current focus freshness
+
+1. Locate the "Current focus" block via fuzzy heading match: `Current focus`, `In progress`, `Working on`. Skip if not found.
+2. Extract any referenced:
+   - File paths (anything matching `[\w/.-]+\.(md|rs|ts|tsx|toml|json)`)
+   - Branch names (phrases like `on <branch>` or `branch: <name>`)
+   - Spec/plan filenames (bare `YYYY-MM-DD-*.md` references)
+3. Verify each:
+   - File paths → file exists
+   - Branch → matches `git branch --show-current`
+   - Spec/plan filenames → exists under `docs/superpowers/specs/`, `docs/superpowers/plans/`, or `docs/status/`
+4. If any stale, emit:
+
+```
+⚠️ STATE.md "Current focus" references stale items:
+  - <item> — <reason: missing file / branch mismatch / spec moved>
+Consider running update-project-state.
+```
+
+### Next up validation
+
+Same check as Current focus — verify any referenced spec/plan files exist. Warn if missing.
+
+### Deferred sanity check
+
+1. Read "Deferred" block via fuzzy match (`Deferred`, `Backlog`, `Later`). Skip if not found.
+2. For each deferred entry with a recognizable feature/module name, grep last 30 entries of `docs/DECISIONS.md` for that name.
+3. If DECISIONS.md says the item shipped or was closed → flag as stale:
+
+```
+⚠️ STATE.md "Deferred" lists items that DECISIONS.md says are done:
+  - <item>
+```
+
 ## Never do
 
 - Do not commit the reconciliation. The user decides when to commit.
 - Do not modify any STATE.md section other than "Last shipped."
 - Do not modify DECISIONS.md, CLAUDE.md, or anything in `docs/status/`.
-- Do not prompt the user for input. This is a silent-when-aligned, auto-patching skill.
+- Do not prompt the user for input during the shipped-block sync. Extended fact-check warnings are informational only — never block, never auto-fix.
