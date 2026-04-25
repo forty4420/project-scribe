@@ -101,6 +101,17 @@ Same check as Current focus — verify any referenced spec/plan files exist. War
   - <item>
 ```
 
+### DECISIONS.md size check
+
+1. Stat `docs/DECISIONS.md`. Count lines + estimate tokens (1 token ≈ 4 chars).
+2. If over 500 lines OR ~20000 tokens, emit a one-shot informational line (not a warning, not blocking):
+
+```
+ℹ️ DECISIONS.md is at L lines / ~T tokens. Consider `/compact-decisions` to archive pre-<YEAR-minus-1> entries.
+```
+
+3. Emit at most once per session. Do not repeat if user skipped.
+
 ## Never do
 
 - Do not commit the reconciliation. The user decides when to commit.
