@@ -226,9 +226,60 @@ start clean:
 rm -f "${HOME}/.claude/.scribe-context-last-warn" 2>/dev/null
 ```
 
-### Step 8 — Final report
+### Step 8 — Copy paste-prompt to clipboard + print to chat
 
-Print to chat:
+Extract the contents of the "Paste-this prompt" section from the handoff
+file you just wrote in step 6. Strip the markdown code fence delimiters
+(the lines starting with ` ``` `) so what gets copied is just the prompt
+text itself.
+
+Detect the OS and pipe the prompt to the clipboard:
+
+```bash
+# Save the extracted prompt to a temp variable first.
+prompt_text="<the paste-this content from step 6>"
+
+# OS-detected clipboard write. Best-effort — silent failure is fine,
+# we still print the prompt to chat below as a fallback.
+case "$(uname -s 2>/dev/null || echo Unknown)" in
+    Darwin*)
+        printf '%s' "$prompt_text" | pbcopy 2>/dev/null
+        clipboard_status="copied (pbcopy)"
+        ;;
+    Linux*)
+        if command -v wl-copy >/dev/null 2>&1; then
+            printf '%s' "$prompt_text" | wl-copy 2>/dev/null
+            clipboard_status="copied (wl-copy)"
+        elif command -v xclip >/dev/null 2>&1; then
+            printf '%s' "$prompt_text" | xclip -selection clipboard 2>/dev/null
+            clipboard_status="copied (xclip)"
+        elif command -v xsel >/dev/null 2>&1; then
+            printf '%s' "$prompt_text" | xsel --clipboard --input 2>/dev/null
+            clipboard_status="copied (xsel)"
+        else
+            clipboard_status="not copied (no clipboard tool found — install xclip or xsel)"
+        fi
+        ;;
+    MINGW*|MSYS*|CYGWIN*)
+        # Windows Git Bash / MSYS / Cygwin
+        printf '%s' "$prompt_text" | clip 2>/dev/null || \
+        printf '%s' "$prompt_text" | /c/Windows/System32/clip.exe 2>/dev/null
+        clipboard_status="copied (clip.exe)"
+        ;;
+    *)
+        clipboard_status="not copied (unknown OS)"
+        ;;
+esac
+```
+
+Note: on bare Windows cmd or PowerShell (rare for scribe users), the
+`uname` check returns "Unknown" — the case falls through. Document
+that clipboard support is best-effort.
+
+### Step 9 — Final report
+
+Print to chat. Always include the paste-prompt verbatim (so the user
+can copy from chat if clipboard failed) and the clipboard status:
 
 ```
 ✅ Handoff complete.
@@ -241,16 +292,27 @@ Bundle results:
 - update-project-state: <status>
 - compact-memory: <status>
 
-Next session: paste the "Paste-this prompt" section into a new Claude
-Code session. Or run /restart if you have cc-restart installed.
+Clipboard: <clipboard_status>
+
+──────────────── Paste-this prompt ────────────────
+<full paste-prompt content, verbatim from the handoff file's
+"Paste-this prompt" section>
+───────────────────────────────────────────────────
+
+Next session:
+1. Open a new chat (sidebar → new chat — do NOT use /clear, it can
+   strip the current session from your sidebar)
+2. Paste with Ctrl+V (Cmd+V on macOS) — already on your clipboard
+3. New session reads the handoff doc and confirms before any action
 ```
 
-In `--quick` mode, omit the bundle results block.
+In `--quick` mode, omit the bundle results block but KEEP the paste-prompt
+display and clipboard step. Quick mode still benefits from clipboard.
 
 ## Procedure (quick mode)
 
 Skip steps 2-5. Run step 1 (drift check), step 6 (write doc), step 7
-(reset cooldown), step 8 (report).
+(reset cooldown), step 8 (clipboard), step 9 (report).
 
 Single confirmation prompt becomes:
 

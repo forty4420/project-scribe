@@ -98,6 +98,23 @@ Cooldown: only re-warns when usage jumps a 5% bucket (30 → 35 → 40 → ...) 
 
 Statusline command points at `~/.claude/scripts/scribe-statusline-launcher` — a small wrapper that finds the latest installed scribe plugin version and runs its `hooks/statusline.py`. No `jq` dependency — uses Python 3 (already required by Claude Code itself).
 
+#### Desktop vs CLI
+
+Auto-warnings depend on Claude Code's statusline running, which it currently does **only in CLI / terminal mode**. The desktop Electron app does not invoke statusline commands ([Anthropic Issue #41456](https://github.com/anthropics/claude-code/issues/41456) — pending).
+
+**What this means in practice:**
+
+- **CLI users:** auto-warnings fire as expected. Statusline updates after every message, hook reads it on the next prompt, warning surfaces in chat.
+- **Desktop users:** desktop already shows context % in its own UI (bottom-right corner). Use that as the visual cue and run `/handoff` manually when you reach a level you're comfortable handing off at. Scribe still does everything else — `/handoff` works identically on both.
+
+When Anthropic ships statusline support on desktop, scribe will pick it up automatically with no code changes.
+
+#### `/handoff` clipboard auto-copy
+
+When `/handoff` finishes, the "Paste-this prompt" block is automatically copied to your clipboard (uses `clip.exe` on Windows, `pbcopy` on macOS, `xclip`/`xsel`/`wl-copy` on Linux). The same prompt is also printed in chat as a fallback.
+
+Workflow becomes: `/handoff` → wait for "✅ Handoff complete" → open new chat in sidebar → Ctrl+V (Cmd+V on Mac). Two clicks, no manual copy.
+
 Works for any project type, any architecture, solo or team.
 
 ---

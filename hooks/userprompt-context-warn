@@ -32,10 +32,13 @@ case "$pct" in
 esac
 [ "$pct" -ge 0 ] 2>/dev/null && [ "$pct" -le 100 ] 2>/dev/null || exit 0
 
-# Gate 3: data must be fresh (<120s old).
+# Gate 3: data must be fresh. Statusline updates after each message,
+# but real sessions sit idle 30+ min between prompts (researching,
+# stepping away, etc). 1 hour window accommodates idle time; older =
+# data too stale to trust (likely from a previous session entirely).
 now=$(date +%s)
 age=$((now - ts))
-[ "$age" -lt 120 ] || exit 0
+[ "$age" -lt 3600 ] || exit 0
 
 # Gate 4: must be at or above warning threshold (30%).
 [ "$pct" -ge 30 ] || exit 0
