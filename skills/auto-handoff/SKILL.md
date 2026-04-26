@@ -1,72 +1,123 @@
 ---
 name: auto-handoff
-description: Generate a session handoff document to transfer state to a new Claude Code session. Use when user says "handoff", "/handoff", "write a handoff", "create handoff", "time to hand off", or when context usage crosses 50% (agent-initiated). Produces a timestamped markdown file with current focus, just-decided facts, active todos, files touched, and a paste-ready prompt for the new session. Prevents drift during session switches.
+description: Unified session shutdown — captures pending decisions, refreshes STATE.md, prunes MEMORY.md if needed, and writes a handoff document for the next session. Use when user says "handoff", "/handoff", "write a handoff", "save session", "shutdown", "wrap up", or when the scribe context-warning hook surfaces a /handoff suggestion. Smart-skips steps that have nothing to do. Pass --quick to write only the handoff doc and skip the bundle steps.
 ---
 
-# auto-handoff — session state transfer
+# auto-handoff — unified session shutdown + state transfer
 
-Purpose: prevent context loss when switching sessions. Compaction throws away conversation detail; handoff preserves it in a durable markdown file that the next session reads at startup.
+Purpose: prevent context loss when switching sessions AND make sure
+durable state (decisions, STATE.md, MEMORY.md) is current before
+the transfer. Compaction throws away conversation detail; this skill
+preserves what matters.
 
-Trigger modes:
+This skill replaces the old standalone handoff + the deprecated
+`/shutdown-bundle` command. One command. Does the right thing.
 
-1. **User request:** "/handoff", "write a handoff", "hand off to new session"
-2. **Context threshold:** when context usage exceeds ~50%, volunteer a handoff to the user. Do NOT silently generate — ask first.
-3. **Session-end / compact-warning:** before running /compact, offer a handoff as a safer alternative.
+## Trigger modes
 
-## Procedure
+1. **User request:** "/handoff", "write a handoff", "shutdown", "save session"
+2. **Context warning:** the userprompt-context-warn hook surfaces a
+   `<scribe-context-warning>` reminder at 30%+ usage. User runs handoff
+   in response.
+3. **Session-end:** before running `/compact`, offer handoff as a safer
+   alternative.
 
-### Step 0 — Base-scope drift pre-flight (scribe-enabled projects only)
+## Modes
 
-If the project has `docs/BASE_ALLOWLIST.md`, run the pre-commit hook against
-the working tree (staged + unstaged + untracked combined) before writing the
-handoff. This catches drift that's sitting uncommitted — a common failure mode
-where a bad file survives session switches without review.
+- **Default (full):** runs the bundle (decisions → state → memory → handoff doc).
+- **`--quick`:** writes the handoff doc ONLY. Skips bundle steps. Use
+  for mid-task panic saves or experimental sessions where you don't
+  want to pollute durable state.
+
+Detect mode from the user's prompt: presence of `--quick`, "quick handoff",
+"just a handoff", "skip the bundle" → quick mode. Otherwise full.
+
+## Procedure (full mode)
+
+### Step 0 — Single confirmation
+
+Announce the plan once, ask once:
+
+> "Running full handoff. Will: (1) log pending decisions, (2) compact
+> DECISIONS.md, (3) update STATE.md, (4) prune MEMORY.md if needed,
+> (5) write handoff doc. Proceed? [y/n/quick]"
+
+- `y` → run full bundle
+- `quick` → switch to --quick mode (skip steps 1-4)
+- `n` → abort, report nothing done
+
+After this single confirmation, run all steps WITHOUT re-prompting.
+Skipped steps print a one-line note. Failures print + halt.
+
+### Step 1 — Base-scope drift pre-flight (if applicable)
+
+If the project has `docs/BASE_ALLOWLIST.md`, run the pre-commit hook
+read-only against the working tree before writing anything. This catches
+drift sitting uncommitted.
 
 ```bash
-# Simulate what pre-commit would see by staging everything, running the
-# hook read-only, then resetting the index.
-# Read-only alternative: scan `git status --porcelain` for new files under
-# src-tauri/ or src/ and check against the allowlist + known-good top-levels.
-bash .claude/hooks/precommit_base_guard.sh  # or scan logic inline
+# Read-only scan: list new/modified files under guarded directories,
+# check against allowlist + known-good top-levels. Do NOT auto-stage.
+bash .claude/hooks/precommit_base_guard.sh 2>&1 | head -50
 ```
 
-If drift is detected:
-- Add a section **"⚠️ Uncommitted base-scope drift"** to the top of the handoff
-  document listing the violations.
-- Surface it in the chat reply so the user sees it before ending session.
-- Do NOT refuse to write the handoff — drift might be intentional
-  (mid-migration). The handoff's job is to carry state forward; flagging is
-  enough.
+If drift detected → flag in handoff doc under "⚠ Uncommitted base-scope
+drift" but DO NOT abort. Drift may be intentional.
 
-If no allowlist in project, skip this step silently.
+If no allowlist → skip silently.
 
-### Step 1 — Gather state
+### Step 2 — log-decision (auto-skip eligible)
 
-Collect in this order:
+Scan the session for DURABLE rule-shaped statements not yet in
+DECISIONS.md. Indicators: "always do X", "never Y", "from now on",
+"the rule is", "we decided".
+
+- If none found → print `→ log-decision: no pending decisions, skipped.` Continue.
+- If found → invoke the `log-decision` skill for each, batched.
+
+### Step 3 — compact-decisions (auto-skip eligible)
+
+If DECISIONS.md was not modified this session → print
+`→ compact-decisions: DECISIONS.md unchanged, skipped.` Continue.
+
+Otherwise → invoke the `compact-decisions` skill.
+
+### Step 4 — update-project-state (always run)
+
+Always run. Even if STATE.md feels current, the skill is idempotent
+and refreshes the "Last shipped" block from `git log`. Cheap.
+
+Invoke the `update-project-state` skill.
+
+### Step 5 — compact-memory (auto-skip eligible)
+
+Read MEMORY.md line count. If under 200 lines →
+`→ compact-memory: MEMORY.md only N lines, skipped.` Continue.
+
+If 200+ → invoke the `compact-memory` skill.
+
+### Step 6 — Write handoff doc
+
+This is the only step that runs in `--quick` mode too.
+
+#### Gather state
 
 1. **Current branch + last 5 commits** — `git log --oneline -5` + `git branch --show-current`
 2. **Uncommitted files** — `git status --short`
-3. **Active todos from this session** — from TodoWrite state (read the current list, highlight in-progress + pending)
-4. **New DECISIONS.md entries from this session** — `git diff --name-only HEAD docs/DECISIONS.md` (only if touched)
-5. **Files edited this session** — rough list from tool-use history; focus on the 5-10 most substantive edits
-6. **Open questions** — any AskUserQuestion prompts still pending, unresolved forks, or flagged "revisit when" items
+3. **Active todos** — current TodoWrite list (in-progress + pending)
+4. **DECISIONS.md changes this session** — `git diff --name-only HEAD docs/DECISIONS.md`
+5. **Files edited this session** — 5-10 most substantive edits from tool history
+6. **Open questions** — pending AskUserQuestion prompts, unresolved forks
 
-### Step 2 — Classify the session phase
+#### Classify session phase
 
-One of:
-- **Spec writing** — currently drafting a design doc
-- **Plan writing** — currently drafting an implementation plan
-- **Executing** — walking a plan's tasks, committing as we go
-- **Reviewing / debugging** — reading code, finding issues, not yet fixing
-- **Meta / infra** — building guardrails, refactoring process, not shipping user features
+One of: spec-writing | plan-writing | executing | reviewing-debugging | meta-infra
 
-This phase classification goes into the handoff so new-session me knows what mode we're in.
+#### Write file
 
-### Step 3 — Write the handoff file
+Path: `docs/status/handoff-YYYY-MM-DD-HHMMSS.md`
 
-Write to `docs/status/handoff-YYYY-MM-DD-HHMMSS.md` in the project root.
-
-Do NOT overwrite existing handoff files. Use timestamp to keep a chronological trail. If the `docs/status/` directory doesn't exist, fall back to `.handoffs/` at project root.
+Never overwrite. If `docs/status/` missing → fall back to `.handoffs/`.
 
 Template:
 
@@ -74,7 +125,8 @@ Template:
 # Session Handoff — YYYY-MM-DD HH:MM:SS
 
 **Branch:** <branch-name>
-**Phase:** <phase from step 2>
+**Phase:** <phase>
+**Mode:** full | quick
 **Previous session ended at:** <commit SHA | "uncommitted work present">
 
 ---
@@ -85,9 +137,20 @@ Template:
 
 ---
 
+## Bundle results (full mode only)
+
+- log-decision: <done | skipped — reason>
+- compact-decisions: <done | skipped — reason>
+- update-project-state: <done | skipped — reason>
+- compact-memory: <done | skipped — reason>
+
+(Omit this section in --quick mode.)
+
+---
+
 ## Just decided (this session)
 
-<Bulleted list of new rules, locked choices, or agreed approaches from this session that aren't yet in DECISIONS.md, OR link to the DECISIONS.md entry if written>
+<Bulleted list of new rules from this session — link to DECISIONS.md entry IDs if logged>
 
 ---
 
@@ -118,7 +181,13 @@ Template:
 
 ---
 
-## Open questions for Michael
+## ⚠ Uncommitted base-scope drift
+
+(Only present if step 1 found drift. List violations, one per line.)
+
+---
+
+## Open questions
 
 <Any AskUserQuestion prompts still pending or unresolved decisions>
 
@@ -126,59 +195,83 @@ Template:
 
 ## Paste-this prompt for the new session
 
-```
-Resume the ownterm-v3 session handed off at <timestamp>. Read the handoff at
-docs/status/handoff-<timestamp>.md for context. Current focus: <one-line>.
-Next step: <one-line>.
+\`\`\`
+Resume the <project> session handed off at <timestamp>. Read the handoff
+at docs/status/handoff-<timestamp>.md for context.
+
+Current focus: <one-line>
+Next step: <one-line>
 
 Before starting:
 1. Read docs/STATE.md (scribe auto-reconciles on startup)
 2. Read the handoff file in full
 3. Confirm with me you understand where we are before taking any action.
-```
+\`\`\`
 
 ---
 
 ## What NOT to lose
 
-<List 3-5 nuances from the conversation that might otherwise die in compaction.
-Examples: specific phrasing Michael used for a locked decision, a subtle
-tradeoff discussed but not recorded, a rejected approach that shouldn't be
-re-proposed>
+<3-5 nuances from the conversation that might die in compaction:
+specific phrasing for a locked decision, subtle tradeoffs discussed
+but not recorded, rejected approaches that shouldn't be re-proposed>
 ```
 
-### Step 4 — Display handoff in chat
+### Step 7 — Reset cooldown
 
-After writing the file, echo:
+Delete the warn-hook cooldown marker so the next session's warnings
+start clean:
+
+```bash
+rm -f "${HOME}/.claude/.scribe-context-last-warn" 2>/dev/null
+```
+
+### Step 8 — Final report
+
+Print to chat:
 
 ```
-✅ Handoff written: docs/status/handoff-<timestamp>.md
+✅ Handoff complete.
 
-Next session: paste the prompt from the "Paste-this prompt" section at the top of your new Claude Code session.
+File: docs/status/handoff-<timestamp>.md
+
+Bundle results:
+- log-decision: <status>
+- compact-decisions: <status>
+- update-project-state: <status>
+- compact-memory: <status>
+
+Next session: paste the "Paste-this prompt" section into a new Claude
+Code session. Or run /restart if you have cc-restart installed.
 ```
 
-### Step 5 — Optional memory sync
+In `--quick` mode, omit the bundle results block.
 
-If the session produced durable learnings (new feedback patterns, project facts), also update `.claude/projects/<proj>/memory/MEMORY.md` via the memory system. But only for truly durable facts — not session-ephemeral state.
+## Procedure (quick mode)
+
+Skip steps 2-5. Run step 1 (drift check), step 6 (write doc), step 7
+(reset cooldown), step 8 (report).
+
+Single confirmation prompt becomes:
+
+> "Running quick handoff (doc only, no bundle). Proceed? [y/n]"
 
 ## What this skill does NOT do
 
-- Does not run `/compact`. It's an alternative, not a prelude.
-- Does not commit anything. Michael commits when ready.
-- Does not push to remote or notify external systems.
-- Does not modify STATE.md. That's scribe's job.
+- Does not run `/compact`. It's the alternative.
+- Does not commit anything. User commits when ready.
+- Does not push to remote.
+- Does not auto-restart. User runs `/restart` separately.
 
-## Interaction with project-scribe
+## Interaction with scribe
 
-- Scribe owns STATE.md (durable project state).
-- This skill owns handoff files (per-session transfer documents).
-- If both scribe and handoff are active: handoff references STATE.md, doesn't duplicate it.
-- Scribe's `update-project-state` skill may be called after handoff to refresh the dashboard, but handoff itself doesn't trigger it.
+- Scribe's `update-project-state` IS step 4 of this skill — fully integrated.
+- DECISIONS.md is owned jointly: log-decision writes, compact-decisions consolidates, this skill orchestrates.
+- STATE.md is owned by scribe; this skill triggers refresh, doesn't write directly.
+- Handoff docs go in `docs/status/` alongside scribe's status memos.
 
-## Context-threshold volunteer trigger
+## Migration note
 
-When context usage crosses ~50%, agent should ONE TIME (not repeatedly) prompt the user:
-
-> "Context is at ~50%. Want me to write a handoff before we hit compaction? (Alternative to /compact — preserves conversation detail)"
-
-If user says no, drop it. Don't re-prompt at 60%, 70% etc.
+This skill replaces the old `/shutdown-bundle` slash command. The
+command file has been removed. All shutdown functionality now lives
+in this single skill, invoked via `/handoff` or natural language.

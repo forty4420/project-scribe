@@ -1,13 +1,14 @@
 # project-scribe
 
-A Claude Code plugin that keeps your project's context, plans, and decisions from getting lost across sessions.
+Your project's record-keeper. Tracks state, decisions, and live context so nothing gets lost between sessions.
 
-**Two modes in one plugin:**
+**Three modes in one plugin:**
 
 - **Indexing mode** (always on) — tracks project state, decisions, specs, and plans. Works for any project.
+- **Context-awareness mode** (always on, opt-out via config) — watches Claude Code context usage in real time. Surfaces non-blocking warnings starting at 30%, escalates at 40%, and offers a unified `/handoff` to save state before compaction.
 - **Guardrails mode** (opt-in) — enforces architectural rules like "base vs plugin" boundaries. For modular / plugin / framework projects.
 
-The indexing half is for everyone. The guardrails half is for projects where "what counts as base code" is a real rule that matters.
+Indexing + context-awareness is for everyone. Guardrails is for projects where "what counts as base code" is a real rule that matters.
 
 ---
 
@@ -80,8 +81,22 @@ Skills and commands (all available in indexing mode):
 | `decision-prompt` | **Proactive** — agent watches for rule-shaped moments (never/always/defer/veto) and offers one-line "log this? y/n" prompt. Shifts remembering-to-log from user to agent |
 | `log-decision` | Append a 4-field entry to DECISIONS.md (called by decision-prompt or user explicitly) |
 | `deferred-rollup` | Read-only query across all status memos |
-| `auto-handoff` (`/handoff`) | Write a session handoff memo at context breakpoints |
+| `auto-handoff` (`/handoff`) | Unified session shutdown — captures pending decisions, refreshes STATE.md, prunes MEMORY.md if needed, writes handoff doc. `--quick` flag = doc only, skip bundle. Replaces the old `/shutdown-bundle`. |
 | `/scribe` | Dashboard readout from STATE.md |
+
+### Context-awareness mode
+
+Always-on. Reads Claude Code's statusline JSON via a small Python script and writes the current context percentage to `~/.claude/.scribe-context`. A `UserPromptSubmit` hook reads that file each turn and, if the project is scribe-enabled (`docs/STATE.md` exists), surfaces a warning when usage crosses thresholds:
+
+| Range | Behavior |
+|---|---|
+| Below 30% | Silent |
+| 30-39% | Soft heads-up. Suggests `/handoff` or `/handoff --quick` |
+| 40%+ | Stronger nudge. Suggests `/handoff` to save before compaction |
+
+Cooldown: only re-warns when usage jumps a 5% bucket (30 → 35 → 40 → ...) so the chat isn't spammed.
+
+Statusline command points at `~/.claude/scripts/scribe-statusline-launcher` — a small wrapper that finds the latest installed scribe plugin version and runs its `hooks/statusline.py`. No `jq` dependency — uses Python 3 (already required by Claude Code itself).
 
 Works for any project type, any architecture, solo or team.
 

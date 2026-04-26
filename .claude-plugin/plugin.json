@@ -1,11 +1,11 @@
 {
   "name": "project-scribe",
-  "description": "Per-project index, decisions log, and dashboard that Claude maintains across sessions. Reconciles against git log at session start so context doesn't rot.",
-  "version": "0.3.0",
+  "description": "Per-project index, decisions log, dashboard, and live context-awareness that Claude maintains across sessions. Reconciles against git log at session start. Warns at context thresholds and offers a unified /handoff to save state before compaction.",
+  "version": "0.4.0",
   "author": {
     "name": "Michael Adams",
     "email": "forty4420@gmail.com"
   },
   "license": "MIT",
-  "keywords": ["project-memory", "session-context", "index", "decisions", "state-tracking"]
+  "keywords": ["project-memory", "session-context", "index", "decisions", "state-tracking", "context-awareness", "handoff", "claude-code"]
 }

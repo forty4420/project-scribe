@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# UserPromptSubmit hook for project-scribe context monitoring.
+#
+# Reads ~/.claude/.scribe-context (written by statusline-context-writer),
+# checks current % against thresholds, and if past 30% emits a system
+# reminder visible to Claude (and via additional_context, to the user's
+# transcript). Cooldown: only re-warn when usage jumps to a new 5% bucket.
+#
+# Gated by: cwd contains docs/STATE.md (scribe-enabled project).
+
+set -euo pipefail
+
+PROJECT_ROOT="$(pwd)"
+STATE_FILE="${PROJECT_ROOT}/docs/STATE.md"
+
+# Gate 1: must be a scribe-enabled project.
+[ -f "$STATE_FILE" ] || exit 0
+
+CTX_FILE="${HOME}/.claude/.scribe-context"
+LAST_WARN_FILE="${HOME}/.claude/.scribe-context-last-warn"
+
+# Gate 2: context file must exist (statusline has run at least once).
+[ -f "$CTX_FILE" ] || exit 0
+
+# Read current %. File format: "<pct>\n<unix-ts>\n".
+pct=$(sed -n '1p' "$CTX_FILE" 2>/dev/null || echo "")
+ts=$(sed -n '2p' "$CTX_FILE" 2>/dev/null || echo "0")
+
+# Validate: pct must be integer 0-100.
+case "$pct" in
+    ''|*[!0-9]*) exit 0 ;;
+esac
+[ "$pct" -ge 0 ] 2>/dev/null && [ "$pct" -le 100 ] 2>/dev/null || exit 0
+
+# Gate 3: data must be fresh (<120s old).
+now=$(date +%s)
+age=$((now - ts))
+[ "$age" -lt 120 ] || exit 0
+
+# Gate 4: must be at or above warning threshold (30%).
+[ "$pct" -ge 30 ] || exit 0
+
+# Compute current 5% bucket (30, 35, 40, 45, ...).
+bucket=$((pct / 5 * 5))
+
+# Cooldown: only warn if bucket changed since last warning.
+last_bucket=0
+if [ -f "$LAST_WARN_FILE" ]; then
+    last_bucket=$(cat "$LAST_WARN_FILE" 2>/dev/null || echo "0")
+    case "$last_bucket" in
+        ''|*[!0-9]*) last_bucket=0 ;;
+    esac
+fi
+
+[ "$bucket" -gt "$last_bucket" ] || exit 0
+
+# Update cooldown marker.
+printf '%s\n' "$bucket" > "$LAST_WARN_FILE"
+
+# Build the warning. 30-39 = soft, 40+ = call to action.
+if [ "$pct" -ge 40 ]; then
+    msg="Context at ${pct}%. Run /handoff to save state before compaction."
+else
+    msg="Context at ${pct}%. Heads up — getting full. Consider /handoff (or /handoff --quick for doc-only)."
+fi
+
+reminder="<scribe-context-warning>${msg}</scribe-context-warning>"
+
+# Escape for JSON.
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+reminder_escaped=$(escape_for_json "$reminder")
+
+cat <<EOF
+{
+  "additional_context": "${reminder_escaped}",
+  "hookSpecificOutput": {
+    "hookEventName": "UserPromptSubmit",
+    "additionalContext": "${reminder_escaped}"
+  }
+}
+EOF
+
+exit 0
