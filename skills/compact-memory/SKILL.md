@@ -11,6 +11,7 @@ Keep `~/.claude/projects/<slug>/memory/MEMORY.md` lean. It's the only file auto-
 
 - Explicit request: "compact memory", "clean up memory", "prune memory", "memory review"
 - At session start if `reconcile-project-state` detects MEMORY.md > 180 lines
+- At session start if ≥3 memory files score below 0.25 in decay pass
 - On month boundary (first session of a new month, if tracking that)
 - User observes memory giving stale or conflicting recommendations
 
@@ -19,8 +20,55 @@ Keep `~/.claude/projects/<slug>/memory/MEMORY.md` lean. It's the only file auto-
 1. Find the memory directory. Default path template: `~/.claude/projects/<cwd-slug>/memory/`. Slug = cwd path with `/` replaced by `-` and prefixed with `C--` on Windows. If directory missing → report "no project memory at <expected path>" and STOP.
 2. Read `MEMORY.md` (the index). Count lines. Record size.
 3. Enumerate all `*.md` files in the directory (the actual memory files — each pointed to from MEMORY.md). Record their sizes + last-modified dates.
+4. Ignore `.bump-log` — internal state file owned by the `stop-mark-memory` hook (per-session dedupe + content hashes). Not a memory file. Pruned automatically (entries older than 7 days dropped on next hook run).
 
 ## Analysis passes
+
+### Pass 0: Decay scoring (run first)
+
+Each memory file should have YAML frontmatter tracking usage:
+
+```yaml
+---
+last_used: 2026-04-15   # ISO date the Stop hook last saw this file referenced
+hits: 7                  # cumulative reference count
+---
+```
+
+The `stop-mark-memory` hook (registered in `hooks/hooks.json`) updates these
+fields automatically when Claude references a memory file in a response.
+
+**Backfill on first run:**
+For any file missing frontmatter, inject:
+```yaml
+---
+last_used: <file mtime as ISO date>
+hits: 0
+---
+```
+Do this in one pass at the start of the skill, before scoring. After backfill,
+all files have the fields.
+
+**Score formula (with hit decay):**
+```
+weeks_idle    = floor((today - last_used) / 7 days)
+decayed_hits  = hits * (0.9 ^ weeks_idle)
+score         = (decayed_hits + 1) / (weeks_idle + 1)
+```
+
+Decay rate 0.9 per week means hits half-life ≈ 6.6 weeks. A file hit 50 times
+6 months ago scores like ~3 hits today; one hit last week scores like ~0.9.
+
+**Decay candidates:**
+- `score < 0.25` AND `weeks_idle > 8`  → DECAY-ARCHIVE candidate
+- `score < 0.10` AND `weeks_idle > 16` → DECAY-DELETE candidate (still archived first)
+- `hits >= 10` → never auto-archive regardless of idle (load-bearing protection)
+
+Add these as new rows in the proposal table:
+
+| Action        | File        | Reason                              | Preview |
+|---------------|-------------|-------------------------------------|---------|
+| DECAY-ARCHIVE | feedback_x.md | score 0.18, idle 11w, decayed_hits 0.4 | Move to memory/archive/ |
 
 ### Pass 1: Duplicate detection
 Compare every pair of memory files. If two files share:

@@ -1,0 +1,171 @@
+#!/usr/bin/env bash
+# Stop hook for project-scribe plugin.
+#
+# Scans the session transcript for references to memory files in
+# ~/.claude/projects/<slug>/memory/*.md. For each unique file referenced,
+# bumps last_used + hits frontmatter. Lets compact-memory's decay scoring
+# distinguish active from idle memories.
+#
+# Idempotency:
+# - Per-session dedupe: each (session_id, basename) pair bumped at most
+#   once. Stop fires every turn-end; without dedupe, hits inflates wildly.
+# - Content-hash skip: if the bump would produce the same file content
+#   (e.g. same date, same hits — possible after dedupe survives a crash),
+#   skip the write. Prevents no-op writes from dirtying git.
+#
+# State file: <MEM_DIR>/.bump-log
+# Format: <session_id>\t<basename>\t<sha256>
+# Pruned: lines older than 7 days dropped on each run.
+#
+# Silent no-op if:
+# - Project has no docs/STATE.md (not scribe-enabled)
+# - Memory dir missing
+# - Transcript path not provided
+
+set -euo pipefail
+
+PROJECT_ROOT="$(pwd)"
+STATE_FILE="${PROJECT_ROOT}/docs/STATE.md"
+
+# Bail if not scribe-enabled
+[ -f "$STATE_FILE" ] || exit 0
+
+# Resolve memory dir slug. Convert /c/Users/... -> C--Users-...
+SLUG="$(echo "$PROJECT_ROOT" | sed -E 's|^/([a-zA-Z])/|\U\1--|; s|/|-|g')"
+MEM_DIR="${HOME}/.claude/projects/${SLUG}/memory"
+BUMP_LOG="${MEM_DIR}/.bump-log"
+
+[ -d "$MEM_DIR" ] || exit 0
+
+# Read transcript path from hook stdin JSON
+INPUT="$(cat)"
+TRANSCRIPT_PATH="$(echo "$INPUT" | grep -oE '"transcript_path"[[:space:]]*:[[:space:]]*"[^"]+"' | sed 's/.*"\([^"]*\)"$/\1/')"
+
+[ -n "$TRANSCRIPT_PATH" ] || exit 0
+[ -f "$TRANSCRIPT_PATH" ] || exit 0
+
+# Session ID = transcript filename without extension
+SESSION_ID="$(basename "$TRANSCRIPT_PATH" .jsonl)"
+
+TODAY="$(date +%Y-%m-%d)"
+
+# Prune bump-log entries older than 7 days. Touches log mtime as proxy
+# for entry age — entire file rewritten when too old.
+if [ -f "$BUMP_LOG" ]; then
+    log_age_days="$(( ( $(date +%s) - $(stat -c %Y "$BUMP_LOG" 2>/dev/null || stat -f %m "$BUMP_LOG" 2>/dev/null || echo 0) ) / 86400 ))"
+    if [ "$log_age_days" -gt 7 ]; then
+        : > "$BUMP_LOG"
+    fi
+fi
+touch "$BUMP_LOG"
+
+# Helper: check if (session_id, basename) already bumped this session
+already_bumped() {
+    local sid="$1" base="$2"
+    grep -qF "${sid}"$'\t'"${base}"$'\t' "$BUMP_LOG" 2>/dev/null
+}
+
+# Helper: append bump record
+record_bump() {
+    local sid="$1" base="$2" hash="$3"
+    printf '%s\t%s\t%s\n' "$sid" "$base" "$hash" >> "$BUMP_LOG"
+}
+
+# Helper: SHA-256 of a file. Falls back across common tools.
+sha256_file() {
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum "$1" | awk '{print $1}'
+    elif command -v shasum >/dev/null 2>&1; then
+        shasum -a 256 "$1" | awk '{print $1}'
+    else
+        # No hasher available — return empty so dedupe falls back to
+        # session-only dedupe without content check
+        echo ""
+    fi
+}
+
+# Find memory files referenced in transcript (basename match)
+referenced=()
+for f in "$MEM_DIR"/*.md; do
+    [ -f "$f" ] || continue
+    base="$(basename "$f")"
+    [ "$base" = "MEMORY.md" ] && continue
+    if grep -qF "$base" "$TRANSCRIPT_PATH" 2>/dev/null; then
+        referenced+=("$f")
+    fi
+done
+
+[ ${#referenced[@]} -eq 0 ] && exit 0
+
+# Bump frontmatter on each referenced file (with dedupe + hash skip)
+for f in "${referenced[@]}"; do
+    base="$(basename "$f")"
+
+    # Piece 1: per-session dedupe
+    if already_bumped "$SESSION_ID" "$base"; then
+        continue
+    fi
+
+    # Build new content in tmp
+    head_block="$(head -n 10 "$f")"
+    tmp="$(mktemp)"
+
+    if echo "$head_block" | head -n 1 | grep -q '^---$'; then
+        current_hits="$(grep -m1 '^hits:' "$f" | sed 's/hits:[[:space:]]*//' | tr -d '[:space:]')"
+        [ -z "$current_hits" ] && current_hits=0
+        new_hits=$((current_hits + 1))
+
+        awk -v today="$TODAY" -v hits="$new_hits" '
+            BEGIN { in_fm=0; fm_done=0 }
+            /^---$/ && !fm_done {
+                if (in_fm == 0) { in_fm=1; print; next }
+                else { in_fm=0; fm_done=1; print; next }
+            }
+            in_fm && /^last_used:/ { print "last_used: " today; next }
+            in_fm && /^hits:/ { print "hits: " hits; next }
+            { print }
+        ' "$f" > "$tmp"
+
+        if ! grep -q '^last_used:' "$tmp"; then
+            awk -v today="$TODAY" -v hits="$new_hits" '
+                BEGIN { in_fm=0; injected=0 }
+                /^---$/ {
+                    if (in_fm == 0) { in_fm=1; print; next }
+                    else if (!injected) {
+                        print "last_used: " today
+                        print "hits: " hits
+                        injected=1
+                        in_fm=0
+                        print
+                        next
+                    }
+                }
+                { print }
+            ' "$tmp" > "${tmp}.2"
+            mv "${tmp}.2" "$tmp"
+        fi
+    else
+        # No frontmatter. Prepend block.
+        {
+            printf -- "---\nlast_used: %s\nhits: 1\n---\n\n" "$TODAY"
+            cat "$f"
+        } > "$tmp"
+    fi
+
+    # Piece 2: content-hash skip. Compare new content to existing.
+    new_hash="$(sha256_file "$tmp")"
+    old_hash="$(sha256_file "$f")"
+
+    if [ -n "$new_hash" ] && [ "$new_hash" = "$old_hash" ]; then
+        # No-op write. Record bump (so future runs in this session
+        # also dedupe) but skip the file replace.
+        record_bump "$SESSION_ID" "$base" "$new_hash"
+        rm -f "$tmp"
+        continue
+    fi
+
+    mv "$tmp" "$f"
+    record_bump "$SESSION_ID" "$base" "$new_hash"
+done
+
+exit 0
