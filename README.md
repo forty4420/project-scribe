@@ -1,6 +1,16 @@
 # project-scribe
 
-Your project's record-keeper. Tracks state, decisions, and live context so nothing gets lost between sessions.
+![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-c97539?logo=claude)
+![Version](https://img.shields.io/badge/version-0.6.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+A Claude Code plugin for persistent memory, context handoff, decisions log, and session continuity. Your project's record-keeper — tracks state, decisions, and live context so nothing gets lost between sessions.
+
+**Powered-by-Scribe badge** for your own README:
+
+```markdown
+[![memory: scribe](https://img.shields.io/badge/memory-scribe-blue)](https://github.com/forty4420/project-scribe)
+```
 
 **Three modes in one plugin:**
 
