@@ -2,6 +2,18 @@
 
 All notable changes to project-scribe. Newest first.
 
+## v0.6.1 — README namespace-prefix clarification
+
+### Changed
+
+- README documents the `/project-scribe:<command>` namespace-prefix invocation pattern. Bare slash invocations (`/scribe-status`, `/xref-lint`) return "Unknown command" — Anthropic's plugin slash commands require the namespace prefix. Discovered during v0.6.0 Phase 10 smoke test.
+- New `## Invoking skills and slash commands` section near the top of the README with the full slash list and a note about natural-language invocation.
+- Skills + commands tables updated to show namespace-prefixed slashes (`/project-scribe:scribe`, `/project-scribe:handoff`, `/project-scribe:audit`, etc.).
+
+### Notes
+
+- No code changes. Documentation patch only.
+
 ## v0.6.0 — Feature stack
 
 ### Added

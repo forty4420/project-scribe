@@ -1,7 +1,7 @@
 # project-scribe
 
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-c97539?logo=claude)
-![Version](https://img.shields.io/badge/version-0.6.0-blue)
+![Version](https://img.shields.io/badge/version-0.6.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![CI](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml/badge.svg)](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml)
 
@@ -16,7 +16,7 @@ A Claude Code plugin for persistent memory, context handoff, decisions log, and 
 **Three modes in one plugin:**
 
 - **Indexing mode** (always on) — tracks project state, decisions, specs, and plans. Works for any project.
-- **Context-awareness mode** (always on, opt-out via config) — watches Claude Code context usage in real time. Surfaces non-blocking warnings starting at 30%, escalates at 40%, and offers a unified `/handoff` to save state before compaction.
+- **Context-awareness mode** (always on, opt-out via config) — watches Claude Code context usage in real time. Surfaces non-blocking warnings starting at 30%, escalates at 40%, and offers a unified `/project-scribe:handoff` to save state before compaction.
 - **Guardrails mode** (opt-in) — enforces architectural rules like "base vs plugin" boundaries. For modular / plugin / framework projects.
 
 Indexing + context-awareness is for everyone. Guardrails is for projects where "what counts as base code" is a real rule that matters.
@@ -48,6 +48,24 @@ mklink /J "%USERPROFILE%\.claude\plugins\project-scribe" "C:\path\to\project-scr
 
 # Restart Claude Code.
 ```
+
+---
+
+## Invoking skills and slash commands
+
+All scribe slash commands need the namespace prefix `/project-scribe:` — bare `/scribe-status` returns "Unknown command". This matches the Anthropic plugin convention.
+
+```
+/project-scribe:scribe          # dashboard readout from STATE.md
+/project-scribe:scribe-status   # decay system + Stop hook health (read-only)
+/project-scribe:xref-lint       # cross-reference lint (read-only)
+/project-scribe:compact-decisions
+/project-scribe:redact
+/project-scribe:lock-base
+/project-scribe:unlock-base
+```
+
+For natural-language invocation, you can also type the trigger phrase verbatim — e.g. "scribe status", "lint xref", "handoff", "compact memory". The agent invokes the matching skill automatically.
 
 ---
 
@@ -92,8 +110,10 @@ Skills and commands (all available in indexing mode):
 | `decision-prompt` | **Proactive** — agent watches for rule-shaped moments (never/always/defer/veto) and offers one-line "log this? y/n" prompt. Shifts remembering-to-log from user to agent |
 | `log-decision` | Append a 4-field entry to DECISIONS.md (called by decision-prompt or user explicitly) |
 | `deferred-rollup` | Read-only query across all status memos |
-| `auto-handoff` (`/handoff`) | Unified session shutdown — captures pending decisions, refreshes STATE.md, prunes MEMORY.md if needed, writes handoff doc. `--quick` flag = doc only, skip bundle. Replaces the old `/shutdown-bundle`. |
-| `/scribe` | Dashboard readout from STATE.md |
+| `auto-handoff` (`/project-scribe:handoff`) | Unified session shutdown — captures pending decisions, refreshes STATE.md, prunes MEMORY.md if needed, writes handoff doc. `--quick` flag = doc only, skip bundle. Replaces the old `/shutdown-bundle`. |
+| `/project-scribe:scribe` | Dashboard readout from STATE.md |
+| `/project-scribe:scribe-status` | Decay-system + Stop-hook diagnostic (read-only). v0.6.0+. |
+| `/project-scribe:xref-lint` | Cross-reference lint — orphan plans, stale memo links, contradiction probes (read-only). v0.6.0+. |
 
 ### Context-awareness mode
 
@@ -102,8 +122,8 @@ Always-on. Reads Claude Code's statusline JSON via a small Python script and wri
 | Range | Behavior |
 |---|---|
 | Below 30% | Silent |
-| 30-39% | Soft heads-up. Suggests `/handoff` or `/handoff --quick` |
-| 40%+ | Stronger nudge. Suggests `/handoff` to save before compaction |
+| 30-39% | Soft heads-up. Suggests `/project-scribe:handoff` or `/project-scribe:handoff --quick` |
+| 40%+ | Stronger nudge. Suggests `/project-scribe:handoff` to save before compaction |
 
 Cooldown: only re-warns when usage jumps a 5% bucket (30 → 35 → 40 → ...) so the chat isn't spammed.
 
@@ -116,15 +136,15 @@ Auto-warnings depend on Claude Code's statusline running, which it currently doe
 **What this means in practice:**
 
 - **CLI users:** auto-warnings fire as expected. Statusline updates after every message, hook reads it on the next prompt, warning surfaces in chat.
-- **Desktop users:** desktop already shows context % in its own UI (bottom-right corner). Use that as the visual cue and run `/handoff` manually when you reach a level you're comfortable handing off at. Scribe still does everything else — `/handoff` works identically on both.
+- **Desktop users:** desktop already shows context % in its own UI (bottom-right corner). Use that as the visual cue and run `/project-scribe:handoff` manually when you reach a level you're comfortable handing off at. Scribe still does everything else — `/project-scribe:handoff` works identically on both.
 
 When Anthropic ships statusline support on desktop, scribe will pick it up automatically with no code changes.
 
-#### `/handoff` clipboard auto-copy
+#### `/project-scribe:handoff` clipboard auto-copy
 
-When `/handoff` finishes, the "Paste-this prompt" block is automatically copied to your clipboard (uses `clip.exe` on Windows, `pbcopy` on macOS, `xclip`/`xsel`/`wl-copy` on Linux). The same prompt is also printed in chat as a fallback.
+When `/project-scribe:handoff` finishes, the "Paste-this prompt" block is automatically copied to your clipboard (uses `clip.exe` on Windows, `pbcopy` on macOS, `xclip`/`xsel`/`wl-copy` on Linux). The same prompt is also printed in chat as a fallback.
 
-Workflow becomes: `/handoff` → wait for "✅ Handoff complete" → open new chat in sidebar → Ctrl+V (Cmd+V on Mac). Two clicks, no manual copy.
+Workflow becomes: `/project-scribe:handoff` → wait for "✅ Handoff complete" → open new chat in sidebar → Ctrl+V (Cmd+V on Mac). Two clicks, no manual copy.
 
 Works for any project type, any architecture, solo or team.
 
@@ -143,9 +163,9 @@ Additional skills:
 
 | Skill / Command | What it does |
 |---|---|
-| `base-audit` (`/audit`) | Scans current diff against BASE_ALLOWLIST before commit |
-| `unlock-base` (`/unlock-base`) | Temporarily removes deny rules for rare legitimate edits to locked dirs |
-| `lock-base` (`/lock-base`) | Restores deny rules after an unlock session |
+| `base-audit` (`/project-scribe:audit`) | Scans current diff against BASE_ALLOWLIST before commit |
+| `unlock-base` (`/project-scribe:unlock-base`) | Temporarily removes deny rules for rare legitimate edits to locked dirs |
+| `lock-base` (`/project-scribe:lock-base`) | Restores deny rules after an unlock session |
 | `auto-handoff` | Adds Step 0 drift pre-flight — flags uncommitted violations in the handoff doc |
 
 Full design + threat model: **[docs/guardrails.md](docs/guardrails.md)**.
