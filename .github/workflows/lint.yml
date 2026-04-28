@@ -1,0 +1,66 @@
+name: lint
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  shellcheck:
+    name: shellcheck (hooks)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run shellcheck on hook scripts
+        uses: ludeeus/action-shellcheck@master
+        env:
+          SHELLCHECK_OPTS: -e SC1091 -e SC2034
+        with:
+          scandir: ./hooks
+          ignore_paths: hooks/run-hook.cmd
+          severity: warning
+
+  json-lint:
+    name: json-lint (hooks.json + plugin.json)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate hooks.json
+        run: jq empty < hooks/hooks.json
+      - name: Validate plugin.json
+        run: jq empty < .claude-plugin/plugin.json
+
+  frontmatter-lint:
+    name: skill frontmatter
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify every SKILL.md opens + closes with ---
+        shell: bash
+        run: |
+          set -e
+          fail=0
+          for f in skills/*/SKILL.md; do
+            [ -f "$f" ] || continue
+            first=$(head -n 1 "$f")
+            if [ "$first" != "---" ]; then
+              echo "::error file=$f::missing opening --- on line 1"
+              fail=1
+              continue
+            fi
+            # Look for closing --- in lines 2..20
+            closer=$(awk 'NR>1 && NR<=20 && $0=="---" {print NR; exit}' "$f")
+            if [ -z "$closer" ]; then
+              echo "::error file=$f::no closing --- found in lines 2-20"
+              fail=1
+            fi
+          done
+          if [ "$fail" -eq 1 ]; then
+            echo "frontmatter check failed"
+            exit 1
+          fi
+          echo "frontmatter check passed for all SKILL.md files"
