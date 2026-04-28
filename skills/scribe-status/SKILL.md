@@ -82,8 +82,9 @@ For files with no frontmatter, status = `no-frontmatter` and score columns =
 
 ## Inventory pass
 
-For each `*.md` file in `<MEM_DIR>` (skip `MEMORY.md` — it's the index, not a
-memory entry):
+For each `*.md` file in `<MEM_DIR>` AND in `<MEM_DIR>/daily/` (skip `MEMORY.md`
+— it's the index, not a memory entry; daily-note files at `daily/YYYY-MM-DD.md`
+participate in decay scoring like any other memory file):
 
 1. Read first 10 lines. Detect frontmatter via line 1 = `---`.
 2. If frontmatter present, parse:

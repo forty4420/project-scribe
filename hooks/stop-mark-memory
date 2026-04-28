@@ -89,9 +89,12 @@ sha256_file() {
     fi
 }
 
-# Find memory files referenced in transcript (basename match)
+# Find memory files referenced in transcript (basename match).
+# Walks both the top-level memory dir AND the daily/ subdir, so
+# daily-note files (memory/daily/YYYY-MM-DD.md, v0.6.0+) get their
+# frontmatter bumped the same way as topical memories.
 referenced=()
-for f in "$MEM_DIR"/*.md; do
+for f in "$MEM_DIR"/*.md "$MEM_DIR"/daily/*.md; do
     [ -f "$f" ] || continue
     base="$(basename "$f")"
     [ "$base" = "MEMORY.md" ] && continue
