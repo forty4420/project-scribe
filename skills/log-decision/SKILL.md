@@ -1,6 +1,6 @@
 ---
 name: log-decision
-description: Use when the user asks to log a decision, save a rule, record a trade-off, or when you recognize a rule-shaped statement in the conversation ("no users yet", "always do X for Y", "defer Z until W") and want to capture it. Appends a 4-field entry to the top of docs/DECISIONS.md.
+description: Use when the user asks to log a decision, save a rule, record a trade-off, or when you recognize a rule-shaped statement in the conversation ("no users yet", "always do X for Y", "defer Z until W") and want to capture it. Appends a 5-field entry (Context / Decision / Alternatives considered / Revisit when) to the top of docs/DECISIONS.md.
 ---
 
 # Log a project decision
@@ -20,16 +20,19 @@ Append-only decision log. Never edit past entries.
 1. Check for `docs/DECISIONS.md`. If missing → suggest running init-project-scribe first.
 2. Confirm the user wants to log this (if auto-proposed — do not write without confirmation).
 
-## Gather the 4 fields
+## Gather the 5 fields
 
 Plain-language prompt, one at a time or in one block depending on user preference:
 
 1. **Title** — short, 3-8 words. Example: "Break things freely until first external user"
 2. **Context** — why this decision was needed. 2-4 sentences. Example: "Solo dev, pre-release, no installed base. Every migration/deprecation cycle we add now is premature."
 3. **Decision** — what was decided. 2-4 sentences. Example: "No migration paths, no deprecation cycles. Rename and delete freely. Config keys can change schema."
-4. **Revisit when** — what condition would make this stale. 1 sentence. Example: "First non-Michael user installs."
+4. **Alternatives considered** — what was rejected, and the reason. Optional but encouraged. Single short follow-up question: "Any alternatives considered?" If user has a list, capture it. If user says "none" or skips, default to `"None recorded — add when relevant."` Example: "Considered SemVer-style deprecation cycles; rejected — overhead not justified for solo pre-release work."
+5. **Revisit when** — what condition would make this stale. 1 sentence. Example: "First non-Michael user installs."
 
 If the user wants to skip Revisit-when, default to "Revisit when this decision feels wrong."
+
+**Backwards compatibility:** old 4-field entries (no Alternatives line) remain valid. Do not retroactively edit past entries to add the field. The field is required only on new entries.
 
 ## Format the entry
 
@@ -39,6 +42,8 @@ If the user wants to skip Revisit-when, default to "Revisit when this decision f
 **Context:** <context text>
 
 **Decision:** <decision text>
+
+**Alternatives considered:** <alternatives text or "None recorded — add when relevant.">
 
 **Revisit when:** <revisit text>
 ```
