@@ -24,6 +24,11 @@
 
 set -euo pipefail
 
+debug_log() {
+    [ "${SCRIBE_DEBUG:-0}" = "1" ] || return 0
+    printf '%s %s %s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "stop-mark-memory" "$1" "$2" >> "${HOME}/.scribe-debug.log" 2>/dev/null || true
+}
+
 PROJECT_ROOT="$(pwd)"
 STATE_FILE="${PROJECT_ROOT}/docs/STATE.md"
 

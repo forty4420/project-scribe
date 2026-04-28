@@ -165,6 +165,12 @@ Indexing side keeps working either way.
 
 ---
 
+## Troubleshooting
+
+Set `SCRIBE_DEBUG=1` in your shell environment to enable diagnostic logging from scribe's hooks. When set, each fire of `pre-compact`, `session-start`, `stop-mark-memory`, and `userprompt-context-warn` appends a line to `~/.scribe-debug.log` with timestamp, hook name, action, and a short detail (file path or skip reason). Default is off — silent no-op behavior is preserved unless the env var is explicitly set. Tail the log to confirm hooks are firing if you suspect they're not.
+
+---
+
 ## License
 
 MIT
