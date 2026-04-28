@@ -174,3 +174,19 @@ Tell the user what was created. Flag any edge cases:
 - Existing status memos were linked but not moved
 
 Point them at the first thing to try: `/scribe` to see the dashboard, or "log a decision" to capture their first rule.
+
+## Install-completion CTA (one-shot, init only)
+
+Once the success block has been printed, append this CTA exactly once. **Do not** print this on every session start, every reconcile, or any other skill — it is install-only. Nag-spam is a fast way to get the plugin uninstalled.
+
+```
+Scribe is watching your project.
+
+⭐ Star the repo if Scribe earns its keep:
+   https://github.com/forty4420/project-scribe
+
+💬 Found a bug or have feedback? Open an issue:
+   https://github.com/forty4420/project-scribe/issues
+```
+
+Hard rule: emit on init success only. If init failed (any of the six core files didn't write, or the user aborted), skip the CTA. The user has bigger problems to solve.
