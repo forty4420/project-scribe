@@ -19,8 +19,9 @@ Keep `~/.claude/projects/<slug>/memory/MEMORY.md` lean. It's the only file auto-
 
 1. Find the memory directory. Default path template: `~/.claude/projects/<cwd-slug>/memory/`. Slug = cwd path with `/` replaced by `-` and prefixed with `C--` on Windows. If directory missing → report "no project memory at <expected path>" and STOP.
 2. Read `MEMORY.md` (the index). Count lines. Record size.
-3. Enumerate all `*.md` files in the directory (the actual memory files — each pointed to from MEMORY.md). Record their sizes + last-modified dates.
+3. Enumerate all `*.md` files in the directory AND in `daily/` (the actual memory files — each pointed to from MEMORY.md, plus daily-note files under `memory/daily/`). Record their sizes + last-modified dates.
 4. Ignore `.bump-log` — internal state file owned by the `stop-mark-memory` hook (per-session dedupe + content hashes). Not a memory file. Pruned automatically (entries older than 7 days dropped on next hook run).
+5. **Daily-note files** — files under `memory/daily/YYYY-MM-DD.md` participate in decay scoring exactly like any other memory file. The `stop-mark-memory` hook bumps their frontmatter the same way. Treat them as a regular row in the proposal table; no special-casing needed. Auto-capture into daily notes is deferred to v0.7.0 — for now the directory exists as a manual sink.
 
 ## Analysis passes
 

@@ -4,3 +4,4 @@ Thumbs.db
 *.bak
 node_modules/
 .claude/
+docs/.scribe-snapshot.md

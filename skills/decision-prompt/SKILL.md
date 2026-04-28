@@ -66,6 +66,7 @@ Blocking prompts mid-brainstorm break flow. The user is answering a real questio
 
 **User says "log it" / "y" / "save that rule":**
 - Invoke `log-decision` skill with the paraphrased rule + the reason (extract from conversation)
+- If rejected alternatives surfaced in the conversation, hand them to `log-decision` as the **Alternatives considered** field. If none surfaced, ask the user once: "Any alternatives considered?" and pass through whatever they say. If user skips or says "none", let `log-decision` default the field to `"None recorded — add when relevant."`
 - Confirm inline: `Logged: <title>`
 - Don't block the real work — do this alongside whatever else they asked
 

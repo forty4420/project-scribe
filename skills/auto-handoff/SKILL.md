@@ -22,6 +22,19 @@ This skill replaces the old standalone handoff + the deprecated
 3. **Session-end:** before running `/compact`, offer handoff as a safer
    alternative.
 
+### Auto-snapshot safety net (PreCompact)
+
+The `pre-compact` hook now writes a minimal snapshot to
+`docs/.scribe-snapshot.md` automatically before context compact events.
+The snapshot captures the last user prompt, current focus, and last 3
+DECISIONS headers. The next SessionStart consumes it as
+`additional_context`, then deletes the file (one-shot).
+
+Explicit `/handoff` still works as the canonical override and is
+preferred for important transitions — the auto-snapshot is a safety
+net for when the user forgets, not a replacement for a real handoff
+doc. The snapshot is gitignored and never committed.
+
 ## Modes
 
 - **Default (full):** runs the bundle (decisions → state → memory → handoff doc).

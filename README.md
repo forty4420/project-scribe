@@ -1,6 +1,17 @@
 # project-scribe
 
-Your project's record-keeper. Tracks state, decisions, and live context so nothing gets lost between sessions.
+![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-c97539?logo=claude)
+![Version](https://img.shields.io/badge/version-0.6.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+[![CI](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml/badge.svg)](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml)
+
+A Claude Code plugin for persistent memory, context handoff, decisions log, and session continuity. Your project's record-keeper — tracks state, decisions, and live context so nothing gets lost between sessions.
+
+**Powered-by-Scribe badge** for your own README:
+
+```markdown
+[![memory: scribe](https://img.shields.io/badge/memory-scribe-blue)](https://github.com/forty4420/project-scribe)
+```
 
 **Three modes in one plugin:**
 
@@ -162,6 +173,12 @@ If your user-global `~/.claude/settings.json` has `Write(*)`, `Edit(*)`, or `Not
 4. SessionStart hook will stop injecting base-scope rules automatically (it checks for the allowlist).
 
 Indexing side keeps working either way.
+
+---
+
+## Troubleshooting
+
+Set `SCRIBE_DEBUG=1` in your shell environment to enable diagnostic logging from scribe's hooks. When set, each fire of `pre-compact`, `session-start`, `stop-mark-memory`, and `userprompt-context-warn` appends a line to `~/.scribe-debug.log` with timestamp, hook name, action, and a short detail (file path or skip reason). Default is off — silent no-op behavior is preserved unless the env var is explicitly set. Tail the log to confirm hooks are firing if you suspect they're not.
 
 ---
 

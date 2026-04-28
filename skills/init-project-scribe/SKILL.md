@@ -83,6 +83,12 @@ All paths are relative to project root.
 
 6. **`docs/status/TEMPLATE.md`** — write from `templates/spec-status.md.tmpl` verbatim.
 
+7. **Memory dir + daily-note skeleton** — compute the project memory dir slug (cwd path with `/` → `-`, drive letter uppercased on Windows; same rule as `hooks/stop-mark-memory` line 34). Memory dir path: `~/.claude/projects/<slug>/memory/`. Create the dir if missing, then create `memory/daily/` underneath. Leave both empty — the Stop hook + `compact-memory` populate them organically as the project runs.
+
+   The `memory/daily/` directory is the daily-note layer (skeleton in v0.6.0). Convention: one file per day, named `YYYY-MM-DD.md`, holding a running log of session work. Files in this dir are regular memory files for decay/scoring purposes — `stop-mark-memory` bumps their frontmatter via the same `*.md` glob, and `compact-memory` includes them in Pass 0 decay scoring (no special-casing).
+
+   **v0.6.0 status:** users can manually write to daily files. Auto-capture (LLM-summarized turn capture into the day's file) is deferred to v0.7.0 once the layer is proven in real use.
+
 ## Optional — base-scope guardrails
 
 After writing the six core files, ask the user **one more question**. Frame it as a decision, not a yes/no:
@@ -168,3 +174,19 @@ Tell the user what was created. Flag any edge cases:
 - Existing status memos were linked but not moved
 
 Point them at the first thing to try: `/scribe` to see the dashboard, or "log a decision" to capture their first rule.
+
+## Install-completion CTA (one-shot, init only)
+
+Once the success block has been printed, append this CTA exactly once. **Do not** print this on every session start, every reconcile, or any other skill — it is install-only. Nag-spam is a fast way to get the plugin uninstalled.
+
+```
+Scribe is watching your project.
+
+⭐ Star the repo if Scribe earns its keep:
+   https://github.com/forty4420/project-scribe
+
+💬 Found a bug or have feedback? Open an issue:
+   https://github.com/forty4420/project-scribe/issues
+```
+
+Hard rule: emit on init success only. If init failed (any of the six core files didn't write, or the user aborted), skip the CTA. The user has bigger problems to solve.

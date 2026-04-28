@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+# PreCompact hook for project-scribe plugin.
+#
+# Fires before Claude Code compacts the conversation context. Writes a
+# minimal snapshot to docs/.scribe-snapshot.md that the next SessionStart
+# will inject as additional_context, then delete (one-shot consumption).
+#
+# Bulletproof handoff: even if the user never runs /handoff explicitly,
+# compaction won't lose the last user prompt + current focus + recent
+# decisions.
+#
+# Snapshot is gitignored (docs/.scribe-snapshot.md) — never committed.
+#
+# Silent no-op if:
+# - Project has no docs/STATE.md (not scribe-enabled)
+#
+# Exit 0 always — never block compaction.
+
+set -uo pipefail
+
+debug_log() {
+    [ "${SCRIBE_DEBUG:-0}" = "1" ] || return 0
+    printf '%s %s %s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "pre-compact" "$1" "$2" >> "${HOME}/.scribe-debug.log" 2>/dev/null || true
+}
+
+PROJECT_ROOT="$(pwd)"
+STATE_FILE="${PROJECT_ROOT}/docs/STATE.md"
+DECISIONS_FILE="${PROJECT_ROOT}/docs/DECISIONS.md"
+SNAPSHOT_FILE="${PROJECT_ROOT}/docs/.scribe-snapshot.md"
+
+# Bail silent if not a scribe-enabled project.
+if [ ! -f "$STATE_FILE" ]; then
+    debug_log "skip" "no-state-file"
+    exit 0
+fi
+
+debug_log "start" "$PROJECT_ROOT"
+
+# Read transcript stdin JSON. Hook payload includes a transcript_path
+# pointing at the JSONL file with all session turns. Last user turn
+# is the most useful single piece of context to preserve.
+INPUT="$(cat 2>/dev/null || echo '')"
+TRANSCRIPT_PATH=""
+if [ -n "$INPUT" ]; then
+    TRANSCRIPT_PATH="$(printf '%s' "$INPUT" | grep -oE '"transcript_path"[[:space:]]*:[[:space:]]*"[^"]+"' | sed 's/.*"\([^"]*\)"$/\1/' || true)"
+fi
+
+# Extract last user turn from transcript (best effort).
+last_user_prompt=""
+if [ -n "$TRANSCRIPT_PATH" ] && [ -f "$TRANSCRIPT_PATH" ]; then
+    # Each line in the JSONL transcript is a JSON object. Look for
+    # entries with role:user and extract content. Take the last one.
+    # Content may be a plain string or an array of blocks; we grab
+    # the raw substring and trim to keep this dependency-free.
+    last_user_prompt="$(grep -E '"role"[[:space:]]*:[[:space:]]*"user"' "$TRANSCRIPT_PATH" 2>/dev/null \
+        | tail -n 1 \
+        | grep -oE '"content"[[:space:]]*:[[:space:]]*"[^"]*"' \
+        | head -n 1 \
+        | sed 's/^"content"[[:space:]]*:[[:space:]]*"//' \
+        | sed 's/"$//' || true)"
+    # Truncate to 500 chars to keep snapshot small.
+    if [ "${#last_user_prompt}" -gt 500 ]; then
+        last_user_prompt="${last_user_prompt:0:500}..."
+    fi
+fi
+
+# Extract current focus from STATE.md (lines after "## Current focus"
+# until the next "## " heading).
+current_focus="$(awk '
+    /^## Current focus/ { in_block=1; next }
+    in_block && /^## / { exit }
+    in_block { print }
+' "$STATE_FILE" 2>/dev/null | sed '/^[[:space:]]*$/d' | head -n 5)"
+
+# Extract next up from STATE.md.
+next_up="$(awk '
+    /^## Next up/ { in_block=1; next }
+    in_block && /^## / { exit }
+    in_block { print }
+' "$STATE_FILE" 2>/dev/null | sed '/^[[:space:]]*$/d' | head -n 5)"
+
+# Extract last shipped block.
+last_shipped="$(awk '
+    /^## Last shipped/ { in_block=1; next }
+    in_block && /^## / { exit }
+    in_block { print }
+' "$STATE_FILE" 2>/dev/null | sed '/^[[:space:]]*$/d' | head -n 5)"
+
+# Extract last 3 DECISIONS entry headers ("## YYYY-MM-DD — title" lines).
+decisions_headers=""
+if [ -f "$DECISIONS_FILE" ]; then
+    decisions_headers="$(grep -E '^## [0-9]{4}-[0-9]{2}-[0-9]{2}' "$DECISIONS_FILE" 2>/dev/null | head -n 3 || true)"
+fi
+
+# Compose snapshot. P1 always included. P2 (in-flight files) omitted
+# in this version — risky to extract from transcript without a parser
+# and not load-bearing. P3 (next up) included since it's small.
+TODAY="$(date '+%Y-%m-%d %H:%M:%S')"
+
+{
+    printf '<!-- scribe-snapshot generated %s -->\n' "$TODAY"
+    printf '# Pre-compact snapshot\n\n'
+    printf '_Auto-written by the PreCompact hook before context compaction. The next SessionStart consumes and deletes this file._\n\n'
+
+    if [ -n "$last_user_prompt" ]; then
+        printf '## Last user prompt\n\n'
+        printf '> %s\n\n' "$last_user_prompt"
+    fi
+
+    if [ -n "$current_focus" ]; then
+        printf '## Current focus (from STATE.md)\n\n'
+        printf '%s\n\n' "$current_focus"
+    fi
+
+    if [ -n "$decisions_headers" ]; then
+        printf '## Last 3 decisions\n\n'
+        printf '%s\n\n' "$decisions_headers"
+    fi
+
+    if [ -n "$last_shipped" ]; then
+        printf '## Last shipped\n\n'
+        printf '%s\n\n' "$last_shipped"
+    fi
+
+    if [ -n "$next_up" ]; then
+        printf '## Next up\n\n'
+        printf '%s\n\n' "$next_up"
+    fi
+} > "$SNAPSHOT_FILE" 2>/dev/null || {
+    debug_log "error" "snapshot-write-failed"
+    exit 0
+}
+
+debug_log "wrote" "$SNAPSHOT_FILE"
+exit 0

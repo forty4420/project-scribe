@@ -4,16 +4,29 @@
 # Checks cwd for docs/STATE.md. If present, injects a reminder instructing
 # Claude to run the reconcile-project-state skill before its first response.
 # If absent, exits silently. Zero-cost for projects that haven't opted in.
+#
+# Also consumes docs/.scribe-snapshot.md if present (written by the
+# PreCompact hook). Snapshot content is appended to the additional_context
+# payload, then the snapshot file is deleted (one-shot).
 
 set -euo pipefail
 
+debug_log() {
+    [ "${SCRIBE_DEBUG:-0}" = "1" ] || return 0
+    printf '%s %s %s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "session-start" "$1" "$2" >> "${HOME}/.scribe-debug.log" 2>/dev/null || true
+}
+
 PROJECT_ROOT="$(pwd)"
 STATE_FILE="${PROJECT_ROOT}/docs/STATE.md"
+SNAPSHOT_FILE="${PROJECT_ROOT}/docs/.scribe-snapshot.md"
 
 if [ ! -f "$STATE_FILE" ]; then
     # Not a scribe-enabled project. Silent no-op.
+    debug_log "skip" "no-state-file"
     exit 0
 fi
+
+debug_log "start" "$PROJECT_ROOT"
 
 # Build the reminder. Claude will see this as a system-reminder in the
 # session context and act on it before responding to the user.
@@ -29,6 +42,36 @@ escape_for_json() {
     s="${s//$'\t'/\\t}"
     printf '%s' "$s"
 }
+
+# If a pre-compact snapshot exists, append it to the reminder. Flag stale
+# (mtime > 7 days) but still inject — better to surface old context than
+# silently drop it.
+if [ -f "$SNAPSHOT_FILE" ]; then
+    debug_log "snapshot-found" "$SNAPSHOT_FILE"
+
+    snap_mtime=0
+    snap_mtime="$(stat -c %Y "$SNAPSHOT_FILE" 2>/dev/null || stat -f %m "$SNAPSHOT_FILE" 2>/dev/null || echo 0)"
+    now="$(date +%s)"
+    age_days=$(( (now - snap_mtime) / 86400 ))
+
+    snapshot_content="$(cat "$SNAPSHOT_FILE" 2>/dev/null || echo '')"
+
+    if [ -n "$snapshot_content" ]; then
+        if [ "$age_days" -gt 7 ]; then
+            stale_date="$(date -d "@${snap_mtime}" '+%Y-%m-%d' 2>/dev/null || date -r "$snap_mtime" '+%Y-%m-%d' 2>/dev/null || echo 'unknown')"
+            stale_header=$'\n\n<scribe-snapshot stale="true" from="'"${stale_date}"$'">\nNote: snapshot is older than 7 days, but still injecting in case context is useful.\n\n'
+            reminder="${reminder}${stale_header}${snapshot_content}"$'\n</scribe-snapshot>'
+        else
+            reminder="${reminder}"$'\n\n<scribe-snapshot>\n'"${snapshot_content}"$'\n</scribe-snapshot>'
+        fi
+        debug_log "snapshot-consumed" "age-days=${age_days}"
+    fi
+
+    # One-shot: delete after read regardless of content. Stale or empty
+    # snapshots shouldn't linger.
+    rm -f "$SNAPSHOT_FILE" 2>/dev/null || true
+    debug_log "snapshot-deleted" "$SNAPSHOT_FILE"
+fi
 
 reminder_escaped=$(escape_for_json "$reminder")
 
