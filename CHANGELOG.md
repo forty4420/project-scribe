@@ -2,6 +2,19 @@
 
 All notable changes to project-scribe. Newest first.
 
+## v0.7.1 — session-card polish + STATE.md refresh
+
+### Changed
+
+- `session-card` skill: bullet truncation now breaks on the last whitespace boundary at or before char 77 instead of mid-word, producing clean ellipses (`session-card…` instead of `fie…`). Also balances stray backticks before truncation so inline code spans don't break the card's markdown rendering.
+- `session-card` skill: project name parser strips a leading `Project State — ` prefix from the STATE.md `# <Title>` heading, producing cleaner card headers (`project-scribe — session card` not `Project State — project-scribe — session card`).
+- `docs/STATE.md` refreshed: current focus updated from stale v0.6.0 smoke test wording to v0.7.0 / r/ClaudeAI launch focus. Last shipped + Next up rebuilt to reflect actual recent commits.
+
+### Notes
+
+- This unblocks the launch — the card on the scribe repo itself now reads clean enough to screenshot for the r/ClaudeAI post.
+- No new skills, no new hooks. Pure polish of v0.7.0 + dogfood-state refresh.
+
 ## v0.7.0 — `/project-scribe:session-card` shareable artifact
 
 ### Added

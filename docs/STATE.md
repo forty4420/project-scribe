@@ -2,20 +2,20 @@
 
 ## Current focus
 
-v0.6.0 smoke test (Phase 10). Verifying scribe-status, xref-lint, pre-compact hook, decay hook bumps, snapshot restore.
+v0.7.0 ships /project-scribe:session-card — shareable markdown artifact for r/ClaudeAI launch. Marketing-loop primitive: every shared card carries the brand.
 
 ## Last shipped
 
-- v0.6.0 — feature stack (scribe-status, xref-lint, pre-compact, daily-note skeleton, alternatives field, README badges, SCRIBE_DEBUG, CI workflow) — `2a67347`
-- v0.5.0 — memory decay scoring + idempotent stop hook — `b5bd58e`
-- v0.4.1 — clipboard auto-copy + freshness gate fix — `b70e8ed`
-- v0.4.0 — context-awareness mode + unified /handoff — `71ac0ef`
+- v0.7.0 — `/project-scribe:session-card` shareable artifact — `4f0b114`
+- v0.6.3 — competitive comparison doc — `da75a51`
+- v0.6.2 — README marketing-split — `9a50736`
+- v0.6.1 — namespace-prefix README clarification — `e251b21`
 
 ## Next up
 
-- Phase 10 HITL smoke test results → `docs/status/v0.6.0-smoke-test.md`
-- v0.6.1 if smoke test surfaces bugs
-- v0.7.0 candidates: bash test harness, LLM-summarized turn capture into daily notes
+- r/ClaudeAI launch post Tuesday 8:30am ET with comparison table + session-card screenshot
+- YouTube explainer iteration (Track A): re-record voiceover, add Ken Burns motion, music bed
+- Cross-post to r/LocalLLaMA + Show HN with platform-tuned framing
 
 ## Deferred
 
@@ -25,7 +25,7 @@ v0.6.0 smoke test (Phase 10). Verifying scribe-status, xref-lint, pre-compact ho
 - Promotion path / dreaming-lite
 - Plugin rename for search disambiguation
 - Desktop tray app for context warnings
-- Marketing posts (r/ClaudeAI, X, HN)
+- Bash test harness (Reviewer-3 finding from v0.6.0 smoke test)
 
 ## Specs
 

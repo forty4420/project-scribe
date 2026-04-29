@@ -1,7 +1,7 @@
 # project-scribe
 
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-c97539?logo=claude)
-![Version](https://img.shields.io/badge/version-0.7.0-blue)
+![Version](https://img.shields.io/badge/version-0.7.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![CI](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml/badge.svg)](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml)
 

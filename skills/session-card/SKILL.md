@@ -114,12 +114,23 @@ Top: <commit msg 1>, <commit msg 2>, <commit msg 3>
 
 ### Field rules
 
-- **Project name**: read from STATE.md's `# <Title>` first heading, or fall back to cwd basename.
+- **Project name**: read from STATE.md's `# <Title>` first heading, or fall back to cwd basename. Strip a leading `Project State — ` if present.
 - **Dates**: ISO format (YYYY-MM-DD).
-- **Char limits**: each STATE.md bullet trimmed to 80 chars max + ellipsis.
+- **Char limits**: each STATE.md bullet trimmed to 80 chars max + ellipsis. Truncate on the last whitespace boundary at or before char 77 (so ellipsis lands cleanly between words, never mid-word). If the bullet has no whitespace before char 77, truncate at char 77 anyway — last resort.
 - **"Last hook fire"**: if `.bump-log` mtime is within 24h, format as `Xh`; else `Xd`. If file missing, "not yet fired".
 - **No fluff**: omit empty sections by replacing with "—" rather than dropping rows. Keeps shape consistent screenshot-to-screenshot.
 - **Footer**: always present. Drives the powered-by-scribe distribution loop.
+
+### Bullet truncation algorithm
+
+For a bullet `text` that exceeds 80 chars:
+
+1. Take `text[0:77]` as the candidate.
+2. Find the last space character in the candidate. If found at position `p`, truncate to `text[0:p]` + `…` (ellipsis).
+3. If no space found in `text[0:77]`, truncate to `text[0:77]` + `…` (rare — only happens for a single >80-char unbroken token).
+4. Strip backticks and other markdown that might unbalance after truncation. Specifically: if the truncated string contains an odd count of backticks, append a closing backtick before the ellipsis to keep markdown valid.
+
+This makes truncated bullets read clean (no "fie…" or "into d…") and keeps fenced code spans/inline code from breaking the card's markdown rendering.
 
 ## Optional PNG render
 
