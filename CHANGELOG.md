@@ -2,6 +2,18 @@
 
 All notable changes to project-scribe. Newest first.
 
+## v0.6.3 — Comparison doc + competitive positioning
+
+### Added
+
+- `docs/comparison.md` — verified feature-by-feature comparison against claude-mem (69k stars), claude-mem-lite, MemPalace, Mem0, and ShieldCortex (formerly Claude Cortex). Each row checked directly against the competitor's README on April 28, 2026.
+- README link to comparison doc in the "What it does" section, framed around the unique differentiator: **prevention vs recovery**. Scribe is the only memory plugin that warns before context fills + auto-snapshots before compact. Every other tool recovers what was already lost.
+
+### Notes
+
+- Honest comparison: this doc explicitly calls out where Scribe loses (no semantic search vs MemPalace's 96.6% R@5; no cross-tool support vs Mem0; Claude Code only). Credibility wins.
+- Sources cited with verification date. If any row is wrong, issue link in the doc.
+
 ## v0.6.2 — README marketing-split: indexing core leads, guardrails opt-in
 
 ### Changed

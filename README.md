@@ -1,7 +1,7 @@
 # project-scribe
 
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-c97539?logo=claude)
-![Version](https://img.shields.io/badge/version-0.6.2-blue)
+![Version](https://img.shields.io/badge/version-0.6.3-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![CI](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml/badge.svg)](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml)
 
@@ -21,6 +21,8 @@ A Claude Code plugin for persistent memory, context handoff, decisions log, and 
 - **Context-awareness** — watches Claude Code context usage in real time. Surfaces non-blocking warnings starting at 30%, escalates at 40%, offers a unified `/project-scribe:handoff` to save state before compaction.
 - **Decay-tracked memory** — per-project memory files with `last_used` + `hits` frontmatter. Stop hook bumps on reference. `compact-memory` archives idle entries automatically. Load-bearing rules (`hits >= 10`) protected.
 - **Bulletproof handoff** — PreCompact hook auto-writes a snapshot before compaction. SessionStart consumes + deletes it. Even if you never run `/handoff`, working state survives compact.
+
+> **How does this compare to claude-mem, MemPalace, Mem0, or ShieldCortex?** Scribe is the only one that prevents context loss before it happens. Full feature comparison: [docs/comparison.md](docs/comparison.md).
 
 Indexing + context-awareness fit any project. No setup beyond `init project scribe`.
 
