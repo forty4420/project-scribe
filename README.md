@@ -1,7 +1,7 @@
 # project-scribe
 
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-c97539?logo=claude)
-![Version](https://img.shields.io/badge/version-0.6.3-blue)
+![Version](https://img.shields.io/badge/version-0.7.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![CI](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml/badge.svg)](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml)
 
@@ -70,6 +70,7 @@ All scribe slash commands need the namespace prefix `/project-scribe:` — bare 
 /project-scribe:scribe          # dashboard readout from STATE.md
 /project-scribe:scribe-status   # decay system + Stop hook health (read-only)
 /project-scribe:xref-lint       # cross-reference lint (read-only)
+/project-scribe:session-card    # shareable markdown summary card (read-only)
 /project-scribe:handoff         # unified session shutdown
 /project-scribe:compact-decisions
 /project-scribe:redact
@@ -106,6 +107,7 @@ Plus a per-project memory dir at `~/.claude/projects/<slug>/memory/` (managed by
 | `/project-scribe:scribe` | Dashboard readout from STATE.md |
 | `/project-scribe:scribe-status` | Decay-system + Stop-hook diagnostic (read-only). v0.6.0+. |
 | `/project-scribe:xref-lint` | Cross-reference lint — orphan plans, stale memo links, contradiction probes (read-only). v0.6.0+. |
+| `/project-scribe:session-card` | Generate a shareable markdown card summarizing current state, decisions, recent activity, and memory health. Paste-ready for Twitter/Reddit/Discord/screenshot. v0.7.0+. |
 
 ---
 
