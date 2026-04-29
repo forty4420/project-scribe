@@ -1,7 +1,7 @@
 # project-scribe
 
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-c97539?logo=claude)
-![Version](https://img.shields.io/badge/version-0.6.1-blue)
+![Version](https://img.shields.io/badge/version-0.6.2-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![CI](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml/badge.svg)](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml)
 
@@ -13,59 +13,32 @@ A Claude Code plugin for persistent memory, context handoff, decisions log, and 
 [![memory: scribe](https://img.shields.io/badge/memory-scribe-blue)](https://github.com/forty4420/project-scribe)
 ```
 
-**Three modes in one plugin:**
-
-- **Indexing mode** (always on) — tracks project state, decisions, specs, and plans. Works for any project.
-- **Context-awareness mode** (always on, opt-out via config) — watches Claude Code context usage in real time. Surfaces non-blocking warnings starting at 30%, escalates at 40%, and offers a unified `/project-scribe:handoff` to save state before compaction.
-- **Guardrails mode** (opt-in) — enforces architectural rules like "base vs plugin" boundaries. For modular / plugin / framework projects.
-
-Indexing + context-awareness is for everyone. Guardrails is for projects where "what counts as base code" is a real rule that matters.
-
 ---
 
-## Do I need guardrails?
+## What it does
 
-Quick decision tree:
+- **Indexing** — tracks project state, decisions, specs, and plans in plain markdown files inside your repo.
+- **Context-awareness** — watches Claude Code context usage in real time. Surfaces non-blocking warnings starting at 30%, escalates at 40%, offers a unified `/project-scribe:handoff` to save state before compaction.
+- **Decay-tracked memory** — per-project memory files with `last_used` + `hits` frontmatter. Stop hook bumps on reference. `compact-memory` archives idle entries automatically. Load-bearing rules (`hits >= 10`) protected.
+- **Bulletproof handoff** — PreCompact hook auto-writes a snapshot before compaction. SessionStart consumes + deletes it. Even if you never run `/handoff`, working state survives compact.
 
-| Your project | Mode |
-|---|---|
-| Monolith app, simple CRUD, solo side project | **Indexing only** |
-| Modular framework, plugin system, strict "core vs extension" rules | **Both** |
-| Not sure | Start with indexing. Add guardrails later if you need them. |
+Indexing + context-awareness fit any project. No setup beyond `init project scribe`.
 
-If you don't have an explicit "this folder is off-limits for new features" rule, you don't need guardrails. Scribe still tracks your state, decisions, and sessions — you just skip the extra enforcement layer.
+If you maintain a modular framework or plugin system that needs **architectural enforcement** ("core vs extension" rules), there's an opt-in **guardrails mode** documented separately: **[docs/guardrails.md](docs/guardrails.md)**.
 
 ---
 
 ## Install
 
 ```bash
-# From this plugin's repo (Linux / macOS):
+# Linux / macOS
 ln -s "$(pwd)" ~/.claude/plugins/project-scribe
 
-# Windows:
+# Windows
 mklink /J "%USERPROFILE%\.claude\plugins\project-scribe" "C:\path\to\project-scribe"
 
 # Restart Claude Code.
 ```
-
----
-
-## Invoking skills and slash commands
-
-All scribe slash commands need the namespace prefix `/project-scribe:` — bare `/scribe-status` returns "Unknown command". This matches the Anthropic plugin convention.
-
-```
-/project-scribe:scribe          # dashboard readout from STATE.md
-/project-scribe:scribe-status   # decay system + Stop hook health (read-only)
-/project-scribe:xref-lint       # cross-reference lint (read-only)
-/project-scribe:compact-decisions
-/project-scribe:redact
-/project-scribe:lock-base
-/project-scribe:unlock-base
-```
-
-For natural-language invocation, you can also type the trigger phrase verbatim — e.g. "scribe status", "lint xref", "handoff", "compact memory". The agent invokes the matching skill automatically.
 
 ---
 
@@ -77,47 +50,66 @@ Inside any project:
 > init project scribe
 ```
 
-Claude runs the `init-project-scribe` skill. It asks:
+Claude runs the `init-project-scribe` skill. Asks 4 questions:
 1. Project name + current focus
 2. Where specs and plans live
 3. Any locked architectural rules
-4. **Enable base-scope guardrails?** (y/N) — this is the mode toggle
+4. Enable base-scope guardrails? (y/N) — say **N** unless you actively need architectural enforcement (most users say N)
 
-Answer **no** → indexing mode only. Files created: `CLAUDE.md`, `docs/STATE.md`, `docs/DECISIONS.md`, plus a status memo template. That's it.
-
-Answer **yes** → indexing + guardrails. Additional files: `docs/BASE_ALLOWLIST.md`, three hook scripts in `.claude/hooks/`, deny block in `.claude/settings.json`, git pre-commit hook. See [docs/guardrails.md](docs/guardrails.md) for the full stack.
-
-You can enable guardrails later by re-running `init project scribe` or by manually creating `BASE_ALLOWLIST.md` + copying the hook templates.
+Files created: `CLAUDE.md`, `docs/STATE.md`, `docs/DECISIONS.md`, status memo template. That's it.
 
 ---
 
-## Indexing mode — what you get
+## Invoking skills and slash commands
 
-Files in your project:
+All scribe slash commands need the namespace prefix `/project-scribe:` — bare `/scribe-status` returns "Unknown command". This matches the Anthropic plugin convention.
+
+```
+/project-scribe:scribe          # dashboard readout from STATE.md
+/project-scribe:scribe-status   # decay system + Stop hook health (read-only)
+/project-scribe:xref-lint       # cross-reference lint (read-only)
+/project-scribe:handoff         # unified session shutdown
+/project-scribe:compact-decisions
+/project-scribe:redact
+```
+
+For natural-language invocation, type the trigger phrase verbatim — e.g. "scribe status", "lint xref", "handoff", "compact memory". The agent invokes the matching skill automatically.
+
+---
+
+## What you get in your repo
 
 - **`docs/STATE.md`** — one-page dashboard: current focus, last shipped (auto-reconciled against `git log`), next up, deferred, specs + plans index.
 - **`docs/DECISIONS.md`** — append-only log of architectural / scope / rules-of-engagement decisions made in conversation.
 - **`docs/status/`** — per-spec implementation memos with a consistent shape.
 - **`CLAUDE.md`** — auto-loaded by Claude Code at session start; points at the map.
 
-Skills and commands (all available in indexing mode):
+Plus a per-project memory dir at `~/.claude/projects/<slug>/memory/` (managed by the plugin, lives outside your repo so it doesn't pollute git).
+
+---
+
+## Skills
 
 | Skill / Command | What it does |
 |---|---|
 | `init-project-scribe` | One-shot bootstrap |
 | `reconcile-project-state` | Auto-fires at session start; updates STATE.md "Last shipped" from `git log` |
 | `update-project-state` | End-of-ship refresh — prompts for new Current focus / Next up / Deferred, rebuilds indexes |
-| `decision-prompt` | **Proactive** — agent watches for rule-shaped moments (never/always/defer/veto) and offers one-line "log this? y/n" prompt. Shifts remembering-to-log from user to agent |
+| `decision-prompt` | **Proactive** — agent watches for rule-shaped moments (never/always/defer/veto) and offers one-line "log this? y/n" prompt |
 | `log-decision` | Append a 4-field entry to DECISIONS.md (called by decision-prompt or user explicitly) |
 | `deferred-rollup` | Read-only query across all status memos |
-| `auto-handoff` (`/project-scribe:handoff`) | Unified session shutdown — captures pending decisions, refreshes STATE.md, prunes MEMORY.md if needed, writes handoff doc. `--quick` flag = doc only, skip bundle. Replaces the old `/shutdown-bundle`. |
+| `auto-handoff` (`/project-scribe:handoff`) | Unified session shutdown — captures pending decisions, refreshes STATE.md, prunes MEMORY.md if needed, writes handoff doc. `--quick` flag = doc only. |
+| `compact-memory` | Decay-aware memory pruning. Archives idle files, protects load-bearing ones. |
+| `mark-memory-used` | Manual fallback when Stop hook misses or rule applied via paraphrase |
 | `/project-scribe:scribe` | Dashboard readout from STATE.md |
 | `/project-scribe:scribe-status` | Decay-system + Stop-hook diagnostic (read-only). v0.6.0+. |
 | `/project-scribe:xref-lint` | Cross-reference lint — orphan plans, stale memo links, contradiction probes (read-only). v0.6.0+. |
 
-### Context-awareness mode
+---
 
-Always-on. Reads Claude Code's statusline JSON via a small Python script and writes the current context percentage to `~/.claude/.scribe-context`. A `UserPromptSubmit` hook reads that file each turn and, if the project is scribe-enabled (`docs/STATE.md` exists), surfaces a warning when usage crosses thresholds:
+## Context-awareness in detail
+
+Reads Claude Code's statusline JSON via a small Python script and writes the current context percentage to `~/.claude/.scribe-context`. A `UserPromptSubmit` hook reads that file each turn and, if the project is scribe-enabled (`docs/STATE.md` exists), surfaces a warning when usage crosses thresholds:
 
 | Range | Behavior |
 |---|---|
@@ -129,76 +121,57 @@ Cooldown: only re-warns when usage jumps a 5% bucket (30 → 35 → 40 → ...) 
 
 Statusline command points at `~/.claude/scripts/scribe-statusline-launcher` — a small wrapper that finds the latest installed scribe plugin version and runs its `hooks/statusline.py`. No `jq` dependency — uses Python 3 (already required by Claude Code itself).
 
-#### Desktop vs CLI
+### Desktop vs CLI
 
 Auto-warnings depend on Claude Code's statusline running, which it currently does **only in CLI / terminal mode**. The desktop Electron app does not invoke statusline commands ([Anthropic Issue #41456](https://github.com/anthropics/claude-code/issues/41456) — pending).
 
 **What this means in practice:**
 
-- **CLI users:** auto-warnings fire as expected. Statusline updates after every message, hook reads it on the next prompt, warning surfaces in chat.
-- **Desktop users:** desktop already shows context % in its own UI (bottom-right corner). Use that as the visual cue and run `/project-scribe:handoff` manually when you reach a level you're comfortable handing off at. Scribe still does everything else — `/project-scribe:handoff` works identically on both.
+- **CLI users:** auto-warnings fire as expected.
+- **Desktop users:** desktop already shows context % in its own UI (bottom-right corner). Use that as the visual cue and run `/project-scribe:handoff` manually.
 
-When Anthropic ships statusline support on desktop, scribe will pick it up automatically with no code changes.
+Scribe's other features work identically on both clients.
 
-#### `/project-scribe:handoff` clipboard auto-copy
+### `/project-scribe:handoff` clipboard auto-copy
 
 When `/project-scribe:handoff` finishes, the "Paste-this prompt" block is automatically copied to your clipboard (uses `clip.exe` on Windows, `pbcopy` on macOS, `xclip`/`xsel`/`wl-copy` on Linux). The same prompt is also printed in chat as a fallback.
 
 Workflow becomes: `/project-scribe:handoff` → wait for "✅ Handoff complete" → open new chat in sidebar → Ctrl+V (Cmd+V on Mac). Two clicks, no manual copy.
 
-Works for any project type, any architecture, solo or team.
-
 ---
 
-## Guardrails mode — what you get (on top of indexing)
+## Memory decay (v0.5.0+)
 
-Additional enforcement:
+Memory files in `~/.claude/projects/<slug>/memory/` get YAML frontmatter:
 
-- **Permission-layer deny** (`.claude/settings.json`) — hard wall against writes to forbidden paths. No "Allow always" prompt ever offered; writes are rejected at permission layer.
-- **PreToolUse hook** — fires before any Write/Edit; blocks new files in locked dirs or net-new base directories.
-- **Pre-commit hook** — git-level gate; rejects commits that stage violations. Cannot be bypassed by Claude Code — git runs it.
-- **SessionStart hook** — three jobs at session start: (1) injects base-scope rules into Claude's context, (2) canary checks all guardrail files still exist, (3) working-tree scan flags uncommitted drift from prior sessions.
-
-Additional skills:
-
-| Skill / Command | What it does |
-|---|---|
-| `base-audit` (`/project-scribe:audit`) | Scans current diff against BASE_ALLOWLIST before commit |
-| `unlock-base` (`/project-scribe:unlock-base`) | Temporarily removes deny rules for rare legitimate edits to locked dirs |
-| `lock-base` (`/project-scribe:lock-base`) | Restores deny rules after an unlock session |
-| `auto-handoff` | Adds Step 0 drift pre-flight — flags uncommitted violations in the handoff doc |
-
-Full design + threat model: **[docs/guardrails.md](docs/guardrails.md)**.
-
-### Recommended companion: `cc-restart`
-
-`unlock-base` and `lock-base` need a Claude Code restart for settings changes to take effect. If you have the [`cc-restart`](https://github.com/forty4420/cc-restart) plugin installed, they offer a one-command restart. Without it, they print manual restart instructions. Not required, but smoother.
-
-### Watch-out for user-global `permissions.allow`
-
-If your user-global `~/.claude/settings.json` has `Write(*)`, `Edit(*)`, or `NotebookEdit(*)` in `permissions.allow`, those pre-approve writes BEFORE hooks and deny rules are consulted — silently defeating the guardrail. Remove those three entries from user-global allow; keep `Bash(*)`, `Read(*)`, etc. as-is.
-
+```yaml
 ---
+last_used: 2026-04-28
+hits: 4
+---
+```
 
-## Switching modes later
+The Stop hook bumps these fields when a memory file is referenced in a session. `compact-memory` scores files by `(decayed_hits + 1) / (weeks_idle + 1)` and proposes archive candidates. Files with `hits >= 10` are load-bearing and never auto-archived.
 
-**Indexing → add guardrails:**
-1. Re-run `init project scribe` and answer "yes" to guardrails prompt, OR
-2. Manually create `docs/BASE_ALLOWLIST.md`, copy hook templates from `~/.claude/plugins/project-scribe/skills/init-project-scribe/templates/base-scope-guard/`, wire into `.claude/settings.json` + `.git/hooks/pre-commit`.
-
-**Guardrails → remove:**
-1. Delete `docs/BASE_ALLOWLIST.md` — guardrail skills fail-open when this file is missing and silently skip.
-2. Remove the `permissions.deny` block from `.claude/settings.json`.
-3. Remove `.git/hooks/pre-commit` (or replace with your own).
-4. SessionStart hook will stop injecting base-scope rules automatically (it checks for the allowlist).
-
-Indexing side keeps working either way.
+Run `/project-scribe:scribe-status` any time to see decay scores + Stop-hook health without modifying anything.
 
 ---
 
 ## Troubleshooting
 
-Set `SCRIBE_DEBUG=1` in your shell environment to enable diagnostic logging from scribe's hooks. When set, each fire of `pre-compact`, `session-start`, `stop-mark-memory`, and `userprompt-context-warn` appends a line to `~/.scribe-debug.log` with timestamp, hook name, action, and a short detail (file path or skip reason). Default is off — silent no-op behavior is preserved unless the env var is explicitly set. Tail the log to confirm hooks are firing if you suspect they're not.
+Set `SCRIBE_DEBUG=1` in your shell to enable diagnostic logging from scribe's hooks. When set, each fire of `pre-compact`, `session-start`, `stop-mark-memory`, and `userprompt-context-warn` appends a line to `~/.scribe-debug.log` with timestamp, hook name, action, and a short detail. Default off — silent no-op preserved unless explicitly enabled.
+
+Tail the log to confirm hooks are firing if you suspect they're not.
+
+---
+
+## Guardrails mode (advanced, opt-in)
+
+For projects with strict "core vs extension" architectural rules — plugin systems, frameworks, modular codebases. Adds five enforcement layers (permission deny, PreToolUse hook, pre-commit hook, SessionStart canary, base-audit skill) that catch architectural drift before commits.
+
+If you don't have an explicit "this folder is off-limits for new features" rule, you don't need this. Skip it.
+
+Full design + threat model: **[docs/guardrails.md](docs/guardrails.md)**.
 
 ---
 

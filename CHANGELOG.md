@@ -2,6 +2,20 @@
 
 All notable changes to project-scribe. Newest first.
 
+## v0.6.2 — README marketing-split: indexing core leads, guardrails opt-in
+
+### Changed
+
+- README rewritten to lead with the universal value (indexing, context-awareness, decay-tracked memory, bulletproof handoff) and demote guardrails to a single opt-in section pointing at `docs/guardrails.md`. Audience for guardrails is ~5% of users (modular framework / plugin maintainers); previous README spent ~40% of real estate on it. Now ~10%.
+- New v0.5.0+ features (decay scoring, `/project-scribe:scribe-status`, `/project-scribe:xref-lint`, PreCompact snapshot hook) promoted to the top of the value-prop list — they were buried under guardrails docs.
+- "Three modes" framing dropped; replaced with "what it does" bullet list. Mode framing required readers to figure out which mode applied to them before continuing — extra cognitive load for the 95% who only need indexing + context-awareness.
+- Single "Guardrails mode (advanced, opt-in)" section near the end with a one-paragraph pitch + link to `docs/guardrails.md`. Full design + threat model unchanged in that doc.
+
+### Notes
+
+- No code changes. Documentation reorganization only.
+- Guardrails functionality unchanged — same skills, hooks, commands, allowlist semantics. Just less prominent in the README.
+
 ## v0.6.1 — README namespace-prefix clarification
 
 ### Changed
