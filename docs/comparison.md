@@ -1,6 +1,17 @@
 # How project-scribe compares
 
-Honest comparison against the most-cited Claude Code memory plugins as of April 2026. Verified directly from each project's README. Where Scribe loses, this doc says so.
+Honest comparison against the most-cited memory + agentic-coding tools in the Claude Code ecosystem as of April 2026. Verified directly from each project's README. Where Scribe loses, this doc says so.
+
+## Different categories — Scribe is not Aider, not Cline
+
+Before the table: a quick disambiguation, because devs frequently lump these together.
+
+- **Scribe** is a **memory + state plugin** for Claude Code. It tracks what was decided, what shipped, and what's in flight. It does not write code, propose edits, or run commands.
+- **Aider** ([Aider-AI/aider](https://github.com/Aider-AI/aider), 44k★) is a **standalone code-writing CLI**. AI pair programmer that edits files, makes commits, runs tests. Different tool — Aider does the coding, Scribe records what was decided about the coding.
+- **Cline** ([cline/cline](https://github.com/cline/cline), 61k★) is an **autonomous coding agent for VS Code**. Creates/edits files, runs commands, uses browser. IDE-native, GUI-driven.
+- **claude-mem / MemPalace / Mem0 / ShieldCortex** are **memory plugins** like Scribe — same category, different approaches.
+
+**Use Scribe with Aider or Cline if you want.** They don't conflict — Aider/Cline write the code, Scribe records the project memory across sessions. The comparison table below focuses on the memory-plugin category since that's where direct competition lives.
 
 ## Quick read
 

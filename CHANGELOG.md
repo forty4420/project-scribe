@@ -2,6 +2,18 @@
 
 All notable changes to project-scribe. Newest first.
 
+## v0.7.2 — Comparison doc disambiguates Scribe vs Aider vs Cline
+
+### Changed
+
+- `docs/comparison.md` opens with a category disambiguation: Scribe is a memory plugin, not a code-writing CLI like Aider (44k★) and not an autonomous IDE agent like Cline (61k★). Devs frequently lump these tools together — the doc now says explicitly which category Scribe lives in and which tools you can use alongside it (Aider/Cline + Scribe = no conflict).
+- Memory-plugin comparison table unchanged — still focuses on direct competitors (claude-mem, claude-mem-lite, MemPalace, Mem0, ShieldCortex). Aider + Cline get the disambiguation paragraph instead of a table row, since they're a different category.
+
+### Notes
+
+- Triggered by feedback from a Gemini review that conflated Scribe with code-writing tools. Same conflation will appear from Reddit/HN commenters — the doc now answers it before the question lands.
+- Pure documentation patch.
+
 ## v0.7.1 — session-card polish + STATE.md refresh
 
 ### Changed
