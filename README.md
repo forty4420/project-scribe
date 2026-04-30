@@ -1,9 +1,10 @@
 # project-scribe
 
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-c97539?logo=claude)
-![Version](https://img.shields.io/badge/version-0.7.2-blue)
+![Version](https://img.shields.io/badge/version-0.7.3-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![CI](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml/badge.svg)](https://github.com/forty4420/project-scribe/actions/workflows/lint.yml)
+[![tests](https://github.com/forty4420/project-scribe/actions/workflows/test.yml/badge.svg)](https://github.com/forty4420/project-scribe/actions/workflows/test.yml)
 
 A Claude Code plugin for persistent memory, context handoff, decisions log, and session continuity. Your project's record-keeper — tracks state, decisions, and live context so nothing gets lost between sessions.
 

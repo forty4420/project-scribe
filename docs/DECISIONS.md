@@ -4,6 +4,21 @@ Append-only log. Newest at top. Format: 4 fields per entry.
 
 ---
 
+## 2026-04-30 — Adopt bats-core for scribe tests
+
+**Context:** Reviewer-3 flagged absence of test harness in the v0.6.0 smoke test. Refactors of hooks (`session-start`, `userprompt-context-warn`, `pre-compact`, `stop-mark-memory`) and the highest-leverage skills (`auto-handoff`, `log-decision`, `reconcile-project-state`) risk silent regressions. Pre-r/ClaudeAI launch credibility — hostile commenters will scan for "0 tests" as an attack surface.
+
+**Decision:** Vendor bats-core + bats-support + bats-assert as git submodules under `tests/_libs/`. Cover all 4 hooks + the 3 high-leverage skills initially. CI runs on Ubuntu only — Windows users use Git Bash/WSL. Tests assert on the *contract* (file shape and content patterns), not on Claude AI behavior.
+
+**Alternatives considered:** shellcheck-only (lint not test, doesn't catch behavioral regressions). Python pytest with subprocess wrappers (extra runtime dep, awkward for bash hooks). No tests at all (incurred debt, blocks the next 14 backlog items that all touch hook + skill internals).
+
+**Revisit when:** Test runtime exceeds 30s (currently ~3s), OR Windows users hit fork-specific bugs not caught by Linux CI, OR coverage measurement (kcov) becomes load-bearing for a future contributor PR review.
+
+**Superseded by:** —
+**Valid until:** test runtime / platform / coverage triggers above.
+
+---
+
 ## 2026-04-26 — Scope expanded to include context-awareness; name "project-scribe" kept
 
 **Decision:** Scribe now also handles real-time context-usage monitoring

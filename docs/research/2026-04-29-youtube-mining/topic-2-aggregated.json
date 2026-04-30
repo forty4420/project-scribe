@@ -1,0 +1,1830 @@
+{
+  "topic": "claude code handoff session",
+  "aggregated": {
+    "repos": [
+      {
+        "url": "https://github.com/EveryInc/compound-engineering-plugin",
+        "purposes": [
+          "Plugin for enhancing Claude Code with engineering workflows"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/anthropics/claude-quickstarts",
+        "purposes": [
+          "Anthropic's open-source harness for long-running coding agents"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "usQ2HBTTWxs",
+            "title": "I Forced Claude to Code for 24 Hours NONSTOP, Here's What Happened",
+            "url": "https://youtu.be/usQ2HBTTWxs",
+            "channel": "Cole Medin",
+            "upload_date": "20251204",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/chongdashu/cc-statusline",
+        "purposes": [
+          "User's custom statusline configuration"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mywRejDDgUg",
+            "title": "Ship from Anywhere: Claude Code Web + iOS Mobile (and a Secret Command!)",
+            "url": "https://youtu.be/mywRejDDgUg",
+            "channel": "Chong-U — AI Oriented Dev",
+            "upload_date": "20251023",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/coleam00/context-engineering-intro",
+        "purposes": [
+          "Agent team skill resource for customizing Claude Code agent teams"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "-1K_ZWDKpU0",
+            "title": "Claude Code's Agent Teams Are Insane - Multiple AI Agents Coding Together in Real Time",
+            "url": "https://youtu.be/-1K_ZWDKpU0",
+            "channel": "Cole Medin",
+            "upload_date": "20260209",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/glittercowboy/get-shit-done",
+        "purposes": [
+          "Community project for autonomous agent workflows"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/steveyegge/beads",
+        "purposes": [
+          "Workflow automation framework for AI agents"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      }
+    ],
+    "tools": [
+      {
+        "name": "Claude Code",
+        "kind": "service",
+        "purposes": [
+          "AI coding assistant used in the harness",
+          "AI assistant for automation tasks",
+          "AI coding assistant with experimental agent teams feature"
+        ],
+        "mentions": 3,
+        "videos": [
+          {
+            "id": "usQ2HBTTWxs",
+            "title": "I Forced Claude to Code for 24 Hours NONSTOP, Here's What Happened",
+            "url": "https://youtu.be/usQ2HBTTWxs",
+            "channel": "Cole Medin",
+            "upload_date": "20251204",
+            "signal_score": 8
+          },
+          {
+            "id": "wfiv67NixCY",
+            "title": "How I use Claude Code to automate my entire life (5 tricks)",
+            "url": "https://youtu.be/wfiv67NixCY",
+            "channel": "Alex Finn",
+            "upload_date": "20250730",
+            "signal_score": 8
+          },
+          {
+            "id": "-1K_ZWDKpU0",
+            "title": "Claude Code's Agent Teams Are Insane - Multiple AI Agents Coding Together in Real Time",
+            "url": "https://youtu.be/-1K_ZWDKpU0",
+            "channel": "Cole Medin",
+            "upload_date": "20260209",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "/context",
+        "kind": "command",
+        "purposes": [
+          "Visualizes context window usage and token allocation",
+          "Visualize context window usage"
+        ],
+        "mentions": 2,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          },
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "CLAUDE.md",
+        "kind": "file",
+        "purposes": [
+          "Repository-level instructions that bloat context if not optimized",
+          "Project-specific memory file for Claude Code to retain context across sessions"
+        ],
+        "mentions": 2,
+        "videos": [
+          {
+            "id": "9ToOfgZ4qqQ",
+            "title": "I Stopped Hitting Claude Code Usage Limits (Here's How)",
+            "url": "https://youtu.be/9ToOfgZ4qqQ",
+            "channel": "Brad | AI & Automation",
+            "upload_date": "20260410",
+            "signal_score": 8
+          },
+          {
+            "id": "h7QJL2_gEXA",
+            "title": "How to Use CLAUDE.md in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/h7QJL2_gEXA",
+            "channel": "GritAI Studio",
+            "upload_date": "20260125",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "/compact",
+        "kind": "command",
+        "purposes": [
+          "Manually compacts context with custom instructions for prioritization"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "/init",
+        "kind": "cli",
+        "purposes": [
+          "Generates CLAUDE.md by analyzing repository structure and key files"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "h7QJL2_gEXA",
+            "title": "How to Use CLAUDE.md in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/h7QJL2_gEXA",
+            "channel": "GritAI Studio",
+            "upload_date": "20260125",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "/plugins",
+        "kind": "command",
+        "purposes": [
+          "Access Claude plugins store"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "/rename",
+        "kind": "command",
+        "purposes": [
+          "Rename sessions for organization"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "/stats",
+        "kind": "command",
+        "purposes": [
+          "View token usage and session statistics"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "@ references",
+        "kind": "feature",
+        "purposes": [
+          "Enables selective context loading of specific files/directories"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Anthropic Harness",
+        "kind": "library",
+        "purposes": [
+          "Framework for coordinating long-running coding agents"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "usQ2HBTTWxs",
+            "title": "I Forced Claude to Code for 24 Hours NONSTOP, Here's What Happened",
+            "url": "https://youtu.be/usQ2HBTTWxs",
+            "channel": "Cole Medin",
+            "upload_date": "20251204",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Antigravity",
+        "kind": "service",
+        "purposes": [
+          "AI coding agent that implements design outputs"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "jbU8IVJJt7I",
+            "title": "Claude Design: Code-Driven vs Blind Handoff — Which Approach Wins?",
+            "url": "https://youtu.be/jbU8IVJJt7I",
+            "channel": "Use AI with Tech Dad",
+            "upload_date": "20260428",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Ask Tool",
+        "kind": "plugin",
+        "purposes": [
+          "Allows users to ask questions and interact with Claude Code sessions from the mobile app"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "ocQ7ZKhHU5Q",
+            "title": "Claude Code on your Phone is OFFICIAL (it changes  everything)",
+            "url": "https://youtu.be/ocQ7ZKhHU5Q",
+            "channel": "NetworkChuck",
+            "upload_date": "20260226",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Beads",
+        "kind": "service",
+        "purposes": [
+          "Workflow automation framework for AI agents"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "CLI (Command Line Interface)",
+        "kind": "tool",
+        "purposes": [
+          "Reduces token usage by only loading when called"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "9ToOfgZ4qqQ",
+            "title": "I Stopped Hitting Claude Code Usage Limits (Here's How)",
+            "url": "https://youtu.be/9ToOfgZ4qqQ",
+            "channel": "Brad | AI & Automation",
+            "upload_date": "20260410",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Claude Agent SDK",
+        "kind": "library",
+        "purposes": [
+          "Programmatic interface for interacting with Claude Code"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "usQ2HBTTWxs",
+            "title": "I Forced Claude to Code for 24 Hours NONSTOP, Here's What Happened",
+            "url": "https://youtu.be/usQ2HBTTWxs",
+            "channel": "Cole Medin",
+            "upload_date": "20251204",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Claude CLI",
+        "kind": "cli",
+        "purposes": [
+          "Command-line tool for setting up Claude API credentials"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "usQ2HBTTWxs",
+            "title": "I Forced Claude to Code for 24 Hours NONSTOP, Here's What Happened",
+            "url": "https://youtu.be/usQ2HBTTWxs",
+            "channel": "Cole Medin",
+            "upload_date": "20251204",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Claude Chat",
+        "kind": "service",
+        "purposes": [
+          "Translates technical requirements into design language for Claude Design"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "jbU8IVJJt7I",
+            "title": "Claude Design: Code-Driven vs Blind Handoff — Which Approach Wins?",
+            "url": "https://youtu.be/jbU8IVJJt7I",
+            "channel": "Use AI with Tech Dad",
+            "upload_date": "20260428",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Claude Code Remote Control",
+        "kind": "service",
+        "purposes": [
+          "Officially enables controlling a Claude Code session on a laptop from a mobile device"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "ocQ7ZKhHU5Q",
+            "title": "Claude Code on your Phone is OFFICIAL (it changes  everything)",
+            "url": "https://youtu.be/ocQ7ZKhHU5Q",
+            "channel": "NetworkChuck",
+            "upload_date": "20260226",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Claude Code Tasks",
+        "kind": "service",
+        "purposes": [
+          "Automated task execution for AI development workflows"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Claude Code Web",
+        "kind": "service",
+        "purposes": [
+          "Web-based coding environment with GitHub/Vercel integration"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mywRejDDgUg",
+            "title": "Ship from Anywhere: Claude Code Web + iOS Mobile (and a Secret Command!)",
+            "url": "https://youtu.be/mywRejDDgUg",
+            "channel": "Chong-U — AI Oriented Dev",
+            "upload_date": "20251023",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Claude Code iOS",
+        "kind": "service",
+        "purposes": [
+          "Mobile coding environment synced with web version"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mywRejDDgUg",
+            "title": "Ship from Anywhere: Claude Code Web + iOS Mobile (and a Secret Command!)",
+            "url": "https://youtu.be/mywRejDDgUg",
+            "channel": "Chong-U — AI Oriented Dev",
+            "upload_date": "20251023",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Claude Design",
+        "kind": "service",
+        "purposes": [
+          "AI design tool for generating website layouts and design systems"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "jbU8IVJJt7I",
+            "title": "Claude Design: Code-Driven vs Blind Handoff — Which Approach Wins?",
+            "url": "https://youtu.be/jbU8IVJJt7I",
+            "channel": "Use AI with Tech Dad",
+            "upload_date": "20260428",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Context Audit skill",
+        "kind": "skill",
+        "purposes": [
+          "Analyzes and optimizes Claude Code setup to reduce context bloat"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "9ToOfgZ4qqQ",
+            "title": "I Stopped Hitting Claude Code Usage Limits (Here's How)",
+            "url": "https://youtu.be/9ToOfgZ4qqQ",
+            "channel": "Brad | AI & Automation",
+            "upload_date": "20260410",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Cursor",
+        "kind": "cli",
+        "purposes": [
+          "IDE for running Claude Code workflows"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "wfiv67NixCY",
+            "title": "How I use Claude Code to automate my entire life (5 tricks)",
+            "url": "https://youtu.be/wfiv67NixCY",
+            "channel": "Alex Finn",
+            "upload_date": "20250730",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Double escape (esc esc)",
+        "kind": "workflow",
+        "purposes": [
+          "Rewind conversation to previous messages"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "GSD",
+        "kind": "service",
+        "purposes": [
+          "Community project for autonomous agent workflows"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "MCP server",
+        "kind": "service",
+        "purposes": [
+          "Loads tool definitions into context, increasing token usage"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "9ToOfgZ4qqQ",
+            "title": "I Stopped Hitting Claude Code Usage Limits (Here's How)",
+            "url": "https://youtu.be/9ToOfgZ4qqQ",
+            "channel": "Brad | AI & Automation",
+            "upload_date": "20260410",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Ralph",
+        "kind": "service",
+        "purposes": [
+          "Workflow automation tool for AI agents"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "T-Mux",
+        "kind": "cli",
+        "purposes": [
+          "Terminal multiplexer for split-pane multi-agent collaboration"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "-1K_ZWDKpU0",
+            "title": "Claude Code's Agent Teams Are Insane - Multiple AI Agents Coding Together in Real Time",
+            "url": "https://youtu.be/-1K_ZWDKpU0",
+            "channel": "Cole Medin",
+            "upload_date": "20260209",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "claude —dangerously-skip-permissions",
+        "kind": "cli",
+        "purposes": [
+          "Enable YOLO mode (skip permissions)"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "claude —resume",
+        "kind": "cli",
+        "purposes": [
+          "Resume past Claude Code sessions"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "claude-worktree",
+        "kind": "cli",
+        "purposes": [
+          "Create isolated Git worktree directories for parallel branch editing"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "z_VI51k-tn0",
+            "title": "Claude Code Worktrees in 7 Minutes",
+            "url": "https://youtu.be/z_VI51k-tn0",
+            "channel": "Developers Digest",
+            "upload_date": "20260221",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "compound-engineering-plugin",
+        "kind": "plugin",
+        "purposes": [
+          "Enhances Claude Code with engineering capabilities"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "ctrl+s",
+        "kind": "shortcut",
+        "purposes": [
+          "Save prompts"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "iTerm 2",
+        "kind": "cli",
+        "purposes": [
+          "Terminal application supporting split-pane multi-agent collaboration"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "-1K_ZWDKpU0",
+            "title": "Claude Code's Agent Teams Are Insane - Multiple AI Agents Coding Together in Real Time",
+            "url": "https://youtu.be/-1K_ZWDKpU0",
+            "channel": "Cole Medin",
+            "upload_date": "20260209",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "settings.json",
+        "kind": "file",
+        "purposes": [
+          "Configures Claude Code behavior like auto-compaction and file permissions"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "9ToOfgZ4qqQ",
+            "title": "I Stopped Hitting Claude Code Usage Limits (Here's How)",
+            "url": "https://youtu.be/9ToOfgZ4qqQ",
+            "channel": "Brad | AI & Automation",
+            "upload_date": "20260410",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "subagent",
+        "kind": "feature",
+        "purposes": [
+          "Isolates deep research tasks in separate context windows to prevent main context pollution"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "subagents",
+        "kind": "service",
+        "purposes": [
+          "Spawn parallel Claude Code agents with worktree isolation for task parallelization"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "z_VI51k-tn0",
+            "title": "Claude Code Worktrees in 7 Minutes",
+            "url": "https://youtu.be/z_VI51k-tn0",
+            "channel": "Developers Digest",
+            "upload_date": "20260221",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "ultrathink",
+        "kind": "command",
+        "purposes": [
+          "Force Claude to work harder on complex tasks"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      }
+    ],
+    "techniques": [
+      {
+        "text": "Creating PRDs (Product Requirements Documents) for task planning",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Using task dependencies with blocked/blocked-by relationships",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Implementing sub-agents for context window management",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Upfront planning to improve AI agent output quality",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Capturing learnings in Claude MD and skills files for workflow refinement",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "NAWKFRaR0Sk",
+            "title": "Claude Code Tasks: Stop Babysitting Your AI Agent",
+            "url": "https://youtu.be/NAWKFRaR0Sk",
+            "channel": "Dan Vega",
+            "upload_date": "20260206",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Test-driven development for AI coding agents",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "usQ2HBTTWxs",
+            "title": "I Forced Claude to Code for 24 Hours NONSTOP, Here's What Happened",
+            "url": "https://youtu.be/usQ2HBTTWxs",
+            "channel": "Cole Medin",
+            "upload_date": "20251204",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Feature list JSON with 200+ test cases",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "usQ2HBTTWxs",
+            "title": "I Forced Claude to Code for 24 Hours NONSTOP, Here's What Happened",
+            "url": "https://youtu.be/usQ2HBTTWxs",
+            "channel": "Cole Medin",
+            "upload_date": "20251204",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Git-based version control integration",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "usQ2HBTTWxs",
+            "title": "I Forced Claude to Code for 24 Hours NONSTOP, Here's What Happened",
+            "url": "https://youtu.be/usQ2HBTTWxs",
+            "channel": "Cole Medin",
+            "upload_date": "20251204",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Context window priming between agent sessions",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "usQ2HBTTWxs",
+            "title": "I Forced Claude to Code for 24 Hours NONSTOP, Here's What Happened",
+            "url": "https://youtu.be/usQ2HBTTWxs",
+            "channel": "Cole Medin",
+            "upload_date": "20251204",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Regression testing between features",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "usQ2HBTTWxs",
+            "title": "I Forced Claude to Code for 24 Hours NONSTOP, Here's What Happened",
+            "url": "https://youtu.be/usQ2HBTTWxs",
+            "channel": "Cole Medin",
+            "upload_date": "20251204",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Create a self-background markdown file for context",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "wfiv67NixCY",
+            "title": "How I use Claude Code to automate my entire life (5 tricks)",
+            "url": "https://youtu.be/wfiv67NixCY",
+            "channel": "Alex Finn",
+            "upload_date": "20250730",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use /init to generate Claude Code configuration",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "wfiv67NixCY",
+            "title": "How I use Claude Code to automate my entire life (5 tricks)",
+            "url": "https://youtu.be/wfiv67NixCY",
+            "channel": "Alex Finn",
+            "upload_date": "20250730",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Run slash commands to spawn sub-agents for automation",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "wfiv67NixCY",
+            "title": "How I use Claude Code to automate my entire life (5 tricks)",
+            "url": "https://youtu.be/wfiv67NixCY",
+            "channel": "Alex Finn",
+            "upload_date": "20250730",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Track metrics in weekly check-ins",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "wfiv67NixCY",
+            "title": "How I use Claude Code to automate my entire life (5 tricks)",
+            "url": "https://youtu.be/wfiv67NixCY",
+            "channel": "Alex Finn",
+            "upload_date": "20250730",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Automate journaling with daily check-ins",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "wfiv67NixCY",
+            "title": "How I use Claude Code to automate my entire life (5 tricks)",
+            "url": "https://youtu.be/wfiv67NixCY",
+            "channel": "Alex Finn",
+            "upload_date": "20250730",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use competitor analysis for content research",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "wfiv67NixCY",
+            "title": "How I use Claude Code to automate my entire life (5 tricks)",
+            "url": "https://youtu.be/wfiv67NixCY",
+            "channel": "Alex Finn",
+            "upload_date": "20250730",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Analyze brain dumps/notes with mind map visualization",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "wfiv67NixCY",
+            "title": "How I use Claude Code to automate my entire life (5 tricks)",
+            "url": "https://youtu.be/wfiv67NixCY",
+            "channel": "Alex Finn",
+            "upload_date": "20250730",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Disconnect unused MCP servers to reduce context bloat",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "9ToOfgZ4qqQ",
+            "title": "I Stopped Hitting Claude Code Usage Limits (Here's How)",
+            "url": "https://youtu.be/9ToOfgZ4qqQ",
+            "channel": "Brad | AI & Automation",
+            "upload_date": "20260410",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Replace MCP servers with CLIs for 40% token savings",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "9ToOfgZ4qqQ",
+            "title": "I Stopped Hitting Claude Code Usage Limits (Here's How)",
+            "url": "https://youtu.be/9ToOfgZ4qqQ",
+            "channel": "Brad | AI & Automation",
+            "upload_date": "20260410",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Optimize Claude.md by removing contradictions and using progressive disclosure",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "9ToOfgZ4qqQ",
+            "title": "I Stopped Hitting Claude Code Usage Limits (Here's How)",
+            "url": "https://youtu.be/9ToOfgZ4qqQ",
+            "channel": "Brad | AI & Automation",
+            "upload_date": "20260410",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Audit skills for verbose or redundant instructions",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "9ToOfgZ4qqQ",
+            "title": "I Stopped Hitting Claude Code Usage Limits (Here's How)",
+            "url": "https://youtu.be/9ToOfgZ4qqQ",
+            "channel": "Brad | AI & Automation",
+            "upload_date": "20260410",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Adjust settings.json for auto-compaction, bash output limits, and file permissions",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "9ToOfgZ4qqQ",
+            "title": "I Stopped Hitting Claude Code Usage Limits (Here's How)",
+            "url": "https://youtu.be/9ToOfgZ4qqQ",
+            "channel": "Brad | AI & Automation",
+            "upload_date": "20260410",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use /context command to monitor context usage dashboard",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Manual summarization with progress.md files instead of autocompact",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Subagent isolation for deep research tasks",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Selective context loading with @file references",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Proactive context clearing between tasks (/clear)",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Context checkpointing to markdown files",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "/compact with explicit preservation instructions",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "I1EGbrH5Xdk",
+            "title": "Master Context in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/I1EGbrH5Xdk",
+            "channel": "GritAI Studio",
+            "upload_date": "20260205",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Use agent teams for collaborative coding tasks requiring inter-agent communication",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "-1K_ZWDKpU0",
+            "title": "Claude Code's Agent Teams Are Insane - Multiple AI Agents Coding Together in Real Time",
+            "url": "https://youtu.be/-1K_ZWDKpU0",
+            "channel": "Cole Medin",
+            "upload_date": "20260209",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Enable experimental agent teams via environment variable or settings.json",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "-1K_ZWDKpU0",
+            "title": "Claude Code's Agent Teams Are Insane - Multiple AI Agents Coding Together in Real Time",
+            "url": "https://youtu.be/-1K_ZWDKpU0",
+            "channel": "Cole Medin",
+            "upload_date": "20260209",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Leverage split-pane terminals for real-time agent interaction",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "-1K_ZWDKpU0",
+            "title": "Claude Code's Agent Teams Are Insane - Multiple AI Agents Coding Together in Real Time",
+            "url": "https://youtu.be/-1K_ZWDKpU0",
+            "channel": "Cole Medin",
+            "upload_date": "20260209",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Create custom agent team skills for task-specific workflows",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "-1K_ZWDKpU0",
+            "title": "Claude Code's Agent Teams Are Insane - Multiple AI Agents Coding Together in Real Time",
+            "url": "https://youtu.be/-1K_ZWDKpU0",
+            "channel": "Cole Medin",
+            "upload_date": "20260209",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Use /init to auto-generate CLAUDE.md from repository structure",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "h7QJL2_gEXA",
+            "title": "How to Use CLAUDE.md in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/h7QJL2_gEXA",
+            "channel": "GritAI Studio",
+            "upload_date": "20260125",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Organize memory hierarchy: Enterprise > Project > User > Local",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "h7QJL2_gEXA",
+            "title": "How to Use CLAUDE.md in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/h7QJL2_gEXA",
+            "channel": "GritAI Studio",
+            "upload_date": "20260125",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Create modular rules in .claude/rules/ with markdown files",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "h7QJL2_gEXA",
+            "title": "How to Use CLAUDE.md in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/h7QJL2_gEXA",
+            "channel": "GritAI Studio",
+            "upload_date": "20260125",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Apply path-specific rules using glob patterns",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "h7QJL2_gEXA",
+            "title": "How to Use CLAUDE.md in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/h7QJL2_gEXA",
+            "channel": "GritAI Studio",
+            "upload_date": "20260125",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Import external files with @ references for cleaner CLAUDE.md",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "h7QJL2_gEXA",
+            "title": "How to Use CLAUDE.md in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/h7QJL2_gEXA",
+            "channel": "GritAI Studio",
+            "upload_date": "20260125",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Capture debugging lessons with 'Add to memory' commands",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "h7QJL2_gEXA",
+            "title": "How to Use CLAUDE.md in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/h7QJL2_gEXA",
+            "channel": "GritAI Studio",
+            "upload_date": "20260125",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Review and simplify CLAUDE.md periodically",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "h7QJL2_gEXA",
+            "title": "How to Use CLAUDE.md in Claude Code in 5 Minutes",
+            "url": "https://youtu.be/h7QJL2_gEXA",
+            "channel": "GritAI Studio",
+            "upload_date": "20260125",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Connecting Claude Code to GitHub repositories",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mywRejDDgUg",
+            "title": "Ship from Anywhere: Claude Code Web + iOS Mobile (and a Secret Command!)",
+            "url": "https://youtu.be/mywRejDDgUg",
+            "channel": "Chong-U — AI Oriented Dev",
+            "upload_date": "20251023",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Live sync between web and mobile coding environments",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mywRejDDgUg",
+            "title": "Ship from Anywhere: Claude Code Web + iOS Mobile (and a Secret Command!)",
+            "url": "https://youtu.be/mywRejDDgUg",
+            "channel": "Chong-U — AI Oriented Dev",
+            "upload_date": "20251023",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Cloud-based bug fixing and error resolution",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mywRejDDgUg",
+            "title": "Ship from Anywhere: Claude Code Web + iOS Mobile (and a Secret Command!)",
+            "url": "https://youtu.be/mywRejDDgUg",
+            "channel": "Chong-U — AI Oriented Dev",
+            "upload_date": "20251023",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Automated pull request creation and merging",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mywRejDDgUg",
+            "title": "Ship from Anywhere: Claude Code Web + iOS Mobile (and a Secret Command!)",
+            "url": "https://youtu.be/mywRejDDgUg",
+            "channel": "Chong-U — AI Oriented Dev",
+            "upload_date": "20251023",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Using the '--teleport' secret command for deployment",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mywRejDDgUg",
+            "title": "Ship from Anywhere: Claude Code Web + iOS Mobile (and a Secret Command!)",
+            "url": "https://youtu.be/mywRejDDgUg",
+            "channel": "Chong-U — AI Oriented Dev",
+            "upload_date": "20251023",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Start a coding session on a laptop and resume it on a phone using the native Claude app",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "ocQ7ZKhHU5Q",
+            "title": "Claude Code on your Phone is OFFICIAL (it changes  everything)",
+            "url": "https://youtu.be/ocQ7ZKhHU5Q",
+            "channel": "NetworkChuck",
+            "upload_date": "20260226",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use the phone's native app without requiring a VPN or remote desktop connection",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "ocQ7ZKhHU5Q",
+            "title": "Claude Code on your Phone is OFFICIAL (it changes  everything)",
+            "url": "https://youtu.be/ocQ7ZKhHU5Q",
+            "channel": "NetworkChuck",
+            "upload_date": "20260226",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Access configured skills and resources on the laptop/server from the mobile device",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "ocQ7ZKhHU5Q",
+            "title": "Claude Code on your Phone is OFFICIAL (it changes  everything)",
+            "url": "https://youtu.be/ocQ7ZKhHU5Q",
+            "channel": "NetworkChuck",
+            "upload_date": "20260226",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use Git worktrees to check out multiple branches in separate directories",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "z_VI51k-tn0",
+            "title": "Claude Code Worktrees in 7 Minutes",
+            "url": "https://youtu.be/z_VI51k-tn0",
+            "channel": "Developers Digest",
+            "upload_date": "20260221",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Run `claude-worktree` in parallel terminals for isolated editing",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "z_VI51k-tn0",
+            "title": "Claude Code Worktrees in 7 Minutes",
+            "url": "https://youtu.be/z_VI51k-tn0",
+            "channel": "Developers Digest",
+            "upload_date": "20260221",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Configure subagents with `isolation: worktree` in front matter for parallel task execution",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "z_VI51k-tn0",
+            "title": "Claude Code Worktrees in 7 Minutes",
+            "url": "https://youtu.be/z_VI51k-tn0",
+            "channel": "Developers Digest",
+            "upload_date": "20260221",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Leverage subagent file configurations for tool whitelisting (including MCP tools)",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "z_VI51k-tn0",
+            "title": "Claude Code Worktrees in 7 Minutes",
+            "url": "https://youtu.be/z_VI51k-tn0",
+            "channel": "Developers Digest",
+            "upload_date": "20260221",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Generate multiple SaaS landing page variations via parallel subagent spawning",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "z_VI51k-tn0",
+            "title": "Claude Code Worktrees in 7 Minutes",
+            "url": "https://youtu.be/z_VI51k-tn0",
+            "channel": "Developers Digest",
+            "upload_date": "20260221",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Blind Handoff principle: Use Claude Chat as an interpreter for non-designers",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "jbU8IVJJt7I",
+            "title": "Claude Design: Code-Driven vs Blind Handoff — Which Approach Wins?",
+            "url": "https://youtu.be/jbU8IVJJt7I",
+            "channel": "Use AI with Tech Dad",
+            "upload_date": "20260428",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Generate Markdown design briefs in Claude Chat before feeding to Claude Design",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "jbU8IVJJt7I",
+            "title": "Claude Design: Code-Driven vs Blind Handoff — Which Approach Wins?",
+            "url": "https://youtu.be/jbU8IVJJt7I",
+            "channel": "Use AI with Tech Dad",
+            "upload_date": "20260428",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Challenge AI outputs explicitly (e.g., ask about responsiveness/accessibility)",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "jbU8IVJJt7I",
+            "title": "Claude Design: Code-Driven vs Blind Handoff — Which Approach Wins?",
+            "url": "https://youtu.be/jbU8IVJJt7I",
+            "channel": "Use AI with Tech Dad",
+            "upload_date": "20260428",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Separate tools by function: Thinking in Claude Chat, Designing in Claude Design, Building in coding agents",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "jbU8IVJJt7I",
+            "title": "Claude Design: Code-Driven vs Blind Handoff — Which Approach Wins?",
+            "url": "https://youtu.be/jbU8IVJJt7I",
+            "channel": "Use AI with Tech Dad",
+            "upload_date": "20260428",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Resume sessions with claude —resume to retain context",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use /context to diagnose hallucinations by visualizing context usage",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Track token limits with /stats",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Organize workflows with session renaming",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Rewind mistakes with double escape (esc esc)",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Activate Ultra Think mode for complex tasks",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Create custom memories with # command",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Enable YOLO mode for autonomous task execution",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Access plugins store via /plugins",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Cb49pGTSigI",
+            "title": "Claude Code just had a MAJOR update. Here's how to use it.",
+            "url": "https://youtu.be/Cb49pGTSigI",
+            "channel": "Alex Finn",
+            "upload_date": "20251222",
+            "signal_score": 8
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "cmd": "claude setup --token",
+        "video_id": "usQ2HBTTWxs"
+      },
+      {
+        "cmd": "Create a markdown file named 'background on yourself' in a Claude Code folder",
+        "video_id": "wfiv67NixCY"
+      },
+      {
+        "cmd": "/init in Claude Code to generate config",
+        "video_id": "wfiv67NixCY"
+      },
+      {
+        "cmd": "Run /weekly check-in, /daily check-in, /newsletter researcher, /brain dump analysis commands",
+        "video_id": "wfiv67NixCY"
+      },
+      {
+        "cmd": "Install T-Mux",
+        "video_id": "-1K_ZWDKpU0"
+      },
+      {
+        "cmd": "Install iTerm 2",
+        "video_id": "-1K_ZWDKpU0"
+      },
+      {
+        "cmd": "/remote-control",
+        "video_id": "ocQ7ZKhHU5Q"
+      },
+      {
+        "cmd": "claude —resume",
+        "video_id": "Cb49pGTSigI"
+      },
+      {
+        "cmd": "/context",
+        "video_id": "Cb49pGTSigI"
+      },
+      {
+        "cmd": "/stats",
+        "video_id": "Cb49pGTSigI"
+      },
+      {
+        "cmd": "/rename \"your name\"",
+        "video_id": "Cb49pGTSigI"
+      },
+      {
+        "cmd": "claude —dangerously-skip-permissions",
+        "video_id": "Cb49pGTSigI"
+      },
+      {
+        "cmd": "/plugins",
+        "video_id": "Cb49pGTSigI"
+      }
+    ]
+  },
+  "video_count": 12
+}

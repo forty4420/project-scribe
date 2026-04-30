@@ -2,10 +2,11 @@
 
 ## Current focus
 
-v0.7.0 ships /project-scribe:session-card — shareable markdown artifact for r/ClaudeAI launch. Marketing-loop primitive: every shared card carries the brand.
+v0.7.3 ships bats-core test harness — 4 hooks + 3 skills + integration cycle covered, CI on Ubuntu. Closes Reviewer-3 finding from v0.6.0 smoke test. Foundation for the next 14 backlog upgrades. (v0.7.2 was claimed mid-flight by an out-of-band comparison-doc patch on master; renumbered to avoid tag collision.)
 
 ## Last shipped
 
+- v0.7.2 — bats-core test harness for hooks + 3 skills
 - v0.7.0 — `/project-scribe:session-card` shareable artifact — `4f0b114`
 - v0.6.3 — competitive comparison doc — `da75a51`
 - v0.6.2 — README marketing-split — `9a50736`
@@ -25,7 +26,6 @@ v0.7.0 ships /project-scribe:session-card — shareable markdown artifact for r/
 - Promotion path / dreaming-lite
 - Plugin rename for search disambiguation
 - Desktop tray app for context warnings
-- Bash test harness (Reviewer-3 finding from v0.6.0 smoke test)
 
 ## Specs
 
