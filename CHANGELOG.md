@@ -20,6 +20,19 @@ All notable changes to project-scribe. Newest first.
 - Closes Reviewer-3 finding from the v0.6.0 smoke test.
 - Windows users run via Git Bash or WSL; CI is Ubuntu only.
 - Plan: `docs/superpowers/plans/2026-04-30-bash-test-harness.md`.
+- v0.7.2 was claimed mid-flight by an out-of-band comparison-doc patch on master (entry below); this work renumbered to v0.7.3 to avoid tag collision.
+
+## v0.7.2 — Comparison doc disambiguates Scribe vs Aider vs Cline
+
+### Changed
+
+- `docs/comparison.md` opens with a category disambiguation: Scribe is a memory plugin, not a code-writing CLI like Aider (44k★) and not an autonomous IDE agent like Cline (61k★). Devs frequently lump these tools together — the doc now says explicitly which category Scribe lives in and which tools you can use alongside it (Aider/Cline + Scribe = no conflict).
+- Memory-plugin comparison table unchanged — still focuses on direct competitors (claude-mem, claude-mem-lite, MemPalace, Mem0, ShieldCortex). Aider + Cline get the disambiguation paragraph instead of a table row, since they're a different category.
+
+### Notes
+
+- Triggered by feedback from a Gemini review that conflated Scribe with code-writing tools. Same conflation will appear from Reddit/HN commenters — the doc now answers it before the question lands.
+- Pure documentation patch.
 
 ## v0.7.1 — session-card polish + STATE.md refresh
 
