@@ -2,7 +2,7 @@
 
 ## Current focus
 
-v0.7.2 ships bats-core test harness — 4 hooks + 3 skills + integration cycle covered, CI on Ubuntu. Closes Reviewer-3 finding from v0.6.0 smoke test. Foundation for the next 14 backlog upgrades.
+v0.7.3 ships bats-core test harness — 4 hooks + 3 skills + integration cycle covered, CI on Ubuntu. Closes Reviewer-3 finding from v0.6.0 smoke test. Foundation for the next 14 backlog upgrades. (v0.7.2 was claimed mid-flight by an out-of-band comparison-doc patch on master; renumbered to avoid tag collision.)
 
 ## Last shipped
 

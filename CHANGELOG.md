@@ -2,7 +2,7 @@
 
 All notable changes to project-scribe. Newest first.
 
-## v0.7.2 — bats-core test harness
+## v0.7.3 — bats-core test harness
 
 ### Added
 
