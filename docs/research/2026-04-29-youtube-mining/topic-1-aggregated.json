@@ -1,0 +1,2247 @@
+{
+  "topic": "claude code plugin best practices",
+  "aggregated": {
+    "repos": [
+      {
+        "url": "https://github.com/obra/superpowers",
+        "purposes": [
+          "Superpowers plugin for Claude Code with 14 skills for structured development workflows",
+          "Agentic skills framework enforcing structured coding workflows",
+          "Agentic skills framework and software development methodology for Claude Code"
+        ],
+        "mentions": 3,
+        "videos": [
+          {
+            "id": "yEzzBxhkUw4",
+            "title": "The Claude Code Plugin Every Developer Must Learn (Superpowers)",
+            "url": "https://youtu.be/yEzzBxhkUw4",
+            "channel": "GritAI Studio",
+            "upload_date": "20260403",
+            "signal_score": 9
+          },
+          {
+            "id": "lq3rzXP4_vs",
+            "title": "This Is The Only Claude Code Plugin You'll EVER Need (Superpowers)",
+            "url": "https://youtu.be/lq3rzXP4_vs",
+            "channel": "Better Stack",
+            "upload_date": "20260214",
+            "signal_score": 8
+          },
+          {
+            "id": "4XqVR6xI6Kw",
+            "title": "This One Plugin Just 10x’d Claude Code",
+            "url": "https://youtu.be/4XqVR6xI6Kw",
+            "channel": "Nate Herk | AI Automation",
+            "upload_date": "20260412",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/HKUDS/RAG-Anything",
+        "purposes": [
+          "Retrieval-augmented generation system"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/RichardBray/x-dl",
+        "purposes": [
+          "CLI tool for downloading Twitter videos"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "lq3rzXP4_vs",
+            "title": "This Is The Only Claude Code Plugin You'll EVER Need (Superpowers)",
+            "url": "https://youtu.be/lq3rzXP4_vs",
+            "channel": "Better Stack",
+            "upload_date": "20260214",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/VoltAgent/awesome-design-md",
+        "purposes": [
+          "Front-end design templates for web development"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/anthropics/skills",
+        "purposes": [
+          "Skill creation framework for Claude Code"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/edmund-io/edmunds-claude-code",
+        "purposes": [
+          "Author's Claude Code setup with custom commands and configurations"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/googleworkspace/cli",
+        "purposes": [
+          "Google Workspace integration for Claude Code"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/karpathy/autoresearch",
+        "purposes": [
+          "Automated machine learning optimization for Claude Code projects"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/kepano/obsidian-skills",
+        "purposes": [
+          "Integrates Obsidian with Claude Code for knowledge graph creation"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/mendableai/firecrawl",
+        "purposes": [
+          "Web scraping with anti-bot protection"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/microsoft/playwright",
+        "purposes": [
+          "Browser automation for testing"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/openai/codex-plugin-cc",
+        "purposes": [
+          "Code review and adversarial review for Claude Code"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/repomirrorhq/repomirror",
+        "purposes": [
+          "Used to ship six repos overnight using the Ralph technique, including a Python-to-TypeScript rewrite and a new programming language prototype."
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "ny_BAA3eYaI",
+            "title": "Claude Ralph - The Bizarre Anthropic Plugin That Every Developer Is Missing",
+            "url": "https://youtu.be/ny_BAA3eYaI",
+            "channel": "Better Stack",
+            "upload_date": "20251230",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "url": "https://github.com/teng-lin/notebooklm-py",
+        "purposes": [
+          "Notebook-style research interface for Claude Code"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      }
+    ],
+    "tools": [
+      {
+        "name": "Claude Code",
+        "kind": "model",
+        "purposes": [
+          "AI-powered coding assistant",
+          "AI coding assistant with plan mode for structured project planning",
+          "AI-powered coding assistant with CLI and agent capabilities",
+          "AI coding assistant with Plan Mode",
+          "AI-powered coding assistant with context management and validation workflows",
+          "AI coding assistant integrated with the Ralph plugin for autonomous task execution.",
+          "AI coding assistant enhanced by the Superpowers plugin"
+        ],
+        "mentions": 7,
+        "videos": [
+          {
+            "id": "3CSi8QAoN-s",
+            "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+            "url": "https://youtu.be/3CSi8QAoN-s",
+            "channel": "Matt Pocock",
+            "upload_date": "20260225",
+            "signal_score": 8
+          },
+          {
+            "id": "kZ-zzHVUrO4",
+            "title": "How I use Claude Code for real engineering",
+            "url": "https://youtu.be/kZ-zzHVUrO4",
+            "channel": "Matt Pocock",
+            "upload_date": "20251027",
+            "signal_score": 7
+          },
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          },
+          {
+            "id": "lq3rzXP4_vs",
+            "title": "This Is The Only Claude Code Plugin You'll EVER Need (Superpowers)",
+            "url": "https://youtu.be/lq3rzXP4_vs",
+            "channel": "Better Stack",
+            "upload_date": "20260214",
+            "signal_score": 8
+          },
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          },
+          {
+            "id": "ny_BAA3eYaI",
+            "title": "Claude Ralph - The Bizarre Anthropic Plugin That Every Developer Is Missing",
+            "url": "https://youtu.be/ny_BAA3eYaI",
+            "channel": "Better Stack",
+            "upload_date": "20251230",
+            "signal_score": 8
+          },
+          {
+            "id": "4XqVR6xI6Kw",
+            "title": "This One Plugin Just 10x’d Claude Code",
+            "url": "https://youtu.be/4XqVR6xI6Kw",
+            "channel": "Nate Herk | AI Automation",
+            "upload_date": "20260412",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Superpowers",
+        "kind": "plugin",
+        "purposes": [
+          "Structured Claude Code workflow with 14 skills for planning, testing, and code review",
+          "Enforces structured coding workflows with 14 skills",
+          "Installs 14 skills to enforce structured development phases in Claude Code"
+        ],
+        "mentions": 3,
+        "videos": [
+          {
+            "id": "yEzzBxhkUw4",
+            "title": "The Claude Code Plugin Every Developer Must Learn (Superpowers)",
+            "url": "https://youtu.be/yEzzBxhkUw4",
+            "channel": "GritAI Studio",
+            "upload_date": "20260403",
+            "signal_score": 9
+          },
+          {
+            "id": "lq3rzXP4_vs",
+            "title": "This Is The Only Claude Code Plugin You'll EVER Need (Superpowers)",
+            "url": "https://youtu.be/lq3rzXP4_vs",
+            "channel": "Better Stack",
+            "upload_date": "20260214",
+            "signal_score": 8
+          },
+          {
+            "id": "4XqVR6xI6Kw",
+            "title": "This One Plugin Just 10x’d Claude Code",
+            "url": "https://youtu.be/4XqVR6xI6Kw",
+            "channel": "Nate Herk | AI Automation",
+            "upload_date": "20260412",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "GitHub CLI",
+        "kind": "cli",
+        "purposes": [
+          "Primary method for branch management and issue tracking",
+          "Command-line interface for GitHub integration"
+        ],
+        "mentions": 2,
+        "videos": [
+          {
+            "id": "kZ-zzHVUrO4",
+            "title": "How I use Claude Code for real engineering",
+            "url": "https://youtu.be/kZ-zzHVUrO4",
+            "channel": "Matt Pocock",
+            "upload_date": "20251027",
+            "signal_score": 7
+          },
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "MCP server",
+        "kind": "service",
+        "purposes": [
+          "Modular, composable protocol for connecting Claude Code to external tools",
+          "Integration with Slack, Notion, and other tools for automation and verification workflows"
+        ],
+        "mentions": 2,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          },
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Ralph Wiggum plugin",
+        "kind": "plugin",
+        "purposes": [
+          "Automates iterative development by looping Claude Code prompts until a completion signal is met.",
+          "UI verification during development using automated testing"
+        ],
+        "mentions": 2,
+        "videos": [
+          {
+            "id": "ny_BAA3eYaI",
+            "title": "Claude Ralph - The Bizarre Anthropic Plugin That Every Developer Is Missing",
+            "url": "https://youtu.be/ny_BAA3eYaI",
+            "channel": "Better Stack",
+            "upload_date": "20251230",
+            "signal_score": 8
+          },
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Autoresearch",
+        "kind": "plugin",
+        "purposes": [
+          "Automated machine learning optimization"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Chrome DevTools/Playwright",
+        "kind": "service",
+        "purposes": [
+          "MCP server for browser automation and front-end debugging"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Claude Browser Extension",
+        "kind": "plugin",
+        "purposes": [
+          "Site navigation and verification for web-based tasks"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Claude Plugins",
+        "kind": "service",
+        "purposes": [
+          "Anthropic's feature for bundling and sharing Claude workflows"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Cloud Code",
+        "kind": "service",
+        "purposes": [
+          "A terminal-based coding assistant that uses agentic search and tool integration to build and debug code."
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "gv0WHhKelSE",
+            "title": "Claude Code best practices | Code w/ Claude",
+            "url": "https://youtu.be/gv0WHhKelSE",
+            "channel": "Anthropic",
+            "upload_date": "20250731",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "name": "Codex CLI",
+        "kind": "plugin",
+        "purposes": [
+          "Code review and adversarial code analysis"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Context Seven",
+        "kind": "service",
+        "purposes": [
+          "MCP server providing up-to-date documentation for coding libraries"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Context7 MCP",
+        "kind": "service",
+        "purposes": [
+          "Provides AI agents with access to third-party library/documentation context"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "WwdIYp5fuxY",
+            "title": "My top 6 tips & ways of using Claude Code efficiently",
+            "url": "https://youtu.be/WwdIYp5fuxY",
+            "channel": "Academind",
+            "upload_date": "20260128",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "name": "Datadog",
+        "kind": "service",
+        "purposes": [
+          "Monitoring and cost tracking for Claude Code usage"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Firecrawl",
+        "kind": "cli",
+        "purposes": [
+          "Web scraping with anti-bot protection"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "GitHub Actions",
+        "kind": "service",
+        "purposes": [
+          "Automated PR reviews and CI/CD integration with Claude Code"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Google Workspace CLI",
+        "kind": "cli",
+        "purposes": [
+          "Google Workspace integration"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "MCP",
+        "kind": "service",
+        "purposes": [
+          "A service integrated with Cloud Code for codebase exploration and analysis."
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "gv0WHhKelSE",
+            "title": "Claude Code best practices | Code w/ Claude",
+            "url": "https://youtu.be/gv0WHhKelSE",
+            "channel": "Anthropic",
+            "upload_date": "20250731",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "name": "MCP (Model Context Provider)",
+        "kind": "service",
+        "purposes": [
+          "External service documentation integration for Claude Code"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "NotebookLM",
+        "kind": "plugin",
+        "purposes": [
+          "Interactive research interface"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Obsidian",
+        "kind": "skill",
+        "purposes": [
+          "Markdown-based knowledge management and graph creation"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "PNPM",
+        "kind": "cli",
+        "purposes": [
+          "Package manager alternative to npm"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "3CSi8QAoN-s",
+            "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+            "url": "https://youtu.be/3CSi8QAoN-s",
+            "channel": "Matt Pocock",
+            "upload_date": "20260225",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Playwright",
+        "kind": "cli",
+        "purposes": [
+          "Browser automation for testing"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "PostgreSQL",
+        "kind": "service",
+        "purposes": [
+          "Database integration via MCP server"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Puppeteer",
+        "kind": "library",
+        "purposes": [
+          "Automation tool for browser interactions and screenshotting"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "RAG-Anything",
+        "kind": "library",
+        "purposes": [
+          "Retrieval-augmented generation system"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Skill Creator",
+        "kind": "framework",
+        "purposes": [
+          "Custom skill development for Claude Code"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "Stripe",
+        "kind": "service",
+        "purposes": [
+          "MCP server for payment integration tasks"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Superbase",
+        "kind": "service",
+        "purposes": [
+          "MCP server for querying databases and managing migrations"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "VS Code",
+        "kind": "service",
+        "purposes": [
+          "Code review and file inspection during implementation"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "kZ-zzHVUrO4",
+            "title": "How I use Claude Code for real engineering",
+            "url": "https://youtu.be/kZ-zzHVUrO4",
+            "channel": "Matt Pocock",
+            "upload_date": "20251027",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "name": "Vercel",
+        "kind": "service",
+        "purposes": [
+          "MCP server for project settings and documentation lookup"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "Visual Companion",
+        "kind": "service",
+        "purposes": [
+          "Browser-based mockup server for interactive design decisions during brainstorming"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "yEzzBxhkUw4",
+            "title": "The Claude Code Plugin Every Developer Must Learn (Superpowers)",
+            "url": "https://youtu.be/yEzzBxhkUw4",
+            "channel": "GritAI Studio",
+            "upload_date": "20260403",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "awesome-design-md",
+        "kind": "library",
+        "purposes": [
+          "Front-end design templates for web development"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "bash",
+        "kind": "cli",
+        "purposes": [
+          "Shell scripting for hooks"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "3CSi8QAoN-s",
+            "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+            "url": "https://youtu.be/3CSi8QAoN-s",
+            "channel": "Matt Pocock",
+            "upload_date": "20260225",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "claude.md",
+        "kind": "file",
+        "purposes": [
+          "Central configuration file defining project structure, verification rules, and session context for Claude Code"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "name": "git",
+        "kind": "cli",
+        "purposes": [
+          "Version control system"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "3CSi8QAoN-s",
+            "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+            "url": "https://youtu.be/3CSi8QAoN-s",
+            "channel": "Matt Pocock",
+            "upload_date": "20260225",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "npm",
+        "kind": "cli",
+        "purposes": [
+          "JavaScript package manager"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "3CSi8QAoN-s",
+            "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+            "url": "https://youtu.be/3CSi8QAoN-s",
+            "channel": "Matt Pocock",
+            "upload_date": "20260225",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "name": "x-dl",
+        "kind": "cli",
+        "purposes": [
+          "Twitter video downloader CLI tool"
+        ],
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "lq3rzXP4_vs",
+            "title": "This Is The Only Claude Code Plugin You'll EVER Need (Superpowers)",
+            "url": "https://youtu.be/lq3rzXP4_vs",
+            "channel": "Better Stack",
+            "upload_date": "20260214",
+            "signal_score": 8
+          }
+        ]
+      }
+    ],
+    "techniques": [
+      {
+        "text": "Using agentic search to explore and understand codebases without indexing.",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "gv0WHhKelSE",
+            "title": "Claude Code best practices | Code w/ Claude",
+            "url": "https://youtu.be/gv0WHhKelSE",
+            "channel": "Anthropic",
+            "upload_date": "20250731",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Leveraging terminal commands and Vim-like workflows for code editing.",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "gv0WHhKelSE",
+            "title": "Claude Code best practices | Code w/ Claude",
+            "url": "https://youtu.be/gv0WHhKelSE",
+            "channel": "Anthropic",
+            "upload_date": "20250731",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Employing Cloud Code as a 'thought partner' to brainstorm implementation strategies before writing code.",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "gv0WHhKelSE",
+            "title": "Claude Code best practices | Code w/ Claude",
+            "url": "https://youtu.be/gv0WHhKelSE",
+            "channel": "Anthropic",
+            "upload_date": "20250731",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Avoid automated Rolf loops, maintain manual control",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "WwdIYp5fuxY",
+            "title": "My top 6 tips & ways of using Claude Code efficiently",
+            "url": "https://youtu.be/WwdIYp5fuxY",
+            "channel": "Academind",
+            "upload_date": "20260128",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Use plan mode to review and edit AI-generated plans",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "WwdIYp5fuxY",
+            "title": "My top 6 tips & ways of using Claude Code efficiently",
+            "url": "https://youtu.be/WwdIYp5fuxY",
+            "channel": "Academind",
+            "upload_date": "20260128",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Create custom agents (e.g., Docs Explorer agent) for specialized tasks",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "WwdIYp5fuxY",
+            "title": "My top 6 tips & ways of using Claude Code efficiently",
+            "url": "https://youtu.be/WwdIYp5fuxY",
+            "channel": "Academind",
+            "upload_date": "20260128",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Implement project-specific skills to guide AI behavior",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "WwdIYp5fuxY",
+            "title": "My top 6 tips & ways of using Claude Code efficiently",
+            "url": "https://youtu.be/WwdIYp5fuxY",
+            "channel": "Academind",
+            "upload_date": "20260128",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Prioritize explicit instructions over implicit assumptions",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "WwdIYp5fuxY",
+            "title": "My top 6 tips & ways of using Claude Code efficiently",
+            "url": "https://youtu.be/WwdIYp5fuxY",
+            "channel": "Academind",
+            "upload_date": "20260128",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Leverage context engineering for better prompt clarity",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "WwdIYp5fuxY",
+            "title": "My top 6 tips & ways of using Claude Code efficiently",
+            "url": "https://youtu.be/WwdIYp5fuxY",
+            "channel": "Academind",
+            "upload_date": "20260128",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "7-phase workflow: brainstorming → Git worktree isolation → planning → sub-agent development → TDD → code review → branch completion",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "yEzzBxhkUw4",
+            "title": "The Claude Code Plugin Every Developer Must Learn (Superpowers)",
+            "url": "https://youtu.be/yEzzBxhkUw4",
+            "channel": "GritAI Studio",
+            "upload_date": "20260403",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "14 automated skills for design validation, test-first development, and code review",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "yEzzBxhkUw4",
+            "title": "The Claude Code Plugin Every Developer Must Learn (Superpowers)",
+            "url": "https://youtu.be/yEzzBxhkUw4",
+            "channel": "GritAI Studio",
+            "upload_date": "20260403",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Visual Companion for browser-based layout comparisons and interactive design feedback",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "yEzzBxhkUw4",
+            "title": "The Claude Code Plugin Every Developer Must Learn (Superpowers)",
+            "url": "https://youtu.be/yEzzBxhkUw4",
+            "channel": "GritAI Studio",
+            "upload_date": "20260403",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Test-driven development with the Iron Law (no production code without failing tests)",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "yEzzBxhkUw4",
+            "title": "The Claude Code Plugin Every Developer Must Learn (Superpowers)",
+            "url": "https://youtu.be/yEzzBxhkUw4",
+            "channel": "GritAI Studio",
+            "upload_date": "20260403",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Sub-agent parallel execution for task decomposition",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "yEzzBxhkUw4",
+            "title": "The Claude Code Plugin Every Developer Must Learn (Superpowers)",
+            "url": "https://youtu.be/yEzzBxhkUw4",
+            "channel": "GritAI Studio",
+            "upload_date": "20260403",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Use pre-tool use hooks to block or redirect CLI commands",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "3CSi8QAoN-s",
+            "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+            "url": "https://youtu.be/3CSi8QAoN-s",
+            "channel": "Matt Pocock",
+            "upload_date": "20260225",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Convert CLAUDE.md instructions into deterministic hooks",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "3CSi8QAoN-s",
+            "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+            "url": "https://youtu.be/3CSi8QAoN-s",
+            "channel": "Matt Pocock",
+            "upload_date": "20260225",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Create bash scripts to enforce command rules",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "3CSi8QAoN-s",
+            "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+            "url": "https://youtu.be/3CSi8QAoN-s",
+            "channel": "Matt Pocock",
+            "upload_date": "20260225",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Leverage settings.json to register hooks",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "3CSi8QAoN-s",
+            "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+            "url": "https://youtu.be/3CSi8QAoN-s",
+            "channel": "Matt Pocock",
+            "upload_date": "20260225",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Test hooks by triggering blocked commands",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "3CSi8QAoN-s",
+            "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+            "url": "https://youtu.be/3CSi8QAoN-s",
+            "channel": "Matt Pocock",
+            "upload_date": "20260225",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Using plan mode to generate clarifying questions and explore codebases",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "kZ-zzHVUrO4",
+            "title": "How I use Claude Code for real engineering",
+            "url": "https://youtu.be/kZ-zzHVUrO4",
+            "channel": "Matt Pocock",
+            "upload_date": "20251027",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Multi-phase planning to split work across context windows",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "kZ-zzHVUrO4",
+            "title": "How I use Claude Code for real engineering",
+            "url": "https://youtu.be/kZ-zzHVUrO4",
+            "channel": "Matt Pocock",
+            "upload_date": "20251027",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Concise rule configuration for plans and commit messages",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "kZ-zzHVUrO4",
+            "title": "How I use Claude Code for real engineering",
+            "url": "https://youtu.be/kZ-zzHVUrO4",
+            "channel": "Matt Pocock",
+            "upload_date": "20251027",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Tracking context window usage to avoid overflows",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "kZ-zzHVUrO4",
+            "title": "How I use Claude Code for real engineering",
+            "url": "https://youtu.be/kZ-zzHVUrO4",
+            "channel": "Matt Pocock",
+            "upload_date": "20251027",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Storing plans as GitHub issues for persistence between sessions",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "kZ-zzHVUrO4",
+            "title": "How I use Claude Code for real engineering",
+            "url": "https://youtu.be/kZ-zzHVUrO4",
+            "channel": "Matt Pocock",
+            "upload_date": "20251027",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Aggressive auto-accept during implementation phases",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "kZ-zzHVUrO4",
+            "title": "How I use Claude Code for real engineering",
+            "url": "https://youtu.be/kZ-zzHVUrO4",
+            "channel": "Matt Pocock",
+            "upload_date": "20251027",
+            "signal_score": 7
+          }
+        ]
+      },
+      {
+        "text": "Use CLI arguments and headless mode (-p) for automation",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Drag images into terminal or use screenshots for UI feedback loops",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Leverage MCP servers for API/database/tool integrations",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Fetch URLs to inject real-time documentation/knowledge",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Create claude.md files for project-specific prompts and guidelines",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Use slash commands for reusable prompt templates",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Implement version control with frequent commits and reverts",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Monitor context window usage and compact/refresh memory strategically",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Use GitHub CLI or MCP for PR creation and code reviews",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "TiNpzxoBPz0",
+            "title": "Claude Code - 47 PRO TIPS in 9 minutes",
+            "url": "https://youtu.be/TiNpzxoBPz0",
+            "channel": "Greg Baugues",
+            "upload_date": "20250522",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Use # symbol to save instruction snippets to Claude's memory",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Create custom command libraries in markdown files",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Leverage MCP servers for real-time documentation access",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Implement sub-agents for parallel task execution",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use plugins to clone pre-configured workflows",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Apply prompt engineering to break problems into smaller tasks",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "Ffh9OeJ7yxw",
+            "title": "800+ hours of Learning Claude Code in 8 minutes (2026 tutorial / unknown tricks / newest model)",
+            "url": "https://youtu.be/Ffh9OeJ7yxw",
+            "channel": "Edmund Yong",
+            "upload_date": "20251027",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Structured workflows with brainstorming, TDD, and code reviews",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "lq3rzXP4_vs",
+            "title": "This Is The Only Claude Code Plugin You'll EVER Need (Superpowers)",
+            "url": "https://youtu.be/lq3rzXP4_vs",
+            "channel": "Better Stack",
+            "upload_date": "20260214",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Parallel sub-agent task execution",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "lq3rzXP4_vs",
+            "title": "This Is The Only Claude Code Plugin You'll EVER Need (Superpowers)",
+            "url": "https://youtu.be/lq3rzXP4_vs",
+            "channel": "Better Stack",
+            "upload_date": "20260214",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Test-driven development (red/green cycle)",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "lq3rzXP4_vs",
+            "title": "This Is The Only Claude Code Plugin You'll EVER Need (Superpowers)",
+            "url": "https://youtu.be/lq3rzXP4_vs",
+            "channel": "Better Stack",
+            "upload_date": "20260214",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Git commit automation during implementation",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "lq3rzXP4_vs",
+            "title": "This Is The Only Claude Code Plugin You'll EVER Need (Superpowers)",
+            "url": "https://youtu.be/lq3rzXP4_vs",
+            "channel": "Better Stack",
+            "upload_date": "20260214",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Run Claude Code from project root directory",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use CLAUDE.md for hierarchical project rules",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Leverage Plan Mode for validation before execution",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Implement validation loops for self-improving workflows",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use keyboard shortcuts like Shift+Tab (toggle modes), Escape (interrupt), Double Escape (clear input)",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Commit CLAUDE.md to git for version control",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Utilize /context and /model commands for context management",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Create subagents for isolated task execution",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use /chrome for browser integration",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Enable notifications for workflow tracking",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "mZzhfPle9QU",
+            "title": "How I use Claude Code (Meta Staff Engineer Tips)",
+            "url": "https://youtu.be/mZzhfPle9QU",
+            "channel": "John Kim",
+            "upload_date": "20260207",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Use clear completion criteria (e.g., 'done' or 'complete') in prompts",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "ny_BAA3eYaI",
+            "title": "Claude Ralph - The Bizarre Anthropic Plugin That Every Developer Is Missing",
+            "url": "https://youtu.be/ny_BAA3eYaI",
+            "channel": "Better Stack",
+            "upload_date": "20251230",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Break complex tasks into incremental steps for reliable iteration",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "ny_BAA3eYaI",
+            "title": "Claude Ralph - The Bizarre Anthropic Plugin That Every Developer Is Missing",
+            "url": "https://youtu.be/ny_BAA3eYaI",
+            "channel": "Better Stack",
+            "upload_date": "20251230",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Set max iterations to prevent infinite loops and control costs",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "ny_BAA3eYaI",
+            "title": "Claude Ralph - The Bizarre Anthropic Plugin That Every Developer Is Missing",
+            "url": "https://youtu.be/ny_BAA3eYaI",
+            "channel": "Better Stack",
+            "upload_date": "20251230",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Pair with testing frameworks (e.g., Bun test) to validate output automatically",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "ny_BAA3eYaI",
+            "title": "Claude Ralph - The Bizarre Anthropic Plugin That Every Developer Is Missing",
+            "url": "https://youtu.be/ny_BAA3eYaI",
+            "channel": "Better Stack",
+            "upload_date": "20251230",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Verification-led development (e.g., tests first, UI screenshots for validation)",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Using claude.md to define project rules, constraints, and session context",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Running 5+ parallel Claude Code sessions with numbered tabs for task management",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Background agents for long-running tasks and cloud-based code execution",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Teleport command to transfer cloud sessions to local terminals",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Permissions management via settings.json for secure command execution",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "B-UXpneKw6M",
+            "title": "Claude Code's Creator Does This Before Every Single Project",
+            "url": "https://youtu.be/B-UXpneKw6M",
+            "channel": "AI LABS",
+            "upload_date": "20260109",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Using Codex for adversarial code review",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Integrating Obsidian for knowledge graph creation",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Automated optimization with Autoresearch",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Front-end design templates via awesome-design-md",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Firecrawl for anti-bot web scraping",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Playwright for browser automation testing",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "NotebookLM for interactive research",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Skill Creator for custom skill development",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "RAG-Anything for retrieval-augmented generation",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Google Workspace CLI for deep integration",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "KjEFy5wjFQg",
+            "title": "Top 10 Claude Code Skills, Plugins & CLIs (April 2026)",
+            "url": "https://youtu.be/KjEFy5wjFQg",
+            "channel": "Chase AI",
+            "upload_date": "20260410",
+            "signal_score": 9
+          }
+        ]
+      },
+      {
+        "text": "Structured workflow: Clarify → Design → Plan → Code → Verify",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "4XqVR6xI6Kw",
+            "title": "This One Plugin Just 10x’d Claude Code",
+            "url": "https://youtu.be/4XqVR6xI6Kw",
+            "channel": "Nate Herk | AI Automation",
+            "upload_date": "20260412",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Test-driven development (TDD) with failing tests first",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "4XqVR6xI6Kw",
+            "title": "This One Plugin Just 10x’d Claude Code",
+            "url": "https://youtu.be/4XqVR6xI6Kw",
+            "channel": "Nate Herk | AI Automation",
+            "upload_date": "20260412",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Parallel agent dispatch for independent tasks",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "4XqVR6xI6Kw",
+            "title": "This One Plugin Just 10x’d Claude Code",
+            "url": "https://youtu.be/4XqVR6xI6Kw",
+            "channel": "Nate Herk | AI Automation",
+            "upload_date": "20260412",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Interactive visual companions for design validation",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "4XqVR6xI6Kw",
+            "title": "This One Plugin Just 10x’d Claude Code",
+            "url": "https://youtu.be/4XqVR6xI6Kw",
+            "channel": "Nate Herk | AI Automation",
+            "upload_date": "20260412",
+            "signal_score": 8
+          }
+        ]
+      },
+      {
+        "text": "Sub-agent driven development with task-specific reviews",
+        "mentions": 1,
+        "videos": [
+          {
+            "id": "4XqVR6xI6Kw",
+            "title": "This One Plugin Just 10x’d Claude Code",
+            "url": "https://youtu.be/4XqVR6xI6Kw",
+            "channel": "Nate Herk | AI Automation",
+            "upload_date": "20260412",
+            "signal_score": 8
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "cmd": "/plugin",
+        "video_id": "yEzzBxhkUw4"
+      },
+      {
+        "cmd": "chmod +x block-npm.sh",
+        "video_id": "3CSi8QAoN-s"
+      },
+      {
+        "cmd": "{slash} agents",
+        "video_id": "Ffh9OeJ7yxw"
+      },
+      {
+        "cmd": "@<sub-agent-name>",
+        "video_id": "Ffh9OeJ7yxw"
+      },
+      {
+        "cmd": "claude",
+        "video_id": "mZzhfPle9QU"
+      },
+      {
+        "cmd": "/init",
+        "video_id": "mZzhfPle9QU"
+      },
+      {
+        "cmd": "/clear",
+        "video_id": "mZzhfPle9QU"
+      },
+      {
+        "cmd": "/model",
+        "video_id": "mZzhfPle9QU"
+      },
+      {
+        "cmd": "/resume",
+        "video_id": "mZzhfPle9QU"
+      },
+      {
+        "cmd": "/mcp",
+        "video_id": "mZzhfPle9QU"
+      },
+      {
+        "cmd": "/help",
+        "video_id": "mZzhfPle9QU"
+      },
+      {
+        "cmd": "codex setup",
+        "video_id": "KjEFy5wjFQg"
+      },
+      {
+        "cmd": "codeex adversarial review",
+        "video_id": "KjEFy5wjFQg"
+      },
+      {
+        "cmd": "codeex rescue",
+        "video_id": "KjEFy5wjFQg"
+      },
+      {
+        "cmd": "obsidian setup",
+        "video_id": "KjEFy5wjFQg"
+      },
+      {
+        "cmd": "autoresearch install",
+        "video_id": "KjEFy5wjFQg"
+      },
+      {
+        "cmd": "firecrawl install",
+        "video_id": "KjEFy5wjFQg"
+      },
+      {
+        "cmd": "playwright install",
+        "video_id": "KjEFy5wjFQg"
+      },
+      {
+        "cmd": "notebooklm setup",
+        "video_id": "KjEFy5wjFQg"
+      },
+      {
+        "cmd": "skill-creator init",
+        "video_id": "KjEFy5wjFQg"
+      },
+      {
+        "cmd": "rag-anything setup",
+        "video_id": "KjEFy5wjFQg"
+      },
+      {
+        "cmd": "gws setup",
+        "video_id": "KjEFy5wjFQg"
+      }
+    ]
+  },
+  "video_count": 13
+}
