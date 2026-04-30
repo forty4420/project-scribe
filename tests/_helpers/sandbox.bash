@@ -8,7 +8,11 @@ sandbox::create() {
   mkdir -p "$SANDBOX_DIR/docs"
   export SANDBOX_DIR
   export CLAUDE_PROJECT_DIR="$SANDBOX_DIR"
-  export CLAUDE_PLUGIN_ROOT="${BATS_TEST_DIRNAME}/.."
+  # Resolve plugin root: walk up from test file dir until we find a hooks/
+  # sibling. Tests live at tests/hooks/*.bats, tests/skills/*.bats,
+  # tests/integration/*.bats — all 2 levels deep from project root.
+  CLAUDE_PLUGIN_ROOT="$(cd "${BATS_TEST_DIRNAME}/../.." && pwd)"
+  export CLAUDE_PLUGIN_ROOT
 }
 
 sandbox::cleanup() {
