@@ -4,6 +4,21 @@ Append-only log. Newest at top. Format: 4 fields per entry.
 
 ---
 
+## 2026-04-30 — Skip worktree-aware state files (defer to first hit)
+
+**Context:** Item #1 in the YouTube-mining backlog (`docs/research/2026-04-29-youtube-mining/synthesized-recommendations.md` §5, Developers Digest signal 8/10) called for per-worktree STATE/DECISIONS/MEMORY paths to "fix parallel-session collisions." Source claim was speculative — no actual collision reported in this repo. Code analysis: hooks resolve `PROJECT_ROOT="$(pwd)"`, so each worktree already gets its own per-branch checkout of STATE/DECISIONS, and snapshot files are per-worktree-path. Memory dir SLUG is path-derived, which means worktrees of the same repo currently get *separate* memory pools — counterintuitive, but not a collision (the opposite, if anything).
+
+**Decision:** Do not build worktree-aware state files. Keep the current behavior: per-branch STATE/DECISIONS via git, per-worktree snapshot file, per-worktree-path memory dir. Move on to backlog item #2 (`/scribe-verify`).
+
+**Alternatives considered:** (a) Build defensive per-worktree isolation matching the research framing — would multiply memory fragmentation, opposite of the likely-wanted outcome. (b) Build memory-unification across worktrees of same repo using `git rev-parse --git-common-dir`-derived SLUG — correct architecture but solves a non-problem until someone reports the fragmentation as pain. (c) Skip and defer — chosen.
+
+**Revisit when:** A user reports memory fragmentation across worktrees of the same repo, OR a user reports DECISIONS/STATE divergence pain that current per-branch git tracking can't solve, OR `superpowers`-style worktree-driven development becomes the dominant scribe usage pattern (Anthropic-internal trend → external trend).
+
+**Superseded by:** —
+**Valid until:** first real-world worktree collision report.
+
+---
+
 ## 2026-04-30 — Adopt bats-core for scribe tests
 
 **Context:** Reviewer-3 flagged absence of test harness in the v0.6.0 smoke test. Refactors of hooks (`session-start`, `userprompt-context-warn`, `pre-compact`, `stop-mark-memory`) and the highest-leverage skills (`auto-handoff`, `log-decision`, `reconcile-project-state`) risk silent regressions. Pre-r/ClaudeAI launch credibility — hostile commenters will scan for "0 tests" as an attack surface.
