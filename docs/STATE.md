@@ -1,16 +1,14 @@
 # Project State — project-scribe
 
-## Current focus
-
-v0.7.3 ships bats-core test harness — 4 hooks + 3 skills + integration cycle covered, CI on Ubuntu. Closes Reviewer-3 finding from v0.6.0 smoke test. Foundation for the next 14 backlog upgrades. (v0.7.2 was claimed mid-flight by an out-of-band comparison-doc patch on master; renumbered to avoid tag collision.)
+v0.7.3 shipped — bats-core test harness covers 4 hooks + 3 skills + integration cycle, CI green on master. Foundation for the next 14 backlog upgrades unblocked. Picking next L0 item from research backlog.
 
 ## Last shipped
 
-- v0.7.2 — bats-core test harness for hooks + 3 skills
-- v0.7.0 — `/project-scribe:session-card` shareable artifact — `4f0b114`
-- v0.6.3 — competitive comparison doc — `da75a51`
-- v0.6.2 — README marketing-split — `9a50736`
-- v0.6.1 — namespace-prefix README clarification — `e251b21`
+- 513856c — Merge pull request #1 from forty4420/feature/bash-test-harness (v0.7.3)
+- d675233 — docs(comparison): disambiguate Scribe vs Aider vs Cline (v0.7.2)
+- a48465d — fix(session-card): word-boundary truncation + STATE.md refresh (v0.7.1)
+- 4f0b114 — feat: /project-scribe:session-card shareable artifact (v0.7.0)
+- da75a51 — docs: add competitive comparison doc (v0.6.3)
 
 ## Next up
 
