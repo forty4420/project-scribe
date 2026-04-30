@@ -22,7 +22,7 @@ teardown() {
   sandbox::cleanup
 }
 
-@test "auto-handoff contract: bundle file exists at docs/handoff/" {
+@test "auto-handoff contract: bundle file exists at docs/handoff/ and has H1" {
   local bundle="$SANDBOX_DIR/docs/handoff/2026-04-30-test.md"
   cat > "$bundle" <<'EOF'
 # Handoff — Test
@@ -40,6 +40,10 @@ teardown() {
 (any)
 EOF
   assert [ -f "$bundle" ]
+  assert [ -s "$bundle" ]   # non-empty
+  run head -1 "$bundle"
+  assert_success
+  assert_output --partial "# Handoff"
 }
 
 @test "auto-handoff contract: bundle has all 4 required sections" {

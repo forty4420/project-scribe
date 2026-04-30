@@ -16,12 +16,12 @@ setup() {
   sandbox::create
   fixtures::seed_state
   # Init git in sandbox so reconcile has commits to read.
-  pushd "$SANDBOX_DIR" >/dev/null
-  git init -q
-  git config user.email "test@test"
-  git config user.name "test"
-  git commit --allow-empty -q -m "v0.0.2 — second fixture commit"
-  popd >/dev/null
+  # Subshell so a mid-failure can't leak SANDBOX_DIR onto the dir stack.
+  ( cd "$SANDBOX_DIR" \
+    && git init -q \
+    && git config user.email "test@test" \
+    && git config user.name "test" \
+    && git commit --allow-empty -q -m "v0.0.2 — second fixture commit" )
 }
 
 teardown() {
