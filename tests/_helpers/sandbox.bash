@@ -1,9 +1,10 @@
 # Sandbox helpers — isolated tmp project dir for hook/skill testing.
 
 sandbox::create() {
-  local parent="${TMPDIR:-/tmp}/scribe-test-sandbox"
-  mkdir -p "$parent"
-  SANDBOX_DIR="$(mktemp -d "$parent/run.XXXXXX")"
+  if [ -n "${SANDBOX_DIR:-}" ] && [ -d "$SANDBOX_DIR" ]; then
+    sandbox::cleanup
+  fi
+  SANDBOX_DIR="$(mktemp -d "${TMPDIR:-/tmp}/scribe-test-sandbox.XXXXXX")"
   mkdir -p "$SANDBOX_DIR/docs"
   export SANDBOX_DIR
   export CLAUDE_PROJECT_DIR="$SANDBOX_DIR"

@@ -5,6 +5,8 @@ claude_env::default() {
   export CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$SANDBOX_DIR}"
   export CLAUDE_PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-${BATS_TEST_DIRNAME}/..}"
   export CLAUDE_HOOK_EVENT="${CLAUDE_HOOK_EVENT:-SessionStart}"
+  # Empty by default — hooks should treat empty-string as "no transcript available".
+  # Tests that need a transcript will set this explicitly.
   export CLAUDE_TRANSCRIPT_PATH=""
   export CLAUDE_SESSION_ID="test-session-$$"
 }
