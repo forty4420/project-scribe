@@ -1,0 +1,31 @@
+name: tests
+
+on:
+  push:
+    branches: [master, main, develop]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  bats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install jq (used by some skills/hooks)
+        run: sudo apt-get install -y jq
+
+      - name: Verify bats vendored
+        run: ./tests/_libs/bats-core/bin/bats --version
+
+      - name: Run hook tests
+        run: bash tests/run.sh tests/hooks
+
+      - name: Run skill tests
+        run: bash tests/run.sh tests/skills
+
+      - name: Run integration tests
+        run: bash tests/run.sh tests/integration
