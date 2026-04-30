@@ -27,7 +27,8 @@ teardown() {
   # Empty stdin — hook tolerates missing transcript_path and still writes
   # a snapshot with whatever it can extract from STATE.md.
   cd "$SANDBOX_DIR"
-  run bash -c "echo '' | bash '$CLAUDE_PLUGIN_ROOT/hooks/pre-compact'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/pre-compact" \
+      bash -c 'echo "" | bash "$HOOK"'
   assert_success
 }
 
@@ -36,11 +37,13 @@ teardown() {
   local transcript="$SANDBOX_DIR/transcript.jsonl"
   printf '{"role":"user","content":"hello world"}\n' > "$transcript"
   cd "$SANDBOX_DIR"
-  run bash -c "echo '{\"transcript_path\":\"$transcript\"}' | bash '$CLAUDE_PLUGIN_ROOT/hooks/pre-compact'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/pre-compact" TRANSCRIPT="$transcript" \
+      bash -c 'printf "{\"transcript_path\":\"%s\"}" "$TRANSCRIPT" | bash "$HOOK"'
   assert_success
   assert [ -f "$SANDBOX_DIR/docs/.scribe-snapshot.md" ]
   # Snapshot should embed extracted Current focus from seeded STATE.md.
   run cat "$SANDBOX_DIR/docs/.scribe-snapshot.md"
+  assert_success
   assert_output --partial "Current focus"
   assert_output --partial "Test scenario"
 }
@@ -53,9 +56,11 @@ teardown() {
 {"role":"user","content":"second prompt MARKER"}
 EOF
   cd "$SANDBOX_DIR"
-  run bash -c "echo '{\"transcript_path\":\"$transcript\"}' | bash '$CLAUDE_PLUGIN_ROOT/hooks/pre-compact'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/pre-compact" TRANSCRIPT="$transcript" \
+      bash -c 'printf "{\"transcript_path\":\"%s\"}" "$TRANSCRIPT" | bash "$HOOK"'
   assert_success
   run cat "$SANDBOX_DIR/docs/.scribe-snapshot.md"
+  assert_success
   assert_output --partial "MARKER"
 }
 
@@ -63,7 +68,8 @@ EOF
   local before
   before=$(sha256sum "$SANDBOX_DIR/docs/STATE.md" | cut -d' ' -f1)
   cd "$SANDBOX_DIR"
-  run bash -c "echo '' | bash '$CLAUDE_PLUGIN_ROOT/hooks/pre-compact'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/pre-compact" \
+      bash -c 'echo "" | bash "$HOOK"'
   assert_success
   local after
   after=$(sha256sum "$SANDBOX_DIR/docs/STATE.md" | cut -d' ' -f1)
@@ -74,7 +80,8 @@ EOF
   local before
   before=$(sha256sum "$SANDBOX_DIR/docs/DECISIONS.md" | cut -d' ' -f1)
   cd "$SANDBOX_DIR"
-  run bash -c "echo '' | bash '$CLAUDE_PLUGIN_ROOT/hooks/pre-compact'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/pre-compact" \
+      bash -c 'echo "" | bash "$HOOK"'
   assert_success
   local after
   after=$(sha256sum "$SANDBOX_DIR/docs/DECISIONS.md" | cut -d' ' -f1)
@@ -84,7 +91,8 @@ EOF
 @test "pre-compact silent no-op without STATE.md (not scribe-enabled)" {
   rm -f "$SANDBOX_DIR/docs/STATE.md"
   cd "$SANDBOX_DIR"
-  run bash -c "echo '' | bash '$CLAUDE_PLUGIN_ROOT/hooks/pre-compact'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/pre-compact" \
+      bash -c 'echo "" | bash "$HOOK"'
   assert_success
   # No snapshot should be created.
   assert [ ! -f "$SANDBOX_DIR/docs/.scribe-snapshot.md" ]

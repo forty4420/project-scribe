@@ -61,7 +61,8 @@ teardown() {
   # stdin actually exits 1. Minor bug; out of scope for this plan.
   skip "TODO: hook exits 1 instead of 0 on empty stdin (set -euo pipefail + empty grep). File follow-up: hook should treat 'no transcript path' as silent success per its own comment."
   cd "$SANDBOX_DIR"
-  run bash -c "echo '' | bash '$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory" \
+      bash -c 'echo "" | bash "$HOOK"'
   assert_success
 }
 
@@ -71,7 +72,8 @@ teardown() {
   printf '{"role":"assistant","content":"Used rule_test.md from memory"}\n' > "$transcript"
 
   cd "$SANDBOX_DIR"
-  run bash -c "echo '{\"transcript_path\":\"$transcript\"}' | bash '$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory" TRANSCRIPT="$transcript" \
+      bash -c 'printf "{\"transcript_path\":\"%s\"}" "$TRANSCRIPT" | bash "$HOOK"'
   assert_success
 
   # last_used should now be today (was 2025-01-01).
@@ -95,7 +97,8 @@ teardown() {
   before=$(sha256sum "$MEM_DIR/rule_test.md" | cut -d' ' -f1)
 
   cd "$SANDBOX_DIR"
-  run bash -c "echo '{\"transcript_path\":\"$transcript\"}' | bash '$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory" TRANSCRIPT="$transcript" \
+      bash -c 'printf "{\"transcript_path\":\"%s\"}" "$TRANSCRIPT" | bash "$HOOK"'
   assert_success
 
   local after
@@ -109,23 +112,28 @@ teardown() {
 
   cd "$SANDBOX_DIR"
   # First run: bump.
-  run bash -c "echo '{\"transcript_path\":\"$transcript\"}' | bash '$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory" TRANSCRIPT="$transcript" \
+      bash -c 'printf "{\"transcript_path\":\"%s\"}" "$TRANSCRIPT" | bash "$HOOK"'
   assert_success
   run grep "^hits:" "$MEM_DIR/rule_test.md"
+  assert_success
   assert_output "hits: 1"
 
   # Second run with same transcript (same SESSION_ID derived from filename):
   # bump-log dedupe should kick in, hits stays at 1.
-  run bash -c "echo '{\"transcript_path\":\"$transcript\"}' | bash '$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory" TRANSCRIPT="$transcript" \
+      bash -c 'printf "{\"transcript_path\":\"%s\"}" "$TRANSCRIPT" | bash "$HOOK"'
   assert_success
   run grep "^hits:" "$MEM_DIR/rule_test.md"
+  assert_success
   assert_output "hits: 1"
 }
 
 @test "stop-mark-memory silent no-op without STATE.md (not scribe-enabled)" {
   rm -f "$SANDBOX_DIR/docs/STATE.md"
   cd "$SANDBOX_DIR"
-  run bash -c "echo '{\"transcript_path\":\"/nonexistent\"}' | bash '$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory" TRANSCRIPT="/nonexistent" \
+      bash -c 'printf "{\"transcript_path\":\"%s\"}" "$TRANSCRIPT" | bash "$HOOK"'
   assert_success
 }
 
@@ -134,6 +142,7 @@ teardown() {
   local transcript="$SANDBOX_DIR/transcript.jsonl"
   printf '{"role":"assistant","content":"rule_test.md"}\n' > "$transcript"
   cd "$SANDBOX_DIR"
-  run bash -c "echo '{\"transcript_path\":\"$transcript\"}' | bash '$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory'"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/hooks/stop-mark-memory" TRANSCRIPT="$transcript" \
+      bash -c 'printf "{\"transcript_path\":\"%s\"}" "$TRANSCRIPT" | bash "$HOOK"'
   assert_success
 }
