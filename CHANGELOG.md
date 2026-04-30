@@ -2,6 +2,25 @@
 
 All notable changes to project-scribe. Newest first.
 
+## v0.7.2 — bats-core test harness
+
+### Added
+
+- `tests/` harness using vendored bats-core + bats-support + bats-assert as git submodules under `tests/_libs/`.
+- Hook coverage: `session-start`, `userprompt-context-warn`, `pre-compact`, `stop-mark-memory` (`tests/hooks/*.bats`, 23 cases, 22 pass + 1 documented skip).
+- Skill contract coverage: `log-decision`, `reconcile-project-state`, `auto-handoff` (`tests/skills/*.bats`, 6 cases).
+- Integration test: full `SessionStart → UserPrompt → Stop → PreCompact` cycle with sha256 immutability assertions on STATE.md + DECISIONS.md (`tests/integration/full-session-cycle.bats`).
+- Reusable helpers: `tests/_helpers/{sandbox,fixtures,claude_env}.bash` for isolated tmp project dirs, fixture STATE/DECISIONS/MEMORY seeds, and Claude Code env-var mocks.
+- Local runner: `bash tests/run.sh [path]` wraps the vendored bats binary.
+- CI: `.github/workflows/test.yml` runs hook + skill + integration tests on Ubuntu against push/PR. README badge added.
+- `tests/README.md` documents how to run + how to add tests for new skills.
+
+### Notes
+
+- Closes Reviewer-3 finding from the v0.6.0 smoke test.
+- Windows users run via Git Bash or WSL; CI is Ubuntu only.
+- Plan: `docs/superpowers/plans/2026-04-30-bash-test-harness.md`.
+
 ## v0.7.1 — session-card polish + STATE.md refresh
 
 ### Changed
