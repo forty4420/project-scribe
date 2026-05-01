@@ -26,6 +26,79 @@ EOF
     exit 2
 fi
 
-# Subsequent steps will fill in resolution + drift logic.
-echo "skeleton — implement in subsequent tasks"
-exit 2
+# Resolves verify command via 4-step hybrid.
+# Sets globals: VERIFY_CMD, VERIFY_SOURCE.
+# Returns 2 if no command resolvable.
+resolve_verify_cmd() {
+    # Step 1: docs/.scribe-verify.sh
+    local explicit="${PROJECT_ROOT}/docs/.scribe-verify.sh"
+    if [ -x "$explicit" ]; then
+        VERIFY_CMD="$explicit"
+        VERIFY_SOURCE="docs/.scribe-verify.sh"
+        return 0
+    fi
+
+    # Step 2: CLAUDE.md ## Verify section, first fenced code block
+    local claudemd="${PROJECT_ROOT}/CLAUDE.md"
+    if [ -f "$claudemd" ]; then
+        # Awk: between ^## Verify (case-insensitive) and next ^## heading,
+        # extract first fenced code block content.
+        local block
+        block=$(awk '
+            BEGIN { in_section=0; in_block=0 }
+            tolower($0) ~ /^## verify[[:space:]]*$/ { in_section=1; next }
+            in_section && /^## / { exit }
+            in_section && /^```/ { in_block=!in_block; next }
+            in_section && in_block { print }
+        ' "$claudemd")
+        if [ -n "$block" ]; then
+            local tmp
+            tmp=$(mktemp "${TMPDIR:-/tmp}/scribe-verify-claudemd.XXXXXX")
+            printf '%s\n' "$block" > "$tmp"
+            chmod +x "$tmp"
+            VERIFY_CMD="$tmp"
+            VERIFY_SOURCE="CLAUDE.md ## Verify"
+            return 0
+        fi
+    fi
+
+    # Step 3: Auto-detect by project file
+    if [ -f "${PROJECT_ROOT}/package.json" ];   then VERIFY_CMD="npm test";                           VERIFY_SOURCE="auto-detected from package.json";  return 0; fi
+    if [ -f "${PROJECT_ROOT}/Cargo.toml" ];     then VERIFY_CMD="cargo test";                         VERIFY_SOURCE="auto-detected from Cargo.toml";    return 0; fi
+    if [ -f "${PROJECT_ROOT}/pyproject.toml" ]; then VERIFY_CMD="pytest";                             VERIFY_SOURCE="auto-detected from pyproject.toml"; return 0; fi
+    if [ -f "${PROJECT_ROOT}/Makefile" ] && grep -qE '^test:' "${PROJECT_ROOT}/Makefile"; then
+        VERIFY_CMD="make test"; VERIFY_SOURCE="auto-detected from Makefile"; return 0
+    fi
+    if [ -f "${PROJECT_ROOT}/go.mod" ];         then VERIFY_CMD="go test ./...";                      VERIFY_SOURCE="auto-detected from go.mod";        return 0; fi
+    if [ -f "${PROJECT_ROOT}/Gemfile" ];        then VERIFY_CMD="bundle exec rake test";              VERIFY_SOURCE="auto-detected from Gemfile";       return 0; fi
+    if [ -f "${PROJECT_ROOT}/composer.json" ];  then VERIFY_CMD="composer test";                      VERIFY_SOURCE="auto-detected from composer.json"; return 0; fi
+    if [ -f "${PROJECT_ROOT}/mix.exs" ];        then VERIFY_CMD="mix test";                           VERIFY_SOURCE="auto-detected from mix.exs";       return 0; fi
+    if [ -f "${PROJECT_ROOT}/pubspec.yaml" ];   then VERIFY_CMD="flutter test";                       VERIFY_SOURCE="auto-detected from pubspec.yaml";  return 0; fi
+
+    # Step 4: nothing matched
+    return 2
+}
+
+# Replace skeleton placeholder with real resolver:
+if ! resolve_verify_cmd; then
+    cat <<EOF
+# /scribe-verify — ❌ no verify command found
+
+Tried:
+- docs/.scribe-verify.sh (not present)
+- CLAUDE.md ## Verify section (not found)
+- Auto-detect: no recognized project file
+
+→ Create docs/.scribe-verify.sh with your project's test/build command. Example:
+
+    #!/usr/bin/env bash
+    set -euo pipefail
+    npm test && npm run build
+
+→ Or add a \`## Verify\` section to CLAUDE.md with a fenced code block.
+EOF
+    exit 2
+fi
+
+echo "resolved: $VERIFY_CMD (source: $VERIFY_SOURCE)"
+exit 0
