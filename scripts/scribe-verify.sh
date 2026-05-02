@@ -42,21 +42,29 @@ resolve_verify_cmd() {
     local claudemd="${PROJECT_ROOT}/CLAUDE.md"
     if [ -f "$claudemd" ]; then
         # Awk: between ^## Verify (case-insensitive) and next ^## heading,
-        # extract first fenced code block content.
+        # extract content of FIRST fenced code block only. Stops at the
+        # closing fence so subsequent example/non-example blocks under the
+        # same section don't merge into the resolved command.
         local block
         block=$(awk '
             BEGIN { in_section=0; in_block=0 }
             tolower($0) ~ /^## verify[[:space:]]*$/ { in_section=1; next }
             in_section && /^## / { exit }
-            in_section && /^```/ { in_block=!in_block; next }
+            in_section && /^```/ {
+                if (in_block) { exit }
+                in_block=1; next
+            }
             in_section && in_block { print }
         ' "$claudemd")
         if [ -n "$block" ]; then
-            local tmp
-            tmp=$(mktemp "${TMPDIR:-/tmp}/scribe-verify-claudemd.XXXXXX")
-            printf '%s\n' "$block" > "$tmp"
-            chmod +x "$tmp"
-            VERIFY_CMD="$tmp"
+            CLAUDEMD_TMP=$(mktemp "${TMPDIR:-/tmp}/scribe-verify-claudemd.XXXXXX")
+            # Trap-based cleanup so the tmp file does not orphan in $TMPDIR
+            # across many invocations. Global var so trap can resolve at
+            # script EXIT (function-locals would be out of scope).
+            trap 'rm -f "${CLAUDEMD_TMP:-}"' EXIT
+            printf '%s\n' "$block" > "$CLAUDEMD_TMP"
+            chmod +x "$CLAUDEMD_TMP"
+            VERIFY_CMD="$CLAUDEMD_TMP"
             VERIFY_SOURCE="CLAUDE.md ## Verify"
             return 0
         fi
