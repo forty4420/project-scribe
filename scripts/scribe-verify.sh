@@ -130,7 +130,10 @@ parse_claimed_sha() {
     local matches
     matches=$(git -C "$PROJECT_ROOT" log --all --oneline --grep="$version" 2>/dev/null || true)
     local count
-    count=$(printf '%s' "$matches" | grep -c .)
+    # `|| echo 0` guards against empty input — `grep -c .` on empty stream
+    # exits 1 with count 0 inside command substitution, leaving $count empty.
+    # Without the fallback, the "0" branch below mis-fires as "ambiguous."
+    count=$(printf '%s' "$matches" | grep -c . || echo 0)
 
     if [ "$count" = "0" ]; then
         return 2
