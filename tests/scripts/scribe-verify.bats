@@ -247,3 +247,74 @@ EOF
   assert_output --partial "claimed SHA not present in repo"
   assert_output --partial "reconcile-project-state"
 }
+
+@test "edge: STATE.md missing → exit 2 + not-a-scribe-project report" {
+  rm -f "$SANDBOX_DIR/docs/STATE.md"
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/scripts/scribe-verify.sh" \
+      bash -c 'cd "$1" && bash "$HOOK"' _ "$SANDBOX_DIR"
+  assert_failure 2
+  assert_output --partial "not a scribe project"
+}
+
+@test "edge: STATE.md without Last shipped block → exit 2" {
+  sandbox_init_git_with_verify
+  cat > "$SANDBOX_DIR/docs/STATE.md" <<'EOF'
+# Project State
+## Current focus
+x
+## Next up
+y
+EOF
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/scripts/scribe-verify.sh" \
+      bash -c 'cd "$1" && bash "$HOOK"' _ "$SANDBOX_DIR"
+  assert_failure 2
+  assert_output --partial "Last shipped"
+}
+
+@test "edge: SCRIBE_VERIFY_TIMEOUT honored on slow verify" {
+  ( cd "$SANDBOX_DIR" \
+    && git init -q \
+    && git config user.email t@t \
+    && git config user.name t )
+  cat > "$SANDBOX_DIR/docs/.scribe-verify.sh" <<'EOF'
+#!/usr/bin/env bash
+sleep 5
+EOF
+  chmod +x "$SANDBOX_DIR/docs/.scribe-verify.sh"
+  ( cd "$SANDBOX_DIR" && git add -A && git commit -q -m "v0.0.1 — fixture" )
+  local sha; sha=$(cd "$SANDBOX_DIR" && git rev-parse --short HEAD)
+  cat > "$SANDBOX_DIR/docs/STATE.md" <<EOF
+# Project State
+## Current focus
+x
+## Last shipped
+- v0.0.1 — fixture — \`$sha\`
+## Next up
+y
+EOF
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/scripts/scribe-verify.sh" SCRIBE_VERIFY_TIMEOUT=1 \
+      bash -c 'cd "$1" && bash "$HOOK"' _ "$SANDBOX_DIR"
+  assert_failure 1
+  assert_output --partial "timed out"
+}
+
+@test "edge: working-tree dirty file list verbatim (no auto-classify)" {
+  sandbox_init_git_with_verify
+  local sha; sha=$(cd "$SANDBOX_DIR" && git rev-parse --short HEAD)
+  echo "modify" >> "$SANDBOX_DIR/docs/.scribe-verify.sh"
+  echo "untracked" > "$SANDBOX_DIR/.untracked"
+  cat > "$SANDBOX_DIR/docs/STATE.md" <<EOF
+# Project State
+## Current focus
+x
+## Last shipped
+- v0.0.1 — fixture — \`$sha\`
+## Next up
+y
+EOF
+  run env HOOK="$CLAUDE_PLUGIN_ROOT/scripts/scribe-verify.sh" \
+      bash -c 'cd "$1" && bash "$HOOK"' _ "$SANDBOX_DIR"
+  assert_failure 1
+  assert_output --partial ".untracked"
+  assert_output --partial "docs/.scribe-verify.sh"
+}
