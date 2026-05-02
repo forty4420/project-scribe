@@ -144,6 +144,25 @@ parse_claimed_sha() {
     fi
 }
 
+# Checks git drift against CLAIMED_SHA.
+# Sets globals: SHA_FOUND (yes|no), AHEAD_COUNT, AHEAD_LIST, TREE_CLEAN (yes|no), TREE_FILES.
+check_drift() {
+    SHA_FOUND="no"; AHEAD_COUNT=0; AHEAD_LIST=""; TREE_CLEAN="yes"; TREE_FILES=""
+
+    if git -C "$PROJECT_ROOT" cat-file -e "${CLAIMED_SHA}^{commit}" 2>/dev/null; then
+        SHA_FOUND="yes"
+        AHEAD_COUNT=$(git -C "$PROJECT_ROOT" rev-list --count "${CLAIMED_SHA}..HEAD" 2>/dev/null || echo 0)
+        if [ "$AHEAD_COUNT" -gt 0 ]; then
+            AHEAD_LIST=$(git -C "$PROJECT_ROOT" log --reverse --oneline "${CLAIMED_SHA}..HEAD" 2>/dev/null || true)
+        fi
+    fi
+
+    TREE_FILES=$(git -C "$PROJECT_ROOT" status --porcelain 2>/dev/null || true)
+    if [ -n "$TREE_FILES" ]; then
+        TREE_CLEAN="no"
+    fi
+}
+
 # Replace skeleton placeholder with real resolver:
 if ! resolve_verify_cmd; then
     cat <<EOF
@@ -168,11 +187,16 @@ fi
 parse_claimed_sha
 parse_status=$?
 
-case $parse_status in
-    0) echo "claimed: $CLAIMED_SHA${SHA_DISCLOSURE:+ (fuzzy)}" ;;
-    1) echo "ambiguous: $AMBIGUOUS_CANDIDATES" ;;
-    2) echo "no Last shipped block parseable"; exit 2 ;;
-esac
+if [ "$parse_status" = "1" ]; then
+    echo "ambiguous"; printf '%s\n' "$AMBIGUOUS_CANDIDATES"
+    exit 1
+fi
 
-echo "resolved: $VERIFY_CMD ($VERIFY_SOURCE)"
+if [ "$parse_status" = "2" ]; then
+    echo "no parseable claim"; exit 2
+fi
+
+check_drift
+echo "sha_found=$SHA_FOUND ahead=$AHEAD_COUNT tree_clean=$TREE_CLEAN"
+echo "verify cmd: $VERIFY_CMD"
 exit 0
