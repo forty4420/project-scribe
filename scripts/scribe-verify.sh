@@ -199,6 +199,154 @@ run_verify() {
     rm -f "$out"
 }
 
+# Emit Section 0 only — used when fuzzy match returned multiple candidates.
+emit_ambiguous_report() {
+    cat <<EOF
+# /scribe-verify — ⚠️ ambiguous SHA match
+
+**Verify command:** <not run — SHA resolution incomplete>
+**Source:** <not resolved>
+
+## 0. Ambiguous SHA match
+
+STATE.md "Last shipped" top entry references a version label, but \`git log --grep\` returned multiple candidate commits:
+
+EOF
+    printf '%s\n' "$AMBIGUOUS_CANDIDATES" | while IFS= read -r line; do
+        echo "- \`$(echo "$line" | awk '{print $1}')\` $(echo "$line" | cut -d' ' -f2-)"
+    done
+    cat <<EOF
+
+→ Resolve by editing STATE.md to include the explicit short-SHA, then re-run \`/project-scribe:scribe-verify\`.
+
+## Suggested fixes
+
+- → Edit STATE.md "Last shipped" top entry to include explicit short-SHA from the candidate list above.
+- → Or run \`reconcile-project-state\` to refresh against current git log.
+EOF
+}
+
+# Emit full report covering sections 1, 2, 3, and Suggested fixes.
+# Returns the exit code the caller should propagate (0 / 1).
+emit_report() {
+    local glyph summary fixes
+    fixes=""
+
+    # Determine glyph + one-line summary from verdict matrix.
+    if [ "$VERIFY_STATUS" = "fail" ]; then
+        glyph="❌"; summary="verify command failed (exit $VERIFY_EXIT)"
+    elif [ "$VERIFY_STATUS" = "timeout" ]; then
+        glyph="❌"; summary="verify command timed out at ${SCRIBE_VERIFY_TIMEOUT:-300}s"
+    elif [ "$SHA_FOUND" = "no" ]; then
+        glyph="⚠️"; summary="claimed SHA not present in repo"
+    elif [ "$AHEAD_COUNT" -gt 0 ]; then
+        glyph="⚠️"; summary="$AHEAD_COUNT commit(s) ahead of claim"
+    elif [ "$TREE_CLEAN" = "no" ]; then
+        glyph="⚠️"; summary="working tree dirty"
+    else
+        glyph="✅"; summary="all green"
+    fi
+
+    cat <<EOF
+# /scribe-verify — $glyph $summary
+
+**Verify command:** \`$VERIFY_CMD\`
+**Source:** $VERIFY_SOURCE
+**Claimed SHA:** \`$CLAIMED_SHA\` (from STATE.md "Last shipped" top entry)
+EOF
+    [ -n "$SHA_DISCLOSURE" ] && printf '\n%s\n' "$SHA_DISCLOSURE"
+
+    cat <<EOF
+
+---
+
+## 1. Verify command result
+
+**Status:** $VERIFY_STATUS
+**Exit code:** $VERIFY_EXIT
+**Duration:** ${VERIFY_DURATION}s
+
+EOF
+    if [ "$VERIFY_STATUS" = "pass" ]; then
+        echo "Output suppressed (verify passed). Re-run command directly to inspect."
+    else
+        echo '```'
+        printf '%s\n' "$VERIFY_OUTPUT"
+        echo '```'
+        fixes="$fixes
+- → Verify command failed — investigate test output above before claiming current ship."
+    fi
+
+    cat <<EOF
+
+---
+
+## 2. Git drift since claimed SHA
+
+**Claimed SHA found in repo:** $SHA_FOUND
+EOF
+
+    if [ "$SHA_FOUND" = "no" ]; then
+        cat <<EOF
+
+⚠️ Claimed SHA \`$CLAIMED_SHA\` is not present in this repo. Possible causes: force-push, history rewrite, branch deleted.
+
+EOF
+        fixes="$fixes
+- → Claimed SHA missing — run \`reconcile-project-state\` to refresh STATE.md against current git log."
+    else
+        echo "**Commits ahead of claim:** $AHEAD_COUNT"
+        if [ "$AHEAD_COUNT" -gt 0 ]; then
+            echo
+            printf '%s\n' "$AHEAD_LIST" | while IFS= read -r line; do
+                sha=$(echo "$line" | awk '{print $1}')
+                subj=$(echo "$line" | cut -d' ' -f2-)
+                echo "- \`$sha\` $subj"
+            done
+            fixes="$fixes
+- → $AHEAD_COUNT commit(s) ahead of claim — either roll STATE.md forward (run reconcile) or claim what's actually shipped."
+        fi
+    fi
+
+    cat <<EOF
+
+---
+
+## 3. Working tree status
+
+**Clean:** $TREE_CLEAN
+EOF
+    if [ "$TREE_CLEAN" = "no" ]; then
+        cat <<EOF
+
+**Modified/untracked files:**
+
+\`\`\`
+$TREE_FILES
+\`\`\`
+EOF
+        fixes="$fixes
+- → Working tree dirty — review file list; commit, stash, or discard before re-running verify."
+    fi
+
+    if [ -n "$fixes" ]; then
+        cat <<EOF
+
+---
+
+## Suggested fixes
+$fixes
+EOF
+    fi
+
+    # Exit code derivation.
+    if [ "$glyph" = "✅" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # Replace skeleton placeholder with real resolver:
 if ! resolve_verify_cmd; then
     cat <<EOF
@@ -224,15 +372,23 @@ parse_claimed_sha
 parse_status=$?
 
 if [ "$parse_status" = "1" ]; then
-    echo "ambiguous"; printf '%s\n' "$AMBIGUOUS_CANDIDATES"
+    emit_ambiguous_report
     exit 1
 fi
 
 if [ "$parse_status" = "2" ]; then
-    echo "no parseable claim"; exit 2
+    cat <<EOF
+# /scribe-verify — ⚠️ STATE.md "Last shipped" not parseable
+
+Top bullet under \`## Last shipped\` did not yield an explicit SHA, and no version-label fuzzy match was found.
+
+→ Run reconcile-project-state or update-project-state to refresh STATE.md.
+EOF
+    exit 2
 fi
 
 check_drift
-echo "sha_found=$SHA_FOUND ahead=$AHEAD_COUNT tree_clean=$TREE_CLEAN"
-echo "verify cmd: $VERIFY_CMD"
-exit 0
+run_verify
+emit_report
+exit_code=$?
+exit "$exit_code"
