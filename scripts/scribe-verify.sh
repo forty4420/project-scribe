@@ -166,6 +166,39 @@ check_drift() {
     fi
 }
 
+# Runs VERIFY_CMD with timeout. Sets globals:
+# VERIFY_STATUS (pass|fail|timeout), VERIFY_EXIT, VERIFY_DURATION, VERIFY_OUTPUT (last 30 lines if not pass).
+run_verify() {
+    local timeout_sec="${SCRIBE_VERIFY_TIMEOUT:-300}"
+    local out
+    out=$(mktemp "${TMPDIR:-/tmp}/scribe-verify-out.XXXXXX")
+    local start end
+
+    start=$(date +%s)
+    # Use bash -c for command-string compatibility with auto-detected cmds (npm test, etc.)
+    # Explicit script paths still work because the path is its own command.
+    if timeout "$timeout_sec" bash -c "cd \"$PROJECT_ROOT\" && $VERIFY_CMD" >"$out" 2>&1; then
+        VERIFY_STATUS="pass"
+        VERIFY_EXIT=0
+    else
+        VERIFY_EXIT=$?
+        if [ "$VERIFY_EXIT" = "124" ]; then
+            VERIFY_STATUS="timeout"
+        else
+            VERIFY_STATUS="fail"
+        fi
+    fi
+    end=$(date +%s)
+    VERIFY_DURATION=$((end - start))
+
+    if [ "$VERIFY_STATUS" != "pass" ]; then
+        VERIFY_OUTPUT=$(tail -n 30 "$out")
+    else
+        VERIFY_OUTPUT=""
+    fi
+    rm -f "$out"
+}
+
 # Replace skeleton placeholder with real resolver:
 if ! resolve_verify_cmd; then
     cat <<EOF
