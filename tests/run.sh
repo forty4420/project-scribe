@@ -16,5 +16,5 @@ cd "$PROJECT_ROOT"
 if [ $# -gt 0 ]; then
   exec "$BATS" "$@"
 else
-  exec "$BATS" --recursive tests/hooks tests/skills tests/integration
+  exec "$BATS" --recursive tests/hooks tests/skills tests/integration tests/scripts
 fi

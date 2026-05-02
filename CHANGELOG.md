@@ -2,6 +2,23 @@
 
 All notable changes to project-scribe. Newest first.
 
+## v0.7.4 — `/project-scribe:scribe-verify` verification gate
+
+### Added
+
+- New `/project-scribe:scribe-verify` slash command + `scribe-verify` skill. Read-only diagnostic that runs the project's verify command, parses STATE.md "Last shipped" top entry, and reports git drift since the claimed SHA. Catches "lying-by-omission" (claimed ship that broke tests, commits since the claim, missing/dirty SHA).
+- Hybrid 4-step verify-cmd resolution: `docs/.scribe-verify.sh` → `CLAUDE.md ## Verify` section → auto-detect by project file (npm/cargo/pytest/make/go/bundle/composer/mix/flutter) → markdown error pointing at fix.
+- Multi-match fuzzy SHA = ⚠️ ambiguous abort with candidate list. No silent guessing.
+- Markdown report with verdict glyph (✅ / ⚠️ / ❌), section-per-check, context-sensitive suggested fixes.
+- 19 bats cases (16 script logic + 3 skill contract) under `tests/scripts/scribe-verify.bats` and `tests/skills/scribe-verify.bats`. 1 skip-marked TODO for the green-path coverage (fixed-point fixture problem deferred to v0.7.5+).
+- Sets `scripts/` dir precedent for upcoming Context Audit + token-budget tab features.
+
+### Notes
+
+- Configuration: `SCRIBE_VERIFY_TIMEOUT=N` env var overrides default 300s timeout for slow test suites.
+- Read-only. No STATE.md edits, no git mutation. User reads + acts.
+- Plan: `docs/superpowers/plans/2026-04-30-scribe-verify.md`. Spec: `docs/superpowers/specs/2026-04-30-scribe-verify-design.md`.
+
 ## v0.7.3 — bats-core test harness
 
 ### Added

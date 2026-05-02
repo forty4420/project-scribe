@@ -29,3 +29,6 @@ jobs:
 
       - name: Run integration tests
         run: bash tests/run.sh tests/integration
+
+      - name: Run script tests
+        run: bash tests/run.sh tests/scripts

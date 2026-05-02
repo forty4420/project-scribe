@@ -4,6 +4,21 @@ Append-only log. Newest at top. Format: 4 fields per entry.
 
 ---
 
+## 2026-04-30 — Scribe-verify: skill + helper script (Approach B), no CI/SHA-subject coupling
+
+**Context:** Backlog item #2 from YouTube-mining synthesis (Boris/Anthropic 9/10 — verification-led development). Scribe trusts STATE.md "Last shipped" without verification, allowing lying-by-omission ("forgot tests fail"). Need an automated drift check.
+
+**Decision:** Build `/project-scribe:scribe-verify` as a thin skill SOP wrapping a heavier `scripts/scribe-verify.sh` (Approach B). Hybrid 4-step verify-cmd resolution (`docs/.scribe-verify.sh` → `CLAUDE.md ## Verify` → auto-detect → error). Drift detection = exit code + git diff vs claimed SHA + working-tree status (Option B from brainstorm). Multi-match fuzzy SHA = ⚠️ ambiguous abort, never silent guess. Read-only — no STATE edits, no auto-fix. Sets `scripts/` dir precedent.
+
+**Alternatives considered:** (a) Pure-skill no-helper (Approach C) — slow, expensive, weak test contract. (b) Full coverage drift = exit + diff + commit-subject match + GitHub CI status (Option D from brainstorm) — over-engineered, GitHub-coupled, alienates GitLab/Bitbucket. (c) Auto-fix `--fix` flag — blurs read-only diagnostic line.
+
+**Revisit when:** GitLab/Bitbucket users request CI-status drift checking, OR a `--fix` write-mode is requested by ≥3 users, OR auto-detect false-positive rate exceeds 1-in-10 invocations (e.g. detects npm test in a project where `npm test` doesn't actually verify anything), OR the green-path TODO test (deferred per fixed-point fixture limitation) finds a generalizable solution.
+
+**Superseded by:** —
+**Valid until:** triggers above.
+
+---
+
 ## 2026-04-30 — Skip worktree-aware state files (defer to first hit)
 
 **Context:** Item #1 in the YouTube-mining backlog (`docs/research/2026-04-29-youtube-mining/synthesized-recommendations.md` §5, Developers Digest signal 8/10) called for per-worktree STATE/DECISIONS/MEMORY paths to "fix parallel-session collisions." Source claim was speculative — no actual collision reported in this repo. Code analysis: hooks resolve `PROJECT_ROOT="$(pwd)"`, so each worktree already gets its own per-branch checkout of STATE/DECISIONS, and snapshot files are per-worktree-path. Memory dir SLUG is path-derived, which means worktrees of the same repo currently get *separate* memory pools — counterintuitive, but not a collision (the opposite, if anything).
