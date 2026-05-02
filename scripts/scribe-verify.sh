@@ -169,14 +169,33 @@ check_drift() {
 # Runs VERIFY_CMD with timeout. Sets globals:
 # VERIFY_STATUS (pass|fail|timeout), VERIFY_EXIT, VERIFY_DURATION, VERIFY_OUTPUT (last 30 lines if not pass).
 run_verify() {
+    # Pre-flight: GNU coreutils `timeout` cmd required. Some minimal Git Bash
+    # / msys2 builds omit it. Fail fast with a clean fail-path entry instead
+    # of letting the script crash mid-report with "timeout: command not found".
+    if ! command -v timeout >/dev/null 2>&1; then
+        VERIFY_STATUS="fail"
+        VERIFY_EXIT=127
+        VERIFY_DURATION=0
+        VERIFY_OUTPUT="GNU coreutils \`timeout\` command not found on PATH. Install coreutils (Linux/macOS: standard; Git Bash on Windows: install via pacman or use full Git for Windows package)."
+        return
+    fi
+
     local timeout_sec="${SCRIBE_VERIFY_TIMEOUT:-300}"
     local out
     out=$(mktemp "${TMPDIR:-/tmp}/scribe-verify-out.XXXXXX")
+    # RETURN trap cleans up tmp file even if the function exits via signal /
+    # early return / verify cmd kill. Mirrors the CLAUDEMD_TMP pattern in
+    # resolve_verify_cmd.
+    trap 'rm -f "${out:-}"' RETURN
     local start end
 
     start=$(date +%s)
     # Use bash -c for command-string compatibility with auto-detected cmds (npm test, etc.)
     # Explicit script paths still work because the path is its own command.
+    # Trust note: $VERIFY_CMD comes from docs/.scribe-verify.sh, CLAUDE.md ##
+    # Verify section, or auto-detected hard-coded strings — all project-
+    # controlled inputs already trusted by the user. No external/network
+    # data flows here.
     if timeout "$timeout_sec" bash -c "cd \"$PROJECT_ROOT\" && $VERIFY_CMD" >"$out" 2>&1; then
         VERIFY_STATUS="pass"
         VERIFY_EXIT=0
@@ -196,7 +215,6 @@ run_verify() {
     else
         VERIFY_OUTPUT=""
     fi
-    rm -f "$out"
 }
 
 # Emit Section 0 only — used when fuzzy match returned multiple candidates.
