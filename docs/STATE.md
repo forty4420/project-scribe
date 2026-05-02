@@ -2,11 +2,11 @@
 
 ## Current focus
 
-v0.7.4 ships /project-scribe:scribe-verify — read-only verification gate. Runs the project's verify command, parses STATE.md "Last shipped" claim, reports git drift since claimed SHA + working-tree status. Closes the "lying-by-omission" gap. Sets scripts/ dir precedent for upcoming Context Audit + token-budget tab features. Backlog item #2 from YouTube-mining synthesis (Boris/Anthropic 9/10).
+v0.7.4 shipped — /project-scribe:scribe-verify verification gate. Runs project's verify cmd, parses STATE.md Last shipped claim, reports git drift. CI green on PR #2 (4/4 checks). Picking next L0 item: #3 Context Audit skill OR #4 token-budget tab.
 
 ## Last shipped
 
-- v0.7.4 — `/project-scribe:scribe-verify` verification gate
+- ff1a3ff — Merge pull request #2 from forty4420/feature/scribe-verify (v0.7.4)
 - 513856c — Merge pull request #1 from forty4420/feature/bash-test-harness (v0.7.3)
 - d675233 — docs(comparison): disambiguate Scribe vs Aider vs Cline (v0.7.2)
 - a48465d — fix(session-card): word-boundary truncation + STATE.md refresh (v0.7.1)
