@@ -1,14 +1,16 @@
 # Project State — project-scribe
 
-v0.7.3 shipped — bats-core test harness covers 4 hooks + 3 skills + integration cycle, CI green on master. Foundation for the next 14 backlog upgrades unblocked. Picking next L0 item from research backlog.
+## Current focus
+
+v0.7.4 ships /project-scribe:scribe-verify — read-only verification gate. Runs the project's verify command, parses STATE.md "Last shipped" claim, reports git drift since claimed SHA + working-tree status. Closes the "lying-by-omission" gap. Sets scripts/ dir precedent for upcoming Context Audit + token-budget tab features. Backlog item #2 from YouTube-mining synthesis (Boris/Anthropic 9/10).
 
 ## Last shipped
 
+- v0.7.4 — `/project-scribe:scribe-verify` verification gate
 - 513856c — Merge pull request #1 from forty4420/feature/bash-test-harness (v0.7.3)
 - d675233 — docs(comparison): disambiguate Scribe vs Aider vs Cline (v0.7.2)
 - a48465d — fix(session-card): word-boundary truncation + STATE.md refresh (v0.7.1)
 - 4f0b114 — feat: /project-scribe:session-card shareable artifact (v0.7.0)
-- da75a51 — docs: add competitive comparison doc (v0.6.3)
 
 ## Next up
 
@@ -27,12 +29,16 @@ v0.7.3 shipped — bats-core test harness covers 4 hooks + 3 skills + integratio
 
 ## Specs
 
-(none active — feature work tracked via plans + commits)
+| Spec | Status |
+|------|--------|
+| `docs/superpowers/specs/2026-04-30-scribe-verify-design.md` | Shipped via v0.7.4 |
 
 ## Plans
 
 | Plan | Status |
 |------|--------|
+| `docs/superpowers/plans/2026-04-30-bash-test-harness.md` | Shipped via v0.7.3 |
+| `docs/superpowers/plans/2026-04-30-scribe-verify.md` | Shipped via v0.7.4 |
 | `docs/plans/v0.6.0-autonomous-rollout.md` | Phases 0-9 complete, Phase 10 HITL in progress |
 | `docs/plans/v0.6.0-phase9-instructions.md` | Done |
 | `docs/plans/repo-mining-ideas.md` | Reference (mining notes) |
