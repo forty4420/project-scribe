@@ -87,6 +87,63 @@ resolve_verify_cmd() {
     return 2
 }
 
+# Parses claimed SHA from STATE.md "Last shipped" top bullet.
+# Sets globals: CLAIMED_SHA, SHA_DISCLOSURE (text snippet, may be empty),
+#               AMBIGUOUS_CANDIDATES (newline-separated, empty if not ambiguous).
+# Returns:
+#   0 = single SHA resolved (explicit or fuzzy-1-match)
+#   1 = ambiguous fuzzy match (multiple candidates)
+#   2 = no Last shipped block found
+parse_claimed_sha() {
+    CLAIMED_SHA=""
+    SHA_DISCLOSURE=""
+    AMBIGUOUS_CANDIDATES=""
+
+    # Locate first bullet under fuzzy-matched shipped heading.
+    local top_bullet
+    top_bullet=$(awk '
+        BEGIN { in_block=0 }
+        tolower($0) ~ /^## (last shipped|shipped|recently shipped|recent commits)[[:space:]]*$/ { in_block=1; next }
+        in_block && /^## / { exit }
+        in_block && /^- / { print; exit }
+    ' "$STATE_FILE")
+
+    if [ -z "$top_bullet" ]; then
+        return 2
+    fi
+
+    # Step 1: explicit short-SHA in bullet (handles backtick-wrapped too).
+    local sha
+    sha=$(printf '%s' "$top_bullet" | grep -oE '\b[0-9a-f]{7,40}\b' | head -n 1)
+    if [ -n "$sha" ]; then
+        CLAIMED_SHA="$sha"
+        return 0
+    fi
+
+    # Step 2: fuzzy version-label fallback.
+    local version
+    version=$(printf '%s' "$top_bullet" | grep -oE 'v?[0-9]+\.[0-9]+\.[0-9]+' | head -n 1)
+    if [ -z "$version" ]; then
+        return 2
+    fi
+
+    local matches
+    matches=$(git -C "$PROJECT_ROOT" log --all --oneline --grep="$version" 2>/dev/null || true)
+    local count
+    count=$(printf '%s' "$matches" | grep -c .)
+
+    if [ "$count" = "0" ]; then
+        return 2
+    elif [ "$count" = "1" ]; then
+        CLAIMED_SHA=$(printf '%s' "$matches" | awk '{ print $1 }')
+        SHA_DISCLOSURE="*Claimed SHA matched via fuzzy version-label search for \"$version\" — disclose for transparency.*"
+        return 0
+    else
+        AMBIGUOUS_CANDIDATES="$matches"
+        return 1
+    fi
+}
+
 # Replace skeleton placeholder with real resolver:
 if ! resolve_verify_cmd; then
     cat <<EOF
@@ -108,5 +165,14 @@ EOF
     exit 2
 fi
 
-echo "resolved: $VERIFY_CMD (source: $VERIFY_SOURCE)"
+parse_claimed_sha
+parse_status=$?
+
+case $parse_status in
+    0) echo "claimed: $CLAIMED_SHA${SHA_DISCLOSURE:+ (fuzzy)}" ;;
+    1) echo "ambiguous: $AMBIGUOUS_CANDIDATES" ;;
+    2) echo "no Last shipped block parseable"; exit 2 ;;
+esac
+
+echo "resolved: $VERIFY_CMD ($VERIFY_SOURCE)"
 exit 0
